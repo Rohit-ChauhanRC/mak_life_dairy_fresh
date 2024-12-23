@@ -9,6 +9,7 @@ abstract class Routes {
   static const VERIFY_PHONE_NUMBER = _Paths.VERIFY_PHONE_NUMBER;
   static const OTP = _Paths.OTP;
   static const ADMIN_DASHBOARD = _Paths.ADMIN_DASHBOARD;
+  static const OUTLET_NOTIFICATIONS = _Paths.OUTLET_NOTIFICATIONS;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const VERIFY_PHONE_NUMBER = '/verify-phone-number';
   static const OTP = '/otp';
   static const ADMIN_DASHBOARD = '/admin-dashboard';
+  static const OUTLET_NOTIFICATIONS = '/outlet-notifications';
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
+import 'package:mak_life_dairy_fresh/app/widgets/app_drawer.dart';
 
 import '../controllers/admin_dashboard_controller.dart';
 
@@ -9,6 +11,7 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: Row(
           children: [
@@ -22,6 +25,19 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
             const Text("Admin"),
           ],
         ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Get.toNamed(Routes.OUTLET_NOTIFICATIONS);
+            },
+            child: const Icon(
+              Icons.notifications_active,
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -36,8 +52,24 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Order Id: 12232323423"),
+                        RichText(
+                          text: const TextSpan(
+                            text: "Order Id: ",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            children: [
+                              TextSpan(
+                                text: "#121223213",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         const Text("Pending"),
                         TextButton(
                           child: const Text("View"),

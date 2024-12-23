@@ -1,13 +1,15 @@
 import 'package:get/get.dart';
 
-import '../modules/outlet/admin_dashboard/bindings/admin_dashboard_binding.dart';
-import '../modules/outlet/admin_dashboard/views/admin_dashboard_view.dart';
 import '../modules/customer/home/bindings/home_binding.dart';
 import '../modules/customer/home/views/home_view.dart';
 import '../modules/landing/bindings/landing_binding.dart';
 import '../modules/landing/views/landing_view.dart';
 import '../modules/otp/bindings/otp_binding.dart';
 import '../modules/otp/views/otp_view.dart';
+import '../modules/outlet/admin_dashboard/bindings/admin_dashboard_binding.dart';
+import '../modules/outlet/admin_dashboard/views/admin_dashboard_view.dart';
+import '../modules/outlet/outlet_notifications/bindings/outlet_notifications_binding.dart';
+import '../modules/outlet/outlet_notifications/views/outlet_notifications_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/verifyPhoneNumber/bindings/verify_phone_number_binding.dart';
@@ -52,6 +54,11 @@ class AppPages {
       name: _Paths.ADMIN_DASHBOARD,
       page: () => const AdminDashboardView(),
       binding: AdminDashboardBinding(),
+    ),
+    GetPage(
+      name: _Paths.OUTLET_NOTIFICATIONS,
+      page: () => const OutletNotificationsView(),
+      binding: OutletNotificationsBinding(),
     ),
   ];
 }
