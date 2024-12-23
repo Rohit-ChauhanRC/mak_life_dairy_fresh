@@ -10,6 +10,10 @@ import '../modules/otp/bindings/otp_binding.dart';
 import '../modules/otp/views/otp_view.dart';
 import '../modules/outlet/admin_dashboard/bindings/admin_dashboard_binding.dart';
 import '../modules/outlet/admin_dashboard/views/admin_dashboard_view.dart';
+import '../modules/outlet/admin_dashboard/bindings/admin_dashboard_binding.dart';
+import '../modules/outlet/admin_dashboard/views/admin_dashboard_view.dart';
+import '../modules/outlet/outlet_notifications/bindings/outlet_notifications_binding.dart';
+import '../modules/outlet/outlet_notifications/views/outlet_notifications_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/verifyPhoneNumber/bindings/verify_phone_number_binding.dart';
@@ -60,6 +64,11 @@ class AppPages {
       name: _Paths.DELIVERY_DASHBOARD,
       page: () => const DeliveryDashboardView(),
       binding: DeliveryDashboardBinding(),
+    ),
+    GetPage(
+      name: _Paths.OUTLET_NOTIFICATIONS,
+      page: () => const OutletNotificationsView(),
+      binding: OutletNotificationsBinding(),
     ),
   ];
 }
