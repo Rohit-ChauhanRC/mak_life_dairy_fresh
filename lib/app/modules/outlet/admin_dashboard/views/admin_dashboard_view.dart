@@ -73,7 +73,9 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                         const Text("Pending"),
                         TextButton(
                           child: const Text("View"),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(Routes.OUTLET_ORDER);
+                          },
                         ),
                       ],
                     ),

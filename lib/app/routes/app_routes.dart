@@ -10,6 +10,7 @@ abstract class Routes {
   static const OTP = _Paths.OTP;
   static const ADMIN_DASHBOARD = _Paths.ADMIN_DASHBOARD;
   static const OUTLET_NOTIFICATIONS = _Paths.OUTLET_NOTIFICATIONS;
+  static const OUTLET_ORDER = _Paths.OUTLET_ORDER;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const OTP = '/otp';
   static const ADMIN_DASHBOARD = '/admin-dashboard';
   static const OUTLET_NOTIFICATIONS = '/outlet-notifications';
+  static const OUTLET_ORDER = '/outlet-order';
 }
