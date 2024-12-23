@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -42,7 +43,7 @@ class HomeController extends GetxController {
     isInspectable: kDebugMode,
     mediaPlaybackRequiresUserGesture: false,
     allowsInlineMediaPlayback: true,
-    iframeAllow: "camera; microphone;storage",
+    iframeAllow: "camera; microphone;storage;location",
     iframeAllowFullscreen: true,
     allowFileAccessFromFileURLs: true,
     allowContentAccess: true,
@@ -50,6 +51,11 @@ class HomeController extends GetxController {
     allowsBackForwardNavigationGestures: true,
     useOnDownloadStart: true,
     allowUniversalAccessFromFileURLs: true,
+    javaScriptCanOpenWindowsAutomatically: true,
+    // automaticallyAdjustsScrollIndicatorInsets: true,
+    // contentInsetAdjustmentBehavior:
+    //     ScrollViewContentInsetAdjustmentBehavior.SCROLLABLE_AXES,
+    geolocationEnabled: true,
   );
 
   PullToRefreshController? pullToRefreshController;
@@ -62,6 +68,9 @@ class HomeController extends GetxController {
     await Permission.photos.request();
     await Permission.notification.request();
     await Permission.manageExternalStorage.request();
+    await Permission.location.request();
+    await Permission.locationWhenInUse.request();
+    await Permission.locationAlways.request();
   }
 
   final count = 0.obs;
@@ -70,6 +79,12 @@ class HomeController extends GetxController {
     super.onInit();
     mobileNumber = sharedPreferenceService.getString(userUId) ?? Get.arguments;
     await permisions();
+
+    await Geolocator.requestPermission();
+
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     pullToRefreshController = kIsWeb
         ? null

@@ -10,11 +10,23 @@ class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        // Show a dialog or perform any custom logic here
-        bool shouldExit = await controller.showExitConfirmationDialog(context);
-        return shouldExit; // true allows the app to close, false prevents it
+    return PopScope(
+      // onWillPop: () async {
+      //   bool shouldExit = await controller.showExitConfirmationDialog(context);
+      //   return shouldExit;
+      // },
+      canPop: false,
+      onPopInvokedWithResult: (didPop, b) async {
+        // logic
+        if (didPop) {
+          return;
+        }
+        final NavigatorState navigator = Navigator.of(context);
+        if (await controller.webViewController!.canGoBack()) {
+          controller.webViewController!.goBack();
+        } else {
+          navigator.pop();
+        }
       },
       child: Scaffold(
         body: SafeArea(
@@ -26,42 +38,28 @@ class HomeView extends GetView<HomeController> {
                     url: WebUri(
                         "https://plant.maklife.in:6028/Login/After_Login/${controller.mobileNumber.toString()}")),
                 initialSettings: controller.settings,
-                // pullToRefreshController: controller.pullToRefreshController,
                 onWebViewCreated: (cx) {
                   controller.webViewController = cx;
                 },
                 onLoadStop: (cx, url) async {
                   controller.circularProgress = false;
-                  // await controller.saveCookies(url!);
                   if (kDebugMode) {
                     print("Pulkit: $url");
                   }
-                  // if ("http://app.maklife.in:8016/index.php/Login/after_login" ==
-                  //     url.toString()) {
-                  //   await launchUrl(
-                  //     Uri.parse(
-                  //         "http://app.maklife.in:8016/index.php/Home/after_login"),
-                  //     mode: LaunchMode.inAppWebView,
-                  //   );
-                  // }
                 },
-
                 onPermissionRequest: (controller, request) async {
                   return PermissionResponse(
                       resources: request.resources,
                       action: PermissionResponseAction.GRANT);
                 },
-                // onReceivedError: (cx, request, error) {
-                //   controller.pullToRefreshController!.endRefreshing();
-                // },
                 onProgressChanged: (cx, progress) {
                   controller.progress = progress / 100;
                   controller.circularProgress = false;
                 },
-                // onUpdateVisitedHistory: (controller, url, androidIsReload) {},
                 onConsoleMessage: (cx, consoleMessage) {
                   if (kDebugMode) {
-                    print(consoleMessage);
+                    print(consoleMessage.message);
+                    print(consoleMessage.messageLevel);
                   }
                 },
                 shouldOverrideUrlLoading: (cx, navigationAction) async {
@@ -83,6 +81,15 @@ class HomeView extends GetView<HomeController> {
 
                   await controller.downloadFile(
                       request.url.toString(), request.suggestedFilename);
+                },
+                onGeolocationPermissionsHidePrompt: (controller) {},
+                onGeolocationPermissionsShowPrompt:
+                    (InAppWebViewController controller, String origin) async {
+                  return GeolocationPermissionShowPromptResponse(
+                    allow: true,
+                    origin: origin,
+                    retain: true,
+                  );
                 },
               ),
               Positioned(

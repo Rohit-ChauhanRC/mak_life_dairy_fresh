@@ -9,6 +9,7 @@ import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 import 'package:mak_life_dairy_fresh/app/modules/verifyPhoneNumber/controllers/verify_phone_number_controller.dart';
 import 'package:mak_life_dairy_fresh/app/utils/utils.dart';
+import 'package:mak_life_dairy_fresh/app/constants/api_constant.dart';
 
 class OtpController extends GetxController {
   final sharedPreferenceService =
@@ -80,8 +81,7 @@ class OtpController extends GetxController {
   verifyOTPLoginCred() async {
     circularProgress = false;
     try {
-      var res = await http
-          .post(Uri.parse("http://192.168.1.12:6027/api/Validation"), body: {
+      var res = await http.post(Uri.parse("$baseUrl/api/Validation"), body: {
         "MobileNo": mobileNumber,
         "OTP": otp,
         "LogType": "c",

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 import 'package:mak_life_dairy_fresh/app/utils/utils.dart';
+import 'package:mak_life_dairy_fresh/app/constants/api_constant.dart';
 
 class VerifyPhoneNumberController extends GetxController {
   GlobalKey<FormState>? loginFormKey = GlobalKey<FormState>();
@@ -64,8 +65,7 @@ class VerifyPhoneNumberController extends GetxController {
     String? mobileNum = resendOtpMobNum ?? mobileNumber;
     circularProgress = false;
     try {
-      var res = await http
-          .post(Uri.parse("http://192.168.1.12:6027/api/Users"), body: {
+      var res = await http.post(Uri.parse("$baseUrl/api/Users"), body: {
         "MobileNo": mobileNum,
         "LogType": "c",
       });

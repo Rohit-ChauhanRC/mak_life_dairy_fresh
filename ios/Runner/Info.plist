@@ -91,5 +91,7 @@
 	<integer>5</integer>
 	<key>FDAllFilesDownloadedMessage</key>
 	<string>All files have been downloaded</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location permission is required.</string>
 </dict>
 </plist>
