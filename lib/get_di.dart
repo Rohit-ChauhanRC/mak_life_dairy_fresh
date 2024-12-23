@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh/app/modules/home/controllers/home_controller.dart';
+import 'package:mak_life_dairy_fresh/app/modules/customer/home/controllers/home_controller.dart';
 import 'package:mak_life_dairy_fresh/app/modules/landing/controllers/landing_controller.dart';
 import 'package:mak_life_dairy_fresh/app/modules/otp/controllers/otp_controller.dart';
 import 'package:mak_life_dairy_fresh/app/modules/verifyPhoneNumber/controllers/verify_phone_number_controller.dart';
