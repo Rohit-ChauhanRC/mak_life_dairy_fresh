@@ -9,6 +9,8 @@ const greyColor = Colors.grey;
 const blackColor = Colors.black;
 const whiteColor = Colors.white;
 const redColor = Colors.red;
+const appGreen = Colors.green;
+const Color lightGrey = Color(0xFFF3F3F3);
 
 //Form old Projects
 const messageColor = Color.fromRGBO(5, 96, 98, 1);

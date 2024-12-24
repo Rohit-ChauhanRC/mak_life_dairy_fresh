@@ -11,6 +11,9 @@ abstract class Routes {
   static const ADMIN_DASHBOARD = _Paths.ADMIN_DASHBOARD;
   static const DELIVERY_DASHBOARD = _Paths.DELIVERY_DASHBOARD;
   static const OUTLET_NOTIFICATIONS = _Paths.OUTLET_NOTIFICATIONS;
+  static const ORDER = _Paths.ORDER;
+  static const ORDER_DETAILS = _Paths.ORDER_DETAILS;
+  static const SETTINGS = _Paths.SETTINGS;
 }
 
 abstract class _Paths {
@@ -23,4 +26,7 @@ abstract class _Paths {
   static const ADMIN_DASHBOARD = '/admin-dashboard';
   static const DELIVERY_DASHBOARD = '/delivery-dashboard';
   static const OUTLET_NOTIFICATIONS = '/outlet-notifications';
+  static const ORDER = '/order';
+  static const ORDER_DETAILS = '/order-details';
+  static const SETTINGS = '/settings';
 }
