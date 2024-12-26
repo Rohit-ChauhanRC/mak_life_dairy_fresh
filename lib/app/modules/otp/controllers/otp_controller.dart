@@ -122,10 +122,10 @@ class OtpController extends GetxController {
   void saveIsNumVerified(
     bool isNumVerified,
     String uid,
-    String logtype,
+    String logType,
   ) {
     // sharedPreferenceService.setBool(isNumVerify, isNumVerified);
     sharedPreferenceService.setString(userUId, uid);
-    sharedPreferenceService.setString(logtype, logtype);
+    sharedPreferenceService.setString(logtype, logType);
   }
 }

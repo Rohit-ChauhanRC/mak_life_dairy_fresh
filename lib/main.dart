@@ -37,10 +37,17 @@ class App extends StatelessWidget {
     // sharedPreferenceService.init();
 
     var userExist = sharedPreferenceService.getString(userUId) ?? "";
+    var logType = sharedPreferenceService.getString(logtype) ?? "";
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Mak Life Dairy Fresh",
-      initialRoute: userExist.isNotEmpty ? AppPages.INITIAL2 : AppPages.INITIAL,
+      initialRoute: userExist.isNotEmpty
+          ? logType == "C"
+              ? AppPages.INITIAL2
+              : logType == "A"
+                  ? AppPages.INITIAL1
+                  : AppPages.INITIAL3
+          : AppPages.INITIAL,
       getPages: AppPages.routes,
     );
   }
