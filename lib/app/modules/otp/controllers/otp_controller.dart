@@ -94,15 +94,16 @@ class OtpController extends GetxController {
       List<OtpModel> userLogs = otpModelFromJson(res.body);
 
       if (userLogs.first.userId.toString().isNotEmpty) {
-        saveIsNumVerified(
-          true,
-          userLogs.first.userId.toString(),
-        );
+        saveIsNumVerified(true, userLogs.first.userId.toString(),
+            userLogs.first.logType.toString());
         if (userLogs.first.logType == "C") {
           Get.offAllNamed(Routes.HOME,
               arguments: userLogs.first.userId.toString());
-        } else if (userLogs.first.logType == "C") {
+        } else if (userLogs.first.logType == "A") {
           Get.offAllNamed(Routes.ADMIN_DASHBOARD,
+              arguments: userLogs.first.userId.toString());
+        } else if (userLogs.first.logType == "D") {
+          Get.offAllNamed(Routes.DELIVERY_DASHBOARD,
               arguments: userLogs.first.userId.toString());
         }
       } else {
@@ -121,9 +122,10 @@ class OtpController extends GetxController {
   void saveIsNumVerified(
     bool isNumVerified,
     String uid,
+    String logtype,
   ) {
     // sharedPreferenceService.setBool(isNumVerify, isNumVerified);
     sharedPreferenceService.setString(userUId, uid);
-    // sharedPreferenceService.setString(userMob, mob);
+    sharedPreferenceService.setString(logtype, logtype);
   }
 }
