@@ -25,6 +25,14 @@ class OrderDetailsController extends GetxController {
 
  final Completer<GoogleMapController> mapController = Completer();
  final Location locationService = Location();
+
+ final RxBool _isPaymentDetailVisible = false.obs;
+ bool get isPaymentDetailVisible => _isPaymentDetailVisible.value;
+ set isPaymentDetailVisible(bool v) => _isPaymentDetailVisible.value = v;
+
+ final RxBool _isOrderStatusVisible = false.obs;
+ bool get isOrderStatusVisible => _isOrderStatusVisible.value;
+ set isOrderStatusVisible(bool v) => _isOrderStatusVisible.value = v;
   
   @override
   void onInit() {
