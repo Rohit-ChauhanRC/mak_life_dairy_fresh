@@ -67,7 +67,6 @@ class VerifyPhoneNumberController extends GetxController {
     try {
       var res = await http.post(Uri.parse("$baseUrl/api/Users"), body: {
         "MobileNo": mobileNum,
-        "LogType": "c",
       });
       final a = jsonDecode(res.body);
 

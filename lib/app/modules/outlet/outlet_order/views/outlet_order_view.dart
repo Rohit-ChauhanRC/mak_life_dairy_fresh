@@ -17,9 +17,45 @@ class OutletOrderView extends GetView<OutletOrderController> {
         height: Get.height,
         width: Get.width,
         padding: const EdgeInsets.all(10),
-        child: ListView(
-          shrinkWrap: true,
-          children: [],
+        child: Column(
+          children: [
+            RichText(
+              text: const TextSpan(
+                text: "Order Id: ",
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                children: [
+                  TextSpan(
+                    text: "#121223213",
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              height: Get.height * 0.4,
+              child: Card(
+                elevation: 10,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.items.length,
+                  itemBuilder: (ctx, i) {
+                    return Obx(() => CheckboxListTile(
+                          activeColor: Colors.green,
+                          title: Text(controller.items[i]['label']),
+                          value: controller.items[i]['isChecked'],
+                          onChanged: (bool? value) {
+                            controller.toggleCheckbox(i, value!);
+                          },
+                        ));
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
