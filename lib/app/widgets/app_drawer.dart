@@ -45,21 +45,23 @@ class AppDrawer extends StatelessWidget {
                   size: 40,
                 ),
               ),
-              // ListTile(
-              //   title: const Text(
-              //     "Admin",
-              //     style: TextStyle(
-              //       color: Colors.white,
-              //       fontSize: 26,
-              //     ),
-              //   ),
-              //   leading: const Icon(
-              //     Icons.admin_panel_settings,
-              //     color: Colors.white,
-              //     size: 40,
-              //   ),
-              //   onTap: () {},
-              // ),
+              ListTile(
+                title: const Text(
+                  "Add Delivery Boy",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 26,
+                  ),
+                ),
+                leading: const Icon(
+                  Icons.delivery_dining_sharp,
+                  color: Colors.white,
+                  size: 40,
+                ),
+                onTap: () {
+                  Get.toNamed(Routes.OUTLIE_ADD_DELIVERY_BOY);
+                },
+              ),
             ],
           ),
           ListTile(

@@ -24,6 +24,8 @@ import '../modules/outlet/outlet_notifications/bindings/outlet_notifications_bin
 import '../modules/outlet/outlet_notifications/views/outlet_notifications_view.dart';
 import '../modules/outlet/outlet_order/bindings/outlet_order_binding.dart';
 import '../modules/outlet/outlet_order/views/outlet_order_view.dart';
+import '../modules/outlet/outline_add_delivery_boy/bindings/outline_add_delivery_boy_binding.dart';
+import '../modules/outlet/outline_add_delivery_boy/views/outline_add_delivery_boy_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/verifyPhoneNumber/bindings/verify_phone_number_binding.dart';
@@ -90,6 +92,26 @@ class AppPages {
       name: _Paths.DRIVER_NOTIFICATION,
       page: () => const DriverNotificationView(),
       binding: DriverNotificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.ORDER,
+      page: () => const OrderView(),
+      binding: OrderBinding(),
+    ),
+    GetPage(
+      name: _Paths.ORDER_DETAILS,
+      page: () => const OrderDetailsView(),
+      binding: OrderDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.SETTINGS,
+      page: () => const SettingsView(),
+      binding: SettingsBinding(),
+    ),
+    GetPage(
+      name: _Paths.OUTLIE_ADD_DELIVERY_BOY,
+      page: () => const OutlieAddDeliveryBoyView(),
+      binding: OutlineAddDeliveryBoyBinding(),
     ),
   ];
 }
