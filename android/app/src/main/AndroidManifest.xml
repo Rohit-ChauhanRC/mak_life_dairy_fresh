@@ -55,6 +55,8 @@ xmlns:tools="http://schemas.android.com/tools" package="com.genmak.mak_life_dair
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCMndd5g5ixZpYo0knAL-49uIcSmwCWdgA"/>
             <!-- Begin FlutterDownloader customization -->
     <provider
         android:name="com.pichillilorenzo.flutter_inappwebview_android.InAppWebViewFileProvider"

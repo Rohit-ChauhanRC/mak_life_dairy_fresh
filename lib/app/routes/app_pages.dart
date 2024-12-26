@@ -4,6 +4,8 @@ import '../modules/customer/home/bindings/home_binding.dart';
 import '../modules/customer/home/views/home_view.dart';
 import '../modules/delivery/deliveryDashboard/bindings/delivery_dashboard_binding.dart';
 import '../modules/delivery/deliveryDashboard/views/delivery_dashboard_view.dart';
+import '../modules/delivery/driverNotification/bindings/driver_notification_binding.dart';
+import '../modules/delivery/driverNotification/views/driver_notification_view.dart';
 import '../modules/delivery/order/bindings/order_binding.dart';
 import '../modules/delivery/order/views/order_view.dart';
 import '../modules/delivery/orderDetails/bindings/order_details_binding.dart';
@@ -90,6 +92,11 @@ class AppPages {
       name: _Paths.SETTINGS,
       page: () => const SettingsView(),
       binding: SettingsBinding(),
+    ),
+    GetPage(
+      name: _Paths.DRIVER_NOTIFICATION,
+      page: () => const DriverNotificationView(),
+      binding: DriverNotificationBinding(),
     ),
   ];
 }
