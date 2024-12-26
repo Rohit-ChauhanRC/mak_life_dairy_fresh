@@ -24,6 +24,8 @@ import '../modules/outlet/outlet_order/bindings/outlet_order_binding.dart';
 import '../modules/outlet/outlet_order/views/outlet_order_view.dart';
 import '../modules/outlet/outline_add_delivery_boy/bindings/outline_add_delivery_boy_binding.dart';
 import '../modules/outlet/outline_add_delivery_boy/views/outline_add_delivery_boy_view.dart';
+import '../modules/outlet/outlet_profile/bindings/outlet_profile_binding.dart';
+import '../modules/outlet/outlet_profile/views/outlet_profile_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/verifyPhoneNumber/bindings/verify_phone_number_binding.dart';
@@ -105,6 +107,11 @@ class AppPages {
       name: _Paths.OUTLIE_ADD_DELIVERY_BOY,
       page: () => const OutlieAddDeliveryBoyView(),
       binding: OutlineAddDeliveryBoyBinding(),
+    ),
+    GetPage(
+      name: _Paths.OUTLET_PROFILE,
+      page: () => const OutletProfileView(),
+      binding: OutletProfileBinding(),
     ),
   ];
 }

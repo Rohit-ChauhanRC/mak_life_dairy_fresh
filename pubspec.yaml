@@ -17,6 +17,7 @@ dependencies:
   get: ^4.6.6
   # get_storage: ^2.1.1
   http: ^1.2.2
+  image_picker: ^1.1.2
   intl: ^0.20.1
   open_filex: ^4.5.0
   path_provider: ^2.1.5

@@ -16,6 +16,7 @@ abstract class Routes {
   static const ORDER_DETAILS = _Paths.ORDER_DETAILS;
   static const SETTINGS = _Paths.SETTINGS;
   static const OUTLIE_ADD_DELIVERY_BOY = _Paths.OUTLIE_ADD_DELIVERY_BOY;
+  static const OUTLET_PROFILE = _Paths.OUTLET_PROFILE;
 }
 
 abstract class _Paths {
@@ -33,4 +34,5 @@ abstract class _Paths {
   static const ORDER_DETAILS = '/order-details';
   static const SETTINGS = '/settings';
   static const OUTLIE_ADD_DELIVERY_BOY = '/outlie-add-delivery-boy';
+  static const OUTLET_PROFILE = '/outlet-profile';
 }

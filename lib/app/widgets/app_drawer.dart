@@ -31,7 +31,9 @@ class AppDrawer extends StatelessWidget {
                 height: 20,
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(Routes.OUTLET_PROFILE);
+                },
                 title: const Text(
                   "Profile",
                   style: TextStyle(
