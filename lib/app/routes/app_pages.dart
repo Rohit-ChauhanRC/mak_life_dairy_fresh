@@ -34,8 +34,9 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.ADMIN_DASHBOARD;
-  // static const INITIAL = Routes.LANDING;
+  static const INITIAL = Routes.LANDING;
+  static const INITIAL1 = Routes.ADMIN_DASHBOARD;
+
   static const INITIAL2 = Routes.HOME;
   static const INITIAL3 = Routes.DELIVERY_DASHBOARD;
 
