@@ -22,6 +22,8 @@ import '../modules/outlet/admin_dashboard/views/admin_dashboard_view.dart';
 import '../modules/outlet/admin_dashboard/views/admin_dashboard_view.dart';
 import '../modules/outlet/outlet_notifications/bindings/outlet_notifications_binding.dart';
 import '../modules/outlet/outlet_notifications/views/outlet_notifications_view.dart';
+import '../modules/outlet/outlet_order/bindings/outlet_order_binding.dart';
+import '../modules/outlet/outlet_order/views/outlet_order_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/verifyPhoneNumber/bindings/verify_phone_number_binding.dart';
@@ -32,10 +34,10 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  // static const INITIAL = Routes.ADMIN_DASHBOARD;
-  static const INITIAL = Routes.DELIVERY_DASHBOARD;
+  static const INITIAL = Routes.ADMIN_DASHBOARD;
   // static const INITIAL = Routes.LANDING;
   static const INITIAL2 = Routes.HOME;
+  static const INITIAL3 = Routes.DELIVERY_DASHBOARD;
 
   static final routes = [
     GetPage(
@@ -79,19 +81,9 @@ class AppPages {
       binding: OutletNotificationsBinding(),
     ),
     GetPage(
-      name: _Paths.ORDER,
-      page: () => const OrderView(),
-      binding: OrderBinding(),
-    ),
-    GetPage(
-      name: _Paths.ORDER_DETAILS,
-      page: () => const OrderDetailsView(),
-      binding: OrderDetailsBinding(),
-    ),
-    GetPage(
-      name: _Paths.SETTINGS,
-      page: () => const SettingsView(),
-      binding: SettingsBinding(),
+      name: _Paths.OUTLET_ORDER,
+      page: () => const OutletOrderView(),
+      binding: OutletOrderBinding(),
     ),
     GetPage(
       name: _Paths.DRIVER_NOTIFICATION,

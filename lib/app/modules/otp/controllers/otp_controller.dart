@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:mak_life_dairy_fresh/app/data/models/otp_model.dart';
 import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
 import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
@@ -84,14 +85,26 @@ class OtpController extends GetxController {
       var res = await http.post(Uri.parse("$baseUrl/api/Validation"), body: {
         "MobileNo": mobileNumber,
         "OTP": otp,
-        "LogType": "c",
       });
-      final a = jsonDecode(res.body);
-      if (res.statusCode == 200 &&
-          a.toString().isNotEmpty &&
-          a != "Invalid OTP ?") {
-        saveIsNumVerified(true, a, mobileNumber);
-        Get.offAllNamed(Routes.HOME, arguments: a);
+      // List<OtpModel> jsonList = jsonDecode(res.body);
+
+      // List<OtpModel> userLogs =
+      //     jsonList.map((json) => OtpModel.fromJson(json)).toList();
+
+      List<OtpModel> userLogs = otpModelFromJson(res.body);
+
+      if (userLogs.first.userId.toString().isNotEmpty) {
+        saveIsNumVerified(
+          true,
+          userLogs.first.userId.toString(),
+        );
+        if (userLogs.first.logType == "C") {
+          Get.offAllNamed(Routes.HOME,
+              arguments: userLogs.first.userId.toString());
+        } else if (userLogs.first.logType == "C") {
+          Get.offAllNamed(Routes.ADMIN_DASHBOARD,
+              arguments: userLogs.first.userId.toString());
+        }
       } else {
         // Utils.showDialog(json.decode(res.body));
         Utils.showDialog(json.decode(res.body));
@@ -105,7 +118,10 @@ class OtpController extends GetxController {
     }
   }
 
-  void saveIsNumVerified(bool isNumVerified, String uid, String mob) {
+  void saveIsNumVerified(
+    bool isNumVerified,
+    String uid,
+  ) {
     // sharedPreferenceService.setBool(isNumVerify, isNumVerified);
     sharedPreferenceService.setString(userUId, uid);
     // sharedPreferenceService.setString(userMob, mob);
