@@ -12,7 +12,7 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const AppDrawer(),
+      drawer: AppDrawer(),
       appBar: AppBar(
         title: Row(
           children: [
