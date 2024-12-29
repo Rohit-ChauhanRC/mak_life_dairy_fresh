@@ -103,7 +103,7 @@ class AppDrawer extends StatelessWidget {
             ),
             onTap: () {
               sharedPreferenceService.clear();
-              Get.offAllNamed(Routes.LANDING);
+              Get.offAllNamed(Routes.VERIFY_PHONE_NUMBER);
             },
           ),
         ],

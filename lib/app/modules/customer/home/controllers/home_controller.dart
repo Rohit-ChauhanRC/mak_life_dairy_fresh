@@ -60,25 +60,12 @@ class HomeController extends GetxController {
 
   PullToRefreshController? pullToRefreshController;
 
-  Future<void> permisions() async {
-    await Permission.storage.request();
-    await Permission.camera.request();
-    await Permission.mediaLibrary.request();
-    await Permission.microphone.request();
-    await Permission.photos.request();
-    await Permission.notification.request();
-    await Permission.manageExternalStorage.request();
-    await Permission.location.request();
-    await Permission.locationWhenInUse.request();
-    await Permission.locationAlways.request();
-  }
-
   final count = 0.obs;
   @override
   void onInit() async {
     super.onInit();
     mobileNumber = sharedPreferenceService.getString(userUId) ?? Get.arguments;
-    await permisions();
+    // await permisions();
 
     await Geolocator.requestPermission();
 

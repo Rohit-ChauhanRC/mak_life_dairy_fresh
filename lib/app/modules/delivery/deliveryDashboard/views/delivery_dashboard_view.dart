@@ -29,10 +29,10 @@ class DeliveryDashboardView extends GetView<DeliveryDashboardController> {
         actions: [
           InkWell(
             onTap: () {
-              Get.toNamed(Routes.OUTLET_NOTIFICATIONS);
+              Get.toNamed(Routes.DRIVER_NOTIFICATION);
             },
             child: const Icon(
-              Icons.notifications_active,
+              Icons.notifications_active_rounded, color: appGreen,
             ),
           ),
           const SizedBox(

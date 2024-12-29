@@ -28,3 +28,4 @@ const messageTable = "messageTable";
 const contactsSynced = "contactsSynced";
 const chatConnectTable = "chatConnectTable";
 const logtype = "logtype";
+const outletId = "outletId";

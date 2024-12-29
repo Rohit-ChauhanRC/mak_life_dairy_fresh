@@ -25,28 +25,29 @@ void main() async {
   );
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class App extends StatelessWidget {
   const App({super.key});
-
-  // sharedPreferenceService.setString(userUId, uid);
 
   @override
   Widget build(BuildContext context) {
     final sharedPreferenceService = Get.find<SharedPreferenceService>();
 
-    // sharedPreferenceService.init();
-
     var userExist = sharedPreferenceService.getString(userUId) ?? "";
     var logType = sharedPreferenceService.getString(logtype) ?? "";
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: navigatorKey,
       title: "Mak Life Dairy Fresh",
       initialRoute: userExist.isNotEmpty
           ? logType == "C"
               ? AppPages.INITIAL2
               : logType == "A"
                   ? AppPages.INITIAL1
-                  : AppPages.INITIAL3
+                  : logType == "D"
+                      ? AppPages.INITIAL3
+                      : AppPages.INITIAL
           : AppPages.INITIAL,
       getPages: AppPages.routes,
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:mak_life_dairy_fresh/app/constants/colors.dart';
+import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 
 import '../controllers/settings_controller.dart';
 
@@ -33,22 +34,24 @@ class SettingsView extends GetView<SettingsController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width,
+                        Text(
+                          "Notifications",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: blackColor),
+                        ),
+                        InkWell(
+                          onTap: (){
+                            Get.toNamed(Routes.DRIVER_NOTIFICATION);
+                          },
                           child: Text(
-                            "Notifications",
+                            "View Notifications",
                             style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
                                 color: blackColor),
                           ),
-                        ),
-                        Text(
-                          "View Notifications",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: blackColor),
                         ),
                         SizedBox(height: 10,),
                         Divider(
@@ -243,14 +246,14 @@ class SettingsView extends GetView<SettingsController> {
                 width: 10,
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Powered by',
                     style: TextStyle(
                         fontSize: 12,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: blackColor,
                         height: 0.1),
                   ),

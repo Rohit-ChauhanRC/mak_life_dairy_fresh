@@ -13,7 +13,6 @@ class VerifyPhoneNumberView extends GetView<VerifyPhoneNumberController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Form(
           key: controller.loginFormKey,

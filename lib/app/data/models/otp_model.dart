@@ -12,20 +12,24 @@ String otpModelToJson(List<OtpModel> data) =>
 
 class OtpModel {
   int? userId;
+  int? outletId;
   String? logType;
 
   OtpModel({
     this.userId,
     this.logType,
+    this.outletId,
   });
 
   factory OtpModel.fromJson(Map<String, dynamic> json) => OtpModel(
         userId: json["UserId"],
         logType: json["LogType"],
+        outletId: json["OutletId"],
       );
 
   Map<String, dynamic> toJson() => {
         "UserId": userId,
         "LogType": logType,
+        "OutletId": outletId,
       };
 }

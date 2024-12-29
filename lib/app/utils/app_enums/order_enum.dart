@@ -1,1 +1,1 @@
-enum OrderEnum { preparing, pickedUp, cancel }
+enum OrderEnum { preparing, approved, assigned, cancel, completed }

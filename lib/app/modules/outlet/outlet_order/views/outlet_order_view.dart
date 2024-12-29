@@ -11,7 +11,20 @@ class OutletOrderView extends GetView<OutletOrderController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Outlet Order'),
+        title: RichText(
+          text: const TextSpan(
+            text: "Order Id: ",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            children: [
+              TextSpan(
+                text: "#121223213",
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            ],
+          ),
+        ),
         centerTitle: true,
       ),
       body: Container(
@@ -20,105 +33,191 @@ class OutletOrderView extends GetView<OutletOrderController> {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            RichText(
-              text: const TextSpan(
-                text: "Order Id: ",
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                children: [
-                  TextSpan(
-                    text: "#121223213",
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             Container(
               margin: const EdgeInsets.only(top: 10),
-              height: Get.height * 0.4,
+              height: Get.height * 0.6,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.green)),
               child: Card(
                 elevation: 10,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: controller.items.length,
-                  itemBuilder: (ctx, i) {
-                    return Obx(() => CheckboxListTile(
-                          activeColor: Colors.green,
-                          title: Text(controller.items[i]['label']),
-                          value: controller.items[i]['isChecked'],
-                          onChanged: (bool? value) {
-                            controller.toggleCheckbox(i, value!);
-                          },
-                        ));
-                  },
-                ),
-              ),
-            ),
-            const Card(
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Text("Total Amounts: ₹ 2000/-"),
-              ),
-            ),
-            Container(
-              height: 150,
-              margin: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
-              width: Get.width,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (ctx, i) {
-                    // final order = controller.orderList[i];
-                    return InkWell(
-                        onTap: () {
-                          // controller.orderStatus = order;
-                        },
-                        child: Card(
-                          margin: const EdgeInsets.only(
-                            left: 30,
-                            bottom: 5,
-                          ),
-                          color: Colors.green,
-                          elevation: 10,
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Align(
-                              child: Column(
+                child: Obx(() => ListView.separated(
+                      separatorBuilder: (ctx, i) => const Divider(),
+                      shrinkWrap: true,
+                      itemCount: controller.items.length,
+                      itemBuilder: (ctx, i) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    RichText(
+                                      text: const TextSpan(
+                                        text: "Product Name: ",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: "Milk",
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Obx(() => Checkbox(
+                                          activeColor: Colors.green,
+                                          value: controller.items[i]
+                                              ['isChecked'],
+                                          onChanged: (bool? value) {
+                                            controller.toggleCheckbox(
+                                                i, value!);
+                                          },
+                                        )),
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Image.asset(
-                                    "assets/logo.png",
-                                    height: 50,
-                                  ),
-                                  const Text(
-                                    "Name1",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                                  RichText(
+                                    text: const TextSpan(
+                                      text: "qty: ",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: "10",
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  const Text(
-                                    "MOB",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                                  RichText(
+                                    text: const TextSpan(
+                                      text: "Amount: ",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: "₹290/-",
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  const Text(
-                                    "Avaialable",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                                  // const SizedBox(
+                                  //   width: 10,
+                                  // ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  RichText(
+                                    text: const TextSpan(
+                                      text: "Date: ",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: "29Dec,2024",
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: const TextSpan(
+                                      text: "Time: ",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: "12:32 PM",
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              RichText(
+                                text: const TextSpan(
+                                  text: "CGST/SGST: ",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: "₹97/-",
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ));
-                  }),
+                        );
+                      },
+                    )),
+              ),
+            ),
+            Card(
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Text("Total Amounts: ₹ 2000/-"),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -141,7 +240,7 @@ class OutletOrderView extends GetView<OutletOrderController> {
                       backgroundColor: Colors.red,
                     ),
                     child: const Text(
-                      "Reject",
+                      "Cancel Order",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
