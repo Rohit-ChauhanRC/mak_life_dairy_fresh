@@ -131,17 +131,77 @@ class ApiService {
   }
 
   // Stream Function
-  Stream<dio.Response?> fetchStream<T>(String endpoint,
-      {Map<String, dynamic>? query,
-      Duration interval = const Duration(seconds: 5)}) async* {
+  // Generic Stream Function
+  Stream<List<T>> fetchNewOrderStream<T>({
+    required String endpoint,
+    required T Function(Map<String, dynamic>) fromJson,
+    Map<String, dynamic>? query,
+    Duration interval = const Duration(seconds: 5),
+  }) async* {
     while (true) {
       try {
-        final response = await _dio.get(endpoint, queryParameters: query);
-        yield response;
+        final response = await get(endpoint,
+            query: query); // Using the `get` method from `ApiService`
+        if (response != null && response.statusCode == 200) {
+          final data = response.data;
+          if (data is List) {
+            // Emit the list of models by mapping the data through fromJson
+            yield data.map((item) => fromJson(item)).toList();
+          } else {
+            // Emit an empty list if the response data is not a list
+            yield [];
+          }
+        } else {
+          // Emit an empty list for non-200 responses
+          yield [];
+        }
       } catch (e) {
-        yield null;
+        // Handle errors by emitting an empty list
+        print('Error fetching data: $e');
+        yield [];
       }
+
+      // Wait for the specified interval before fetching again
       await Future.delayed(interval);
+    }
+  }
+
+  Future<T?> getMethod<T>({
+    required String endpoint,
+    Map<String, dynamic>? query,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    try {
+      final response = await _dio.get(endpoint, queryParameters: query);
+      if (response.statusCode == 200) {
+        return fromJson(response.data);
+      }
+      return null;
+    } catch (e) {
+      print('GET Error: $e');
+      return null;
+    }
+  }
+
+  Future<List<T>?> fetchList<T>({
+    required String endpoint,
+    Map<String, dynamic>? query,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    try {
+      final response = await _dio.get(endpoint, queryParameters: query);
+      if (response.statusCode == 200) {
+        final data = response.data;
+        if (data is List) {
+          // Return the list of models by mapping through the fromJson function
+          return data.map((item) => fromJson(item)).toList();
+        }
+        return [];
+      }
+      return [];
+    } catch (e) {
+      print('GET List Error: $e');
+      return null;
     }
   }
 }

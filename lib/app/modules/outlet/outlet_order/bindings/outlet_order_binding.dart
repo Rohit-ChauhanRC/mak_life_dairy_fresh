@@ -6,7 +6,7 @@ class OutletOrderBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<OutletOrderController>(
-      () => OutletOrderController(),
+      () => OutletOrderController(outletRepo: Get.find()),
     );
   }
 }
