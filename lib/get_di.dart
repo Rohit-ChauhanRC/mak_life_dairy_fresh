@@ -18,12 +18,12 @@ init() async {
   Get.lazyPut(() => ApiService());
 
   // Initialize Repositories
-  Get.lazyPut(() => AuthRepository(apiService: Get.find(), sharedPreferences: Get.find()));
+  Get.lazyPut(() => AuthRepository(apiService: Get.find<ApiService>(), sharedPreferences: Get.find<SharedPreferenceService>()));
 
   // Initialize Controllers
   Get.lazyPut(() => LandingController());
   Get.lazyPut(() => HomeController());
-  Get.lazyPut(() => VerifyPhoneNumberController(authRepository: Get.find()));
-  Get.lazyPut(() => OtpController(authRepository: Get.find()));
+  Get.lazyPut(() => VerifyPhoneNumberController(authRepository: Get.find<AuthRepository>()));
+  Get.lazyPut(() => OtpController(authRepository: Get.find<AuthRepository>()));
   // Get.lazyPut(() => ConnectivityService());
 }

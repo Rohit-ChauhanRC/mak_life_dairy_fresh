@@ -1,9 +1,12 @@
 import 'package:get/get.dart';
 
-class SettingsController extends GetxController {
-  //TODO: Implement SettingsController
+import '../../../../data/services/shared_preference_service.dart';
+import '../../../../routes/app_pages.dart';
 
-  final count = 0.obs;
+class SettingsController extends GetxController {
+
+  final sharedPresencesServices = Get.find<SharedPreferenceService>();
+
   @override
   void onInit() {
     super.onInit();
@@ -19,5 +22,10 @@ class SettingsController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void logout(){
+    sharedPresencesServices.clear().then((v){
+      Get.offAllNamed(Routes.VERIFY_PHONE_NUMBER);
+    });
+  }
+
 }

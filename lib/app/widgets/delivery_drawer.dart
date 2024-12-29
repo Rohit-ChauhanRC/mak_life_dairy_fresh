@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mak_life_dairy_fresh/app/constants/colors.dart';
+import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
 
 import '../routes/app_pages.dart';
 
 class DeliveryDrawer extends StatelessWidget {
-  const DeliveryDrawer({super.key});
+   DeliveryDrawer({super.key});
 
+  final sharedPresencesServices = Get.find<SharedPreferenceService>();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -16,6 +18,7 @@ class DeliveryDrawer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          //profileDetails
           InkWell(
             onTap: (){
               Get.back();
@@ -44,6 +47,7 @@ class DeliveryDrawer extends StatelessWidget {
           const Divider(
             color: Colors.white,
           ),
+          //Home Dashboard Driver
           ListTile(
             onTap: () {
               Get.back();
@@ -63,6 +67,7 @@ class DeliveryDrawer extends StatelessWidget {
               size: 30,
             ),
           ),
+          //OrderList
           ListTile(
             onTap: () {
               Get.back();
@@ -78,6 +83,7 @@ class DeliveryDrawer extends StatelessWidget {
             ),
             leading: ImageIcon(AssetImage("assets/order_icon.png"), color: whiteColor,),
           ),
+          //Settings
           ListTile(
             onTap: () {
               Get.back();
@@ -94,10 +100,13 @@ class DeliveryDrawer extends StatelessWidget {
             leading: Icon(Icons.settings, size: 30, color: whiteColor,),
           ),
           const Divider(color: Colors.white,),
+          //SignOut
           ListTile(
             onTap: () {
               Get.back();
-              // Get.toNamed(Routes.OUTLET_NOTIFICATIONS);
+              sharedPresencesServices.clear().then((onValue){
+                Get.offAllNamed(Routes.VERIFY_PHONE_NUMBER);
+              });
             },
             title: const Text(
               "Sign Out",

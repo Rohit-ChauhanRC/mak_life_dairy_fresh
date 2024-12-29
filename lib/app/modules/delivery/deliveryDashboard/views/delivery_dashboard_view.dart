@@ -12,7 +12,7 @@ class DeliveryDashboardView extends GetView<DeliveryDashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DeliveryDrawer(),
+      drawer: DeliveryDrawer(),
       appBar: AppBar(
         title: Row(
           children: [

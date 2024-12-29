@@ -142,7 +142,6 @@ class SettingsView extends GetView<SettingsController> {
                     ),
                   ),
                 ),
-
               ],
             ),
             footer(),
@@ -206,26 +205,33 @@ class SettingsView extends GetView<SettingsController> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/logout.png',
-                height: 18,
-                width: 22,
-              ),
-              SizedBox(width: 10,),
-              Text(
-                "Sign Out",
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17,
-                    color: Colors.black),
-              )
-            ],
+          //Logout
+          InkWell(
+            onTap: (){
+              controller.logout();
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/logout.png',
+                  height: 18,
+                  width: 22,
+                ),
+                SizedBox(width: 10,),
+                Text(
+                  "Sign Out",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                      color: Colors.black),
+                )
+              ],
+            ),
           ),
           SizedBox(height: 20,),
+          //Version
           Text(
             "Version: 1.0",
             style: TextStyle(
@@ -234,6 +240,7 @@ class SettingsView extends GetView<SettingsController> {
                 color: blackColor),
           ),
           SizedBox(height: 20,),
+          //PoweredBy
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
