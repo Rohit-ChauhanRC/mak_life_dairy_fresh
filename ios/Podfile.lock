@@ -11,6 +11,8 @@ PODS:
     - OrderedSet (~> 6.0.3)
   - geolocator_apple (1.2.0):
     - Flutter
+  - image_picker_ios (0.0.1):
+    - Flutter
   - open_filex (0.0.2):
     - Flutter
   - OrderedSet (6.0.3)
@@ -30,6 +32,7 @@ DEPENDENCIES:
   - flutter_downloader (from `.symlinks/plugins/flutter_downloader/ios`)
   - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - open_filex (from `.symlinks/plugins/open_filex/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
@@ -49,6 +52,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_inappwebview_ios/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   open_filex:
     :path: ".symlinks/plugins/open_filex/ios"
   path_provider_foundation:
@@ -65,6 +70,7 @@ SPEC CHECKSUMS:
   flutter_downloader: b7301ae057deadd4b1650dc7c05375f10ff12c39
   flutter_inappwebview_ios: 6f63631e2c62a7c350263b13fa5427aedefe81d4
   geolocator_apple: 9bcea1918ff7f0062d98345d238ae12718acfbc1
+  image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
   open_filex: 6e26e659846ec990262224a12ef1c528bb4edbe4
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46

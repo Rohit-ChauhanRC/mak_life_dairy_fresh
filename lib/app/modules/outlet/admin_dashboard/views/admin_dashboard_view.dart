@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:mak_life_dairy_fresh/app/constants/colors.dart';
+import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/widgets/approved_order.dart';
+import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/widgets/assigned_order.dart';
+import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/widgets/cancel_order.dart';
+import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/widgets/delivered_order.dart';
+import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/widgets/new_order.dart';
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 import 'package:mak_life_dairy_fresh/app/utils/app_enums/order_enum.dart';
 import 'package:mak_life_dairy_fresh/app/widgets/app_drawer.dart';
@@ -12,7 +18,7 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const AppDrawer(),
+      drawer: AppDrawer(),
       appBar: AppBar(
         title: Row(
           children: [
@@ -47,7 +53,7 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
           children: [
             Container(
               height: 50,
-              margin: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              margin: const EdgeInsets.only(right: 10, top: 10, bottom: 10),
               width: Get.width,
               child: ListView.builder(
                   shrinkWrap: true,
@@ -75,9 +81,13 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                                 child: Text(
                                   order == OrderEnum.preparing
                                       ? "New Orders"
-                                      : order == OrderEnum.pickedUp
-                                          ? "Accepted Orders"
-                                          : "Rejected Orders",
+                                      : order == OrderEnum.approved
+                                          ? "Approved Orders"
+                                          : order == OrderEnum.assigned
+                                              ? "Assigned Orders"
+                                              : order == OrderEnum.completed
+                                                  ? "Order Delivered"
+                                                  : "Canceled Orders",
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     color: Colors.white,
@@ -90,50 +100,17 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                         ));
                   }),
             ),
-            Container(
-              height: Get.height * .75,
-              width: Get.width,
-              padding: const EdgeInsets.all(10),
-              child: ListView.builder(
-                  itemCount: 10,
-                  shrinkWrap: true,
-                  itemBuilder: (ctx, i) {
-                    return Card(
-                      elevation: 10,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            RichText(
-                              text: const TextSpan(
-                                text: "Order Id: ",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                                children: [
-                                  TextSpan(
-                                    text: "#121223213",
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Text("Pending"),
-                            TextButton(
-                              child: const Text("View"),
-                              onPressed: () {
-                                Get.toNamed(Routes.OUTLET_ORDER);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-            ),
+            Obx(() => controller.orderStatus == OrderEnum.preparing
+                ? NewOrder(adminDashboardController: controller)
+                : controller.orderStatus == OrderEnum.approved
+                    ? ApprovedOrder(adminDashboardController: controller)
+                    : controller.orderStatus == OrderEnum.assigned
+                        ? AssignedOrder(adminDashboardController: controller)
+                        : controller.orderStatus == OrderEnum.completed
+                            ? DeliveredOrder(
+                                adminDashboardController: controller)
+                            : CancelOrder(
+                                adminDashboardController: controller)),
           ],
         ),
       ),

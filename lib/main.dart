@@ -24,7 +24,9 @@ void main() async {
     const App(),
   );
 }
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -43,7 +45,9 @@ class App extends StatelessWidget {
               ? AppPages.INITIAL2
               : logType == "A"
                   ? AppPages.INITIAL1
-                  : AppPages.INITIAL3
+                  : logType == "D"
+                      ? AppPages.INITIAL3
+                      : AppPages.INITIAL
           : AppPages.INITIAL,
       getPages: AppPages.routes,
     );

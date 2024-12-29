@@ -37,7 +37,8 @@ class ApiService {
   }
 
   // GET Method
-  Future<dio.Response?> get(String endpoint, {Map<String, dynamic>? query}) async {
+  Future<dio.Response?> get(String endpoint,
+      {Map<String, dynamic>? query}) async {
     try {
       final response = await _dio.get(endpoint, queryParameters: query);
       return response;
@@ -77,8 +78,8 @@ class ApiService {
   }
 
   // Multipart Request
-  Future<dio.Response?> postMultipart(
-      String endpoint, Map<String, dynamic> data, List<dio.MultipartFile> files) async {
+  Future<dio.Response?> postMultipart(String endpoint,
+      Map<String, dynamic> data, List<dio.MultipartFile> files) async {
     try {
       final formData = dio.FormData.fromMap(data);
       for (var file in files) {
@@ -107,7 +108,7 @@ class ApiService {
         break;
       case dio.DioExceptionType.badResponse:
         errorMessage =
-        'Received invalid status code: ${error.response?.statusCode}';
+            'Received invalid status code: ${error.response?.statusCode}';
         break;
       case dio.DioExceptionType.cancel:
         errorMessage = 'Request cancelled';
@@ -127,5 +128,20 @@ class ApiService {
     // Get.snackbar('Error', errorMessage, snackPosition: SnackPosition.BOTTOM);
     showAlertMessage(errorMessage);
     print('DioError: $errorMessage');
+  }
+
+  // Stream Function
+  Stream<dio.Response?> fetchStream<T>(String endpoint,
+      {Map<String, dynamic>? query,
+      Duration interval = const Duration(seconds: 5)}) async* {
+    while (true) {
+      try {
+        final response = await _dio.get(endpoint, queryParameters: query);
+        yield response;
+      } catch (e) {
+        yield null;
+      }
+      await Future.delayed(interval);
+    }
   }
 }

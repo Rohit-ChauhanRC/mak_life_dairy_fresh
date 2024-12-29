@@ -11,6 +11,7 @@ import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 import 'package:mak_life_dairy_fresh/app/modules/verifyPhoneNumber/controllers/verify_phone_number_controller.dart';
 import 'package:mak_life_dairy_fresh/app/utils/utils.dart';
 import 'package:mak_life_dairy_fresh/app/constants/api_constant.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../data/repos/auth_repo.dart';
 import '../../../utils/alert_popup_utils.dart';
@@ -125,44 +126,65 @@ class OtpController extends GetxController {
     }
   }
 
-
-  Future<void> verifyOTPAPI() async{
-    try{
+  Future<void> verifyOTPAPI() async {
+    try {
       circularProgress = false;
       final response = await authRepository.verifyOTP(mobileNumber, otp);
-      if(response != null&& response.statusCode == 200){
+      if (response != null && response.statusCode == 200) {
         List<OtpModel> userLogs = List<OtpModel>.from(
           response.data.map((x) => OtpModel.fromJson(x)),
         );
 
-        if (userLogs.isNotEmpty && userLogs.first.userId.toString().isNotEmpty) {
+        if (userLogs.isNotEmpty &&
+            userLogs.first.userId.toString().isNotEmpty) {
           saveIsNumVerified(true, userLogs.first.userId.toString(),
-              userLogs.first.logType.toString());
+              userLogs.first.logType.toString(),
+              oId: userLogs.first.outletId!);
           if (userLogs.first.logType == "C") {
+            await permisions();
             Get.offAllNamed(Routes.HOME,
                 arguments: userLogs.first.userId.toString());
           } else if (userLogs.first.logType == "A") {
+            await permisions();
+
             Get.offAllNamed(Routes.ADMIN_DASHBOARD,
                 arguments: userLogs.first.userId.toString());
           } else if (userLogs.first.logType == "D") {
+            await permisions();
+
             Get.offAllNamed(Routes.DELIVERY_DASHBOARD,
                 arguments: userLogs.first.userId.toString());
           }
         }
-      }else{
+      } else {
         showAlertMessage(json.decode(response?.data));
       }
-    }finally{
+    } finally {
       circularProgress = true;
     }
+  }
+
+  Future<void> permisions() async {
+    await Permission.storage.request();
+    await Permission.camera.request();
+    await Permission.mediaLibrary.request();
+    await Permission.microphone.request();
+    await Permission.photos.request();
+    await Permission.notification.request();
+    await Permission.manageExternalStorage.request();
+    await Permission.location.request();
+    await Permission.locationWhenInUse.request();
+    await Permission.locationAlways.request();
   }
 
   void saveIsNumVerified(
     bool isNumVerified,
     String uid,
-    String logType,
-  ) {
+    String logType, {
+    int? oId,
+  }) {
     sharedPreferenceService.setString(userUId, uid);
     sharedPreferenceService.setString(logtype, logType);
+    sharedPreferenceService.setString(outletId, oId.toString());
   }
 }
