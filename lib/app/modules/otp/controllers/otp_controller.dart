@@ -12,9 +12,15 @@ import 'package:mak_life_dairy_fresh/app/modules/verifyPhoneNumber/controllers/v
 import 'package:mak_life_dairy_fresh/app/utils/utils.dart';
 import 'package:mak_life_dairy_fresh/app/constants/api_constant.dart';
 
+import '../../../data/repos/auth_repo.dart';
+import '../../../utils/alert_popup_utils.dart';
+
 class OtpController extends GetxController {
-  final sharedPreferenceService =
-      Get.put<SharedPreferenceService>(SharedPreferenceService());
+  final AuthRepository authRepository;
+
+  OtpController({required this.authRepository});
+
+  final sharedPreferenceService = Get.find<SharedPreferenceService>();
   final verifyPhoneNumberController = Get.find<VerifyPhoneNumberController>();
   GlobalKey<FormState>? otpFormKey = GlobalKey<FormState>();
 
@@ -68,7 +74,7 @@ class OtpController extends GetxController {
   void resendOtp() {
     if (isResendEnabled.value) {
       startTimer();
-      verifyPhoneNumberController.loginCred(mobileNumber, true);
+      verifyPhoneNumberController.loginApiCall(mobileNumber, true);
     }
   }
 
@@ -76,7 +82,7 @@ class OtpController extends GetxController {
     if (!otpFormKey!.currentState!.validate()) {
       return null;
     }
-    await verifyOTPLoginCred();
+    await verifyOTPAPI();
   }
 
   verifyOTPLoginCred() async {
@@ -119,12 +125,43 @@ class OtpController extends GetxController {
     }
   }
 
+
+  Future<void> verifyOTPAPI() async{
+    try{
+      circularProgress = false;
+      final response = await authRepository.verifyOTP(mobileNumber, otp);
+      if(response != null&& response.statusCode == 200){
+        List<OtpModel> userLogs = List<OtpModel>.from(
+          response.data.map((x) => OtpModel.fromJson(x)),
+        );
+
+        if (userLogs.isNotEmpty && userLogs.first.userId.toString().isNotEmpty) {
+          saveIsNumVerified(true, userLogs.first.userId.toString(),
+              userLogs.first.logType.toString());
+          if (userLogs.first.logType == "C") {
+            Get.offAllNamed(Routes.HOME,
+                arguments: userLogs.first.userId.toString());
+          } else if (userLogs.first.logType == "A") {
+            Get.offAllNamed(Routes.ADMIN_DASHBOARD,
+                arguments: userLogs.first.userId.toString());
+          } else if (userLogs.first.logType == "D") {
+            Get.offAllNamed(Routes.DELIVERY_DASHBOARD,
+                arguments: userLogs.first.userId.toString());
+          }
+        }
+      }else{
+        showAlertMessage(json.decode(response?.data));
+      }
+    }finally{
+      circularProgress = true;
+    }
+  }
+
   void saveIsNumVerified(
     bool isNumVerified,
     String uid,
     String logType,
   ) {
-    // sharedPreferenceService.setBool(isNumVerify, isNumVerified);
     sharedPreferenceService.setString(userUId, uid);
     sharedPreferenceService.setString(logtype, logType);
   }

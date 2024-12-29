@@ -6,7 +6,7 @@ class VerifyPhoneNumberBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<VerifyPhoneNumberController>(
-      () => VerifyPhoneNumberController(),
+      () => VerifyPhoneNumberController(authRepository: Get.find()),
     );
   }
 }
