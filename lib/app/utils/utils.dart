@@ -41,9 +41,9 @@ class Utils {
           alignment: Alignment.centerRight,
           child: InkWell(
             onTap: () {
-              Get.back();
-
               onTap?.call();
+
+              Get.back();
             },
             child: Text(
               "ok",
@@ -171,4 +171,69 @@ class Utils {
       ),
     );
   }
+
+  static void showDialogYesOrNo(
+    String message, {
+    String? title,
+    bool success = false,
+    Function()? onTap,
+  }) =>
+      Get.defaultDialog(
+        barrierDismissible: false,
+        onWillPop: () async {
+          Get.back();
+          return true;
+        },
+        title: title ?? "success",
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          maxLines: 6,
+          style: TextStyle(
+            color: Colors.purple[90],
+            fontSize: 16,
+          ),
+        ),
+        confirm: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text(
+                "No",
+                textAlign: TextAlign.center,
+                maxLines: 6,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+              ),
+              onPressed: () {
+                onTap?.call();
+
+                // Get.back();
+              },
+              child: const Text(
+                "Yes",
+                textAlign: TextAlign.center,
+                maxLines: 6,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 }

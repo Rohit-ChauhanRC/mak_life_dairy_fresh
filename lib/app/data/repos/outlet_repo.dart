@@ -13,24 +13,7 @@ class OutletRepo {
 
   OutletRepo({required this.apiService, required this.sharedPreferences});
 
-  // Stream<List<NewOrderOutletModel>?> fetchNewOrderStream({
-  //   Map<String, dynamic>? query,
-  //   Duration interval = const Duration(seconds: 5),
-  // }) {
-  //   return apiService.fetchStream<List<NewOrderOutletModel>>(
-  //     "/api/ViewOrderList",
-  //     query: query,
-  //     interval: interval,
-  //     converter: (data) {
-  //       if (data is List) {
-  //         return data
-  //             .map((item) => NewOrderOutletModel.fromJson(item))
-  //             .toList();
-  //       }
-  //       return [];
-  //     },
-  //   );
-  // }
+  //
 
   Future<List<NewOrderDetailOutletModel>?> getNewOrderDetails(
       String orderId) async {
@@ -43,6 +26,70 @@ class OutletRepo {
     } catch (e) {
       print('Error in sendOtpAPI: $e');
       showAlertMessage("Error in sendOTPAPI: $e");
+      return null;
+    }
+  }
+
+  Future<Response?> getSingleOrder(String orderId) async {
+    try {
+      final param = {'OrderId': orderId};
+      return await apiService.get('/api/OrderDetail', query: param);
+    } catch (e) {
+      print('Error in verifyOTPAPI: $e');
+      // showAlertMessage("Error in verifyOTPAPI: $e");
+      return null;
+    }
+  }
+
+  Future<Response?> rejectSingleOrder({
+    required String orderId,
+    required String userId,
+    required String productId,
+  }) async {
+    try {
+      final param = {
+        "OrderId": orderId,
+        "UserId": userId,
+        "ProductId": productId
+      };
+      return await apiService.post('/api/OrderReject', data: param);
+    } catch (e) {
+      print('Error in verifyOTPAPI: $e');
+      // showAlertMessage("Error in verifyOTPAPI: $e");
+      return null;
+    }
+  }
+
+  Future<Response?> verifyOrder({
+    required String orderId,
+    required String userId,
+  }) async {
+    try {
+      final param = {
+        "OrderId": orderId,
+        "UserId": userId,
+      };
+      return await apiService.post('/api/VarifyOrder', data: param);
+    } catch (e) {
+      print('Error in verifyOTPAPI: $e');
+      // showAlertMessage("Error in verifyOTPAPI: $e");
+      return null;
+    }
+  }
+
+  Future<Response?> orderRejectAll({
+    required String orderId,
+    required String userId,
+  }) async {
+    try {
+      final param = {
+        "OrderId": orderId,
+        "UserId": userId,
+      };
+      return await apiService.post('/api/OrderRejectAll', data: param);
+    } catch (e) {
+      print('Error in verifyOTPAPI: $e');
+      // showAlertMessage("Error in verifyOTPAPI: $e");
       return null;
     }
   }

@@ -40,7 +40,7 @@ class NewOrder extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text:
-                                        "${adminDashboardController.newOrder[i]!.orderId}",
+                                        "${adminDashboardController.newOrder.reversed.toList()[i]!.orderId}",
                                     style: const TextStyle(
                                       color: Colors.red,
                                       fontSize: 12,
@@ -60,7 +60,7 @@ class NewOrder extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text:
-                                        "₹${adminDashboardController.newOrder[i]!.paymentAmount}/-",
+                                        "₹${adminDashboardController.newOrder.reversed.toList()[i]!.paymentAmount}/-",
                                     style: const TextStyle(
                                       color: Colors.red,
                                       fontSize: 12,
@@ -88,7 +88,30 @@ class NewOrder extends StatelessWidget {
                             children: [
                               TextSpan(
                                 text:
-                                    "${adminDashboardController.newOrder[i]!.name}",
+                                    "${adminDashboardController.newOrder.reversed.toList()[i]!.name}",
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            text: "Customer Mobile No.: ",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                            children: [
+                              TextSpan(
+                                text:
+                                    "${adminDashboardController.newOrder.reversed.toList()[i]!.mobileNo}",
                                 style: const TextStyle(
                                   color: Colors.red,
                                   fontSize: 12,
@@ -111,7 +134,7 @@ class NewOrder extends StatelessWidget {
                             children: [
                               TextSpan(
                                 text:
-                                    "${adminDashboardController.newOrder[i]!.orderDate}",
+                                    "${adminDashboardController.newOrder.reversed.toList()[i]!.orderDate}",
                                 style: const TextStyle(
                                   color: Colors.red,
                                   fontSize: 12,
@@ -135,7 +158,9 @@ class NewOrder extends StatelessWidget {
                             onPressed: () {
                               Get.toNamed(Routes.OUTLET_ORDER,
                                   arguments: adminDashboardController
-                                      .newOrder[i]!.orderId!);
+                                      .newOrder.reversed
+                                      .toList()[i]!
+                                      .orderId!);
                             },
                           ),
                         ),
