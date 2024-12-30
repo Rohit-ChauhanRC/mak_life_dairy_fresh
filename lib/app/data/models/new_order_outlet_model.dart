@@ -14,7 +14,7 @@ String newOrderOutletModelToJson(List<NewOrderOutletModel> data) =>
 class NewOrderOutletModel {
   String? orderId;
   String? orderDate;
-  int? paymentAmount;
+  double? paymentAmount;
   String? paymentOrderId;
   String? name;
   String? mobileNo;

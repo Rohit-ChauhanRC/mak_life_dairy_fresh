@@ -14,32 +14,82 @@ class NewOrder extends StatelessWidget {
       height: Get.height * .75,
       width: Get.width,
       padding: const EdgeInsets.all(10),
-      child: ListView.builder(
-          itemCount: 10,
-          shrinkWrap: true,
-          itemBuilder: (ctx, i) {
-            return Card(
-              elevation: 10,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Obx(() => adminDashboardController.newOrder.isNotEmpty
+          ? ListView.builder(
+              itemCount: adminDashboardController.newOrder.length,
+              shrinkWrap: true,
+              itemBuilder: (ctx, i) {
+                return Card(
+                  elevation: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                text: "Order Id: ",
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        "${adminDashboardController.newOrder[i]!.orderId}",
+                                    style: const TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                text: "Total Amount: ",
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        "₹${adminDashboardController.newOrder[i]!.paymentAmount}/-",
+                                    style: const TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // const SizedBox(
+                            //   width: 10,
+                            // ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
                         RichText(
-                          text: const TextSpan(
-                            text: "Order Id: ",
-                            style: TextStyle(
+                          text: TextSpan(
+                            text: "Customer Name: ",
+                            style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
                             ),
                             children: [
                               TextSpan(
-                                text: "#121223213",
-                                style: TextStyle(
+                                text:
+                                    "${adminDashboardController.newOrder[i]!.name}",
+                                style: const TextStyle(
                                   color: Colors.red,
                                   fontSize: 12,
                                 ),
@@ -47,18 +97,22 @@ class NewOrder extends StatelessWidget {
                             ],
                           ),
                         ),
+                        const SizedBox(
+                          height: 5,
+                        ),
                         RichText(
-                          text: const TextSpan(
-                            text: "Total Amount: ",
-                            style: TextStyle(
+                          text: TextSpan(
+                            text: "Date & Time: ",
+                            style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
                             ),
                             children: [
                               TextSpan(
-                                text: "₹2900/-",
-                                style: TextStyle(
+                                text:
+                                    "${adminDashboardController.newOrder[i]!.orderDate}",
+                                style: const TextStyle(
                                   color: Colors.red,
                                   fontSize: 12,
                                 ),
@@ -66,101 +120,31 @@ class NewOrder extends StatelessWidget {
                             ],
                           ),
                         ),
-                        // const SizedBox(
-                        //   width: 10,
-                        // ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green),
+                            child: const Text(
+                              "View",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              Get.toNamed(Routes.OUTLET_ORDER,
+                                  arguments: adminDashboardController
+                                      .newOrder[i]!.orderId!);
+                            },
+                          ),
+                        ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    RichText(
-                      text: const TextSpan(
-                        text: "Customer Name: ",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: "Vijay Dena Nath Chauhan",
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RichText(
-                          text: const TextSpan(
-                            text: "Date: ",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: "29Dec,2024",
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        RichText(
-                          text: const TextSpan(
-                            text: "Time: ",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: "12:32 PM",
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green),
-                        child: const Text(
-                          "View",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        onPressed: () {
-                          Get.toNamed(Routes.OUTLET_ORDER);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }),
+                  ),
+                );
+              })
+          : const SizedBox()),
     );
   }
 }

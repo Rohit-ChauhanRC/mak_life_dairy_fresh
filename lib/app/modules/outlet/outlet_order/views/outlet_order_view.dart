@@ -11,20 +11,21 @@ class OutletOrderView extends GetView<OutletOrderController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: RichText(
-          text: const TextSpan(
-            text: "Order Id: ",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            children: [
-              TextSpan(
-                text: "#121223213",
-                style: TextStyle(
-                  color: Colors.red,
-                ),
+        title: Obx(() => RichText(
+              text: TextSpan(
+                text: "Order Id: ",
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                children: [
+                  TextSpan(
+                    text: controller.newOrderDetail[0].orderId.toString() ?? "",
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            )),
         centerTitle: true,
       ),
       body: Container(
