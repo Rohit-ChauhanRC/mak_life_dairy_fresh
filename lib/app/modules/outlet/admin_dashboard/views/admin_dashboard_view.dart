@@ -64,6 +64,15 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                     return InkWell(
                         onTap: () {
                           controller.orderStatus = order;
+                          if (order == OrderEnum.approved) {
+                            controller.fetchVerifiedOrderData();
+                          } else if (order == OrderEnum.assigned) {
+                            controller.fetchAssignedOrderData();
+                          } else if (order == OrderEnum.completed) {
+                            // controller.fetchVerifiedOrderData();
+                          } else if (order == OrderEnum.cancel) {
+                            // controller.fetchVerifiedOrderData();
+                          }
                         },
                         child: Obx(
                           () => Card(

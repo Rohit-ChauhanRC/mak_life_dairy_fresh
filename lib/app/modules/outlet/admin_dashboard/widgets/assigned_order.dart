@@ -21,23 +21,150 @@ class AssignedOrder extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: Colors.green)),
-            child: ListView.builder(
-                itemCount: 10,
-                shrinkWrap: true,
-                itemBuilder: (ctx, i) {
-                  return Card(
-                    elevation: 10,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Obx(() => adminDashboardController.assignedOrder.isNotEmpty
+                ? ListView.builder(
+                    itemCount: adminDashboardController.assignedOrder.length,
+                    shrinkWrap: true,
+                    itemBuilder: (ctx, i) {
+                      return Card(
+                        elevation: 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text: "Order Id: ",
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: adminDashboardController
+                                              .assignedOrder.reversed
+                                              .toList()[i]!
+                                              .orderId,
+                                          style: const TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: "Total Amount: ",
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              "₹${adminDashboardController.assignedOrder.reversed.toList()[i]!.payAmount}/-",
+                                          style: const TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // const SizedBox(
+                                  //   width: 10,
+                                  // ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  text: "Date & Time: ",
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: adminDashboardController
+                                          .assignedOrder.reversed
+                                          .toList()[i]!
+                                          .orderDate,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  text: "Customer Name: ",
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: adminDashboardController
+                                          .assignedOrder.reversed
+                                          .toList()[i]!
+                                          .name,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  text: "Customer Mobile No.: ",
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: adminDashboardController
+                                          .assignedOrder.reversed
+                                          .toList()[i]!
+                                          .mobileNo,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
                               RichText(
                                 text: const TextSpan(
-                                  text: "Order Id: ",
+                                  text: "Delivery Boy Name: ",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -45,7 +172,7 @@ class AssignedOrder extends StatelessWidget {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: "#121223213",
+                                      text: "Basant Sir",
                                       style: TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
@@ -54,18 +181,24 @@ class AssignedOrder extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              const SizedBox(
+                                height: 5,
+                              ),
                               RichText(
-                                text: const TextSpan(
-                                  text: "Total Amount: ",
-                                  style: TextStyle(
+                                text: TextSpan(
+                                  text: "Order Status: ",
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12,
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: "₹2900/-",
-                                      style: TextStyle(
+                                      text: adminDashboardController
+                                          .assignedOrder.reversed
+                                          .toList()[i]!
+                                          .status,
+                                      style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
                                       ),
@@ -73,150 +206,37 @@ class AssignedOrder extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              // const SizedBox(
-                              //   width: 10,
-                              // ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  text: "Payment Status: ",
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: adminDashboardController
+                                          .assignedOrder.reversed
+                                          .toList()[i]!
+                                          .status,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          RichText(
-                            text: const TextSpan(
-                              text: "Customer Name: ",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: "Vijay Dena Nath Chauhan",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              RichText(
-                                text: const TextSpan(
-                                  text: "Date: ",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: "29Dec,2024",
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              RichText(
-                                text: const TextSpan(
-                                  text: "Time: ",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: "12:32 PM",
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          RichText(
-                            text: const TextSpan(
-                              text: "Customer Mobile No.: ",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: "9711784343",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          RichText(
-                            text: const TextSpan(
-                              text: "Delivery Boy Name: ",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: "Basant Sir",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          RichText(
-                            text: const TextSpan(
-                              text: "Status: ",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: "In tranit",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
+                        ),
+                      );
+                    })
+                : const SizedBox()),
           ),
         ],
       ),

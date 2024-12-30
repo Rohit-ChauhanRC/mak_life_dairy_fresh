@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
+import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/new_order_details_outlet.dart';
 import 'package:mak_life_dairy_fresh/app/data/repos/outlet_repo.dart';
 import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
+import 'package:mak_life_dairy_fresh/app/utils/alert_popup_utils.dart';
 
 class OutletOrderController extends GetxController {
   //
@@ -21,19 +23,18 @@ class OutletOrderController extends GetxController {
   set newOrderDetail(List<NewOrderDetailOutletModel> order) =>
       _newOrderDetail.assignAll(order);
 
-  // final RxList<Map<String, dynamic>> _items = <Map<String, dynamic>>[].obs;
+  final RxDouble _totalAmount = 0.0.obs;
+  double get totalAmount => _totalAmount.value;
+  set totalAmount(double d) => _totalAmount.value = d;
 
-  // List<Map<String, dynamic>> get items => _items;
-  // set(List<Map<String, dynamic>> lst) => _items.assignAll(lst);
-  List<Map<String, dynamic>> items = List.generate(
-    10,
-    (index) => {'label': 'Item ${index + 1}', 'isChecked': false}.obs,
-  ).obs;
+  final RxList<String> _listOfIds = <String>[].obs;
+  List<String> get listOfIds => _listOfIds;
+  set listOfIds(List<String> lst) => _listOfIds.assignAll(lst);
 
   @override
   void onInit() {
     id = Get.arguments;
-    getOrderDetails();
+    getSingleOrder();
 
     super.onInit();
   }
@@ -49,7 +50,15 @@ class OutletOrderController extends GetxController {
   }
 
   void toggleCheckbox(int index, bool value) {
-    items[index]['isChecked'] = value;
+    newOrderDetail[index].isChecked.value = value;
+    if (listOfIds.contains(newOrderDetail[index].productCode)) {
+      listOfIds.remove(newOrderDetail[index].productCode);
+      totalAmount += double.parse(newOrderDetail[index].payAmount.toString());
+    } else {
+      listOfIds.add(newOrderDetail[index].productCode.toString());
+      totalAmount -= double.parse(newOrderDetail[index].payAmount.toString());
+    }
+    // update();
   }
 
   void getOrderDetails() async {
@@ -58,6 +67,75 @@ class OutletOrderController extends GetxController {
       print(newOrderDetail);
     } catch (e) {
       print(e);
+    }
+  }
+
+  void getSingleOrder() async {
+    final response = await outletRepo.getSingleOrder(id);
+    if (response != null && response.statusCode == 200) {
+      newOrderDetail = List<NewOrderDetailOutletModel>.from(
+        response.data.map((x) => NewOrderDetailOutletModel.fromJson(x)),
+      );
+
+      for (var data in newOrderDetail) {
+        totalAmount += double.parse(data.payAmount!);
+      }
+    }
+  }
+
+  Future<void> rejectOrder() async {
+    try {
+      if (listOfIds.isNotEmpty) {
+        for (var i = 0; i < listOfIds.length; i++) {
+          await outletRepo.rejectSingleOrder(
+            orderId: newOrderDetail.first.orderId.toString(),
+            productId: listOfIds[i],
+            userId: sharedPreferenceService.getString(userUId)!,
+          );
+        }
+      }
+    } catch (e) {
+      showAlertMessage(e.toString());
+    }
+  }
+
+  Future<void> verifyOrder() async {
+    try {
+      final response = await outletRepo.verifyOrder(
+          orderId: newOrderDetail.first.orderId.toString(),
+          userId: sharedPreferenceService.getString(userUId)!);
+      final a = response?.data.toString();
+
+      if (response != null &&
+          response.statusCode == 200 &&
+          a == "Order verified successfully !") {
+        Get.back();
+      } else {
+        // Utils.showDialog(json.decode(response?.data));
+        showAlertMessage(response!.data.toString());
+      }
+    } catch (e) {
+      showAlertMessage(e.toString());
+    }
+  }
+
+  Future<void> orderRejectAll() async {
+    try {
+      final response = await outletRepo.orderRejectAll(
+          orderId: newOrderDetail.first.orderId.toString(),
+          userId: sharedPreferenceService.getString(userUId)!);
+      final a = response?.data.toString();
+
+      if (response != null &&
+          response.statusCode == 200 &&
+          a == "Rejected All") {
+        Get.back();
+      } else {
+        // Utils.showDialog(json.decode(response?.data));
+        showAlertMessage(response!.data.toString());
+      }
+    } catch (e) {
+      showAlertMessage(e.toString());
     }
   }
 }

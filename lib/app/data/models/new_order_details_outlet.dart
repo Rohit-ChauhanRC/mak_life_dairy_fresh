@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:get/get.dart';
+
 List<NewOrderDetailOutletModel> newOrderDetailOutletModelFromJson(String str) =>
     List<NewOrderDetailOutletModel>.from(
         json.decode(str).map((x) => NewOrderDetailOutletModel.fromJson(x)));
@@ -26,7 +28,7 @@ class NewOrderDetailOutletModel {
   String? latt;
   String? long;
   String? status;
-  bool? isChecked;
+  RxBool isChecked;
 
   NewOrderDetailOutletModel({
     this.orderId,
@@ -43,8 +45,8 @@ class NewOrderDetailOutletModel {
     this.latt,
     this.long,
     this.status,
-    this.isChecked = true,
-  });
+    required bool isChecked,
+  }) : isChecked = RxBool(isChecked);
 
   factory NewOrderDetailOutletModel.fromJson(Map<String, dynamic> json) =>
       NewOrderDetailOutletModel(
@@ -62,6 +64,7 @@ class NewOrderDetailOutletModel {
         latt: json["Latt"],
         long: json["Long"],
         status: json["Status"],
+        isChecked: true,
       );
 
   Map<String, dynamic> toJson() => {

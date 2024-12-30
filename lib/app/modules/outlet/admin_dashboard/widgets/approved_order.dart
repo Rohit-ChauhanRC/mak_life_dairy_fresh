@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mak_life_dairy_fresh/app/data/models/verified_order_outlet.dart';
 import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/controllers/admin_dashboard_controller.dart';
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 
@@ -21,55 +22,115 @@ class ApprovedOrder extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: Colors.green)),
-            child: ListView.builder(
-                itemCount: 10,
-                shrinkWrap: true,
-                itemBuilder: (ctx, i) {
-                  return Card(
-                    elevation: 10,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                const Text(
-                                  "Assign",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                Checkbox(
-                                  activeColor: Colors.green,
-                                  value: true,
-                                  onChanged: (bool? value) {
-                                    // controller.toggleCheckbox(i, value!);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Obx(() => adminDashboardController.verifiedOrder.isNotEmpty
+                ? ListView.builder(
+                    itemCount: adminDashboardController.verifiedOrder.length,
+                    shrinkWrap: true,
+                    itemBuilder: (ctx, i) {
+                      return Card(
+                        elevation: 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const Text(
+                                      "Assign",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    Obx(() => Checkbox(
+                                          activeColor: Colors.green,
+                                          value: adminDashboardController
+                                              .verifiedOrder.reversed
+                                              .toList()[i]!
+                                              .isChecked
+                                              .value,
+                                          onChanged: (bool? value) {
+                                            adminDashboardController
+                                                .toggleCheckbox(i, value!);
+                                          },
+                                        )),
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text: "Order Id: ",
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: adminDashboardController
+                                              .verifiedOrder.reversed
+                                              .toList()[i]!
+                                              .orderId,
+                                          style: const TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: "Total Amount: ",
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              "₹${adminDashboardController.verifiedOrder.reversed.toList()[i]!.paymentAmount}/-",
+                                          style: const TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // const SizedBox(
+                                  //   width: 10,
+                                  // ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
                               RichText(
-                                text: const TextSpan(
-                                  text: "Order Id: ",
-                                  style: TextStyle(
+                                text: TextSpan(
+                                  text: "Customer Name: ",
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12,
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: "#121223213",
-                                      style: TextStyle(
+                                      text: adminDashboardController
+                                          .verifiedOrder.reversed
+                                          .toList()[i]!
+                                          .name,
+                                      style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
                                       ),
@@ -77,18 +138,24 @@ class ApprovedOrder extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              const SizedBox(
+                                height: 5,
+                              ),
                               RichText(
-                                text: const TextSpan(
-                                  text: "Total Amount: ",
-                                  style: TextStyle(
+                                text: TextSpan(
+                                  text: "Date & Time: ",
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12,
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: "₹2900/-",
-                                      style: TextStyle(
+                                      text: adminDashboardController
+                                          .verifiedOrder.reversed
+                                          .toList()[i]!
+                                          .orderDate,
+                                      style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
                                       ),
@@ -96,106 +163,37 @@ class ApprovedOrder extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              // const SizedBox(
-                              //   width: 10,
-                              // ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  text: "Customer Mobile No.: ",
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: adminDashboardController
+                                          .verifiedOrder.reversed
+                                          .toList()[i]!
+                                          .mobileNo,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          RichText(
-                            text: const TextSpan(
-                              text: "Customer Name: ",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: "Vijay Dena Nath Chauhan",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              RichText(
-                                text: const TextSpan(
-                                  text: "Date: ",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: "29Dec,2024",
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              RichText(
-                                text: const TextSpan(
-                                  text: "Time: ",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: "12:32 PM",
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          RichText(
-                            text: const TextSpan(
-                              text: "Customer Mobile No.: ",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: "9711784343",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
+                        ),
+                      );
+                    })
+                : const SizedBox()),
           ),
           Container(
             height: 100,
