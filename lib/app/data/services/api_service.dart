@@ -22,6 +22,7 @@ class ApiService {
       dio.InterceptorsWrapper(
         onRequest: (options, handler) {
           print('Request[${options.method}] => PATH: ${options.path}');
+          print('Request[${options.method}] => QUERY PARAMETERS: ${options.queryParameters}');
           return handler.next(options);
         },
         onResponse: (response, handler) {
