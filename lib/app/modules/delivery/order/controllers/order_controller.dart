@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
+import 'package:mak_life_dairy_fresh/app/modules/delivery/deliveryDashboard/controllers/delivery_dashboard_controller.dart';
 
 class OrderController extends GetxController {
 
+  final deliveryDashboardController = Get.find<DeliveryDashboardController>();
 
   final RxBool _isCompleteOrder = false.obs;
   bool get isCompleteOrder => _isCompleteOrder.value;
@@ -16,6 +18,7 @@ class OrderController extends GetxController {
     super.onInit();
     isOpenOrder = Get.arguments[0];
     isCompleteOrder = Get.arguments[1];
+    deliveryDashboardController.getAssignedOrderAPI();
   }
 
   @override

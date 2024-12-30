@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:mak_life_dairy_fresh/app/data/models/get_assigned_order_model.dart';
+import 'package:mak_life_dairy_fresh/app/modules/delivery/deliveryDashboard/controllers/delivery_dashboard_controller.dart';
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 
 import '../../../../constants/colors.dart';
@@ -15,15 +17,18 @@ class OrderView extends GetView<OrderController> {
         title: const Text('ORDERS', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-        child: Column(
-          children: [
-            Obx(()=> orderTypeList()),
-            Obx(()=> orderList()),
+      body: GetBuilder<DeliveryDashboardController>(builder: (deliveryDashboardController){
+        return Padding(
+          padding: const EdgeInsets.only(left: 18.0, right: 18.0, top: 10.0),
+          child: Column(
+            children: [
+              Obx(()=> orderTypeList()),
+              SizedBox(height: 10,),
+              Obx(()=> orderList(deliveryDashboardController.getOpenOrders ?? [], deliveryDashboardController.getCompletedOrder ?? [])),
 
-          ],
-        ),
+            ],
+          ),
+        );},
       )
     );
   }
@@ -61,20 +66,20 @@ class OrderView extends GetView<OrderController> {
         ),
       ],);
   }
-  Widget orderList(){
+  Widget orderList(List<GetAssignedOrderModel> openOrderList, List<GetAssignedOrderModel> completedOrderList ){
     return SizedBox(
-      height: Get.height * 0.824,
+      height: Get.height * 0.79,
       child: ListView.builder(
           padding: EdgeInsets.only(top: 10),
-          // shrinkWrap: true,
-          // physics: AlwaysScrollableScrollPhysics(),
-          // itemCount: controller.isOpenOrder?
-          // openOrderListData.length>0? openOrderListData.length:1
-          //     : closedOrderListData.length>0?closedOrderListData.length:1,
-          itemCount: controller.isOpenOrder?2:2,
-          itemBuilder: (context,index){
+          shrinkWrap: true,
+          physics: AlwaysScrollableScrollPhysics(),
+          itemCount: controller.isOpenOrder?
+          openOrderList.length>0? openOrderList.length:1
+              : completedOrderList.length>0?completedOrderList.length:1,
+          itemBuilder: (context,openAndCompletedIndex){
           if(controller.isOpenOrder){
-            return InkWell(
+            return openOrderList.isNotEmpty ?
+            InkWell(
               onTap: (){
                 Get.toNamed(Routes.ORDER_DETAILS);
               },
@@ -93,9 +98,9 @@ class OrderView extends GetView<OrderController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Order #id", style:
+                          Text("${openOrderList[openAndCompletedIndex].orderId}", style:
                           TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: blackColor),),
-                          Text("Order Status", style:
+                          Text("${openOrderList[openAndCompletedIndex].status}", style:
                           TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.green),)
                         ],),
                       SizedBox(height: 5,),
@@ -112,7 +117,7 @@ class OrderView extends GetView<OrderController> {
                               ),
                             ),
                           ),
-                          Text("19 Dec 2024 | 10:53 AM", style:
+                          Text("${openOrderList[openAndCompletedIndex].orderDate}", style:
                           TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: blackColor),)
                         ],),
                       SizedBox(height: 8,),
@@ -121,10 +126,10 @@ class OrderView extends GetView<OrderController> {
                         children: [
                           Text("Delivery Point", style:
                           TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: blackColor),),
-                          Text("₹ 200.00", style:
+                          Text("₹ ${openOrderList[openAndCompletedIndex].payAmount}", style:
                           TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: blackColor),)
                         ],),
-                      Text("5th floor, Unit No: 516, Spaze I-Tech park, sector 49, 201011",
+                      Text("${openOrderList[openAndCompletedIndex].address} ${openOrderList[openAndCompletedIndex].city} ${openOrderList[openAndCompletedIndex].statename} ${openOrderList[openAndCompletedIndex].pin}",
                         style: TextStyle(fontSize: 14,color: blackColor),),
                       SizedBox(height: 5,),
                       // Text("Delivery Point", style:
@@ -134,9 +139,12 @@ class OrderView extends GetView<OrderController> {
                     ],
                   ),
                 ),),
-            );}
+            )
+                :Padding(
+              padding: EdgeInsets.only(top: Get.height /3),
+              child: Text("You don't have any open orders assigned to you at the moment. Check back later for new delivery jobs.", textAlign: TextAlign.center,),);}
           else if(controller.isCompleteOrder){
-            return InkWell(
+            return completedOrderList.isNotEmpty? InkWell(
               onTap: (){
                 Get.toNamed(Routes.ORDER_DETAILS);
               },
@@ -144,7 +152,8 @@ class OrderView extends GetView<OrderController> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(width: 1,color: lightGrey),
-                    color: index != 1?Colors.green.withOpacity(0.1):Colors.red.withOpacity(0.1)
+                    // color: openAndCompletedIndex != 1?Colors.green.withOpacity(0.1):Colors.red.withOpacity(0.1)
+                  color: Colors.green.withOpacity(0.1)
                 ),
                 margin: EdgeInsets.only(left: 0,right: 0,top: 8,bottom: 8),
                 child: Padding(
@@ -156,10 +165,10 @@ class OrderView extends GetView<OrderController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Order #id", style:
+                          Text("${completedOrderList[openAndCompletedIndex].orderId}", style:
                           TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: blackColor),),
-                          Text(index != 1?"Delivered": 'Cancelled', style:
-                          TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: index != 1?Colors.green:Colors.red),)
+                          Text("${completedOrderList[openAndCompletedIndex].status}", style:
+                          TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.green),)
                         ],),
                       SizedBox(height: 5,),
                       Row(
@@ -175,7 +184,7 @@ class OrderView extends GetView<OrderController> {
                               ),
                             ),
                           ),
-                          Text("19 Dec 2024 | 10:53 AM", style:
+                          Text("${completedOrderList[openAndCompletedIndex].orderDate}", style:
                           TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: blackColor),)
                         ],),
                       SizedBox(height: 8,),
@@ -184,10 +193,10 @@ class OrderView extends GetView<OrderController> {
                         children: [
                           Text("Delivery Point", style:
                           TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: blackColor),),
-                          Text("₹ 200.00", style:
+                          Text("₹ ${completedOrderList[openAndCompletedIndex].payAmount}", style:
                           TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: blackColor),)
                         ],),
-                      Text("5th floor, Unit No: 516, Spaze I-Tech park, sector 49, 201011",
+                      Text("${completedOrderList[openAndCompletedIndex].address} ${completedOrderList[openAndCompletedIndex].city} ${completedOrderList[openAndCompletedIndex].statename} ${completedOrderList[openAndCompletedIndex].pin}",
                         style: TextStyle(fontSize: 14,color: blackColor),),
                       SizedBox(height: 5,),
                       // Text("Delivery Point", style:
@@ -197,7 +206,10 @@ class OrderView extends GetView<OrderController> {
                     ],
                   ),
                 ),),
-            );
+            )
+                :Padding(
+              padding: EdgeInsets.only(top: Get.height /3),
+              child: Text("You haven't completed any orders yet. Once you finish a delivery, It will appear here.", textAlign: TextAlign.center,),);
           }
 
           }),
