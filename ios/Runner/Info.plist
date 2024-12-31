@@ -92,6 +92,9 @@
 	<key>FDAllFilesDownloadedMessage</key>
 	<string>All files have been downloaded</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location permission is required.</string>
+	<string>Your location is needed to provide location-based services.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location is needed to provide location-based services.</string>
+
 </dict>
 </plist>

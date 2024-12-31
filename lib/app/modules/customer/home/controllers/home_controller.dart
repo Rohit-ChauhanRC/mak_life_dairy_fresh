@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:mak_life_dairy_fresh/app/data/services/location_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 // import 'package:webview_flutter/webview_flutter.dart';
@@ -19,6 +20,8 @@ class HomeController extends GetxController {
 
   final sharedPreferenceService = Get.find<SharedPreferenceService>();
 
+  LocationService locationService = LocationService();
+
   // var no = box.read(Constants.cred);
 
   final RxString _mobileNumber = ''.obs;
@@ -32,6 +35,17 @@ class HomeController extends GetxController {
   final RxDouble _progress = 0.0.obs;
   double get progress => _progress.value;
   set progress(double i) => _progress.value = i;
+
+  // final RxDouble _lat = 0.0.obs;
+  // double get lat => _lat.value;
+  // set lat(double i) => _lat.value = i;
+
+  // final RxDouble _long = 0.0.obs;
+  // double get long => _long.value;
+  // set long(double i) => _long.value = i;
+  var latitude = 0.0.obs;
+  var longitude = 0.0.obs;
+  var isLoading = false.obs;
 
   // WebViewController webViewController = WebViewController();
 
@@ -72,7 +86,7 @@ class HomeController extends GetxController {
     LocationPermission permission = await Geolocator.checkPermission();
 
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
+    await getCurrentLocation();
     pullToRefreshController = kIsWeb
         ? null
         : PullToRefreshController(
@@ -172,5 +186,57 @@ class HomeController extends GetxController {
           },
         ) ??
         false;
+  }
+
+  Future<void> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    isLoading.value = true;
+
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      Get.snackbar('Error', 'Location services are disabled.');
+      isLoading.value = false;
+      return;
+    }
+
+    // Check for location permissions
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        Get.snackbar('Error', 'Location permissions are denied.');
+        isLoading.value = false;
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      Get.snackbar(
+        'Error',
+        'Location permissions are permanently denied. Cannot request permissions.',
+      );
+      isLoading.value = false;
+      return;
+    }
+
+    // Get the current location
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      latitude.value = position.latitude;
+      longitude.value = position.longitude;
+      print(
+          "longitude.value: ${longitude.value} latitude.value: ${latitude.value}");
+      // Get.snackbar('Success',
+      //     'Location fetched successfully. longitude.value ${longitude.value} latitude.value: ${latitude.value}');
+    } catch (e) {
+      Get.snackbar('Error', 'Error getting location: $e');
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

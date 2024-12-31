@@ -59,9 +59,11 @@ class AdminDashboardController extends GetxController {
 
   @override
   void onClose() {
-    super.onClose();
     newOrderSubscription.cancel();
     verifyOrderSubscription.cancel();
+    newOrder.clear();
+    newOrder.close();
+    super.onClose();
   }
 
   void fetchdata() {
