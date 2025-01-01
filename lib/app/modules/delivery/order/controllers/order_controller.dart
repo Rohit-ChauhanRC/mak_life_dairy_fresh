@@ -18,7 +18,7 @@ class OrderController extends GetxController {
     super.onInit();
     isOpenOrder = Get.arguments[0];
     isCompleteOrder = Get.arguments[1];
-    deliveryDashboardController.getAssignedOrderAPI();
+    deliveryDashboardController.fetchAssignedOrderAPI();
   }
 
   @override
@@ -29,6 +29,7 @@ class OrderController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    deliveryDashboardController.getAllOrderSubscription.cancel();
   }
 
 
