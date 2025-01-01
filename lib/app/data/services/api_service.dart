@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart' as dio;
 import 'package:mak_life_dairy_fresh/app/utils/alert_popup_utils.dart';
 
@@ -22,7 +24,8 @@ class ApiService {
       dio.InterceptorsWrapper(
         onRequest: (options, handler) {
           print('Request[${options.method}] => PATH: ${options.path}');
-          print('Request[${options.method}] => QUERY PARAMETERS: ${options.queryParameters}');
+          print(
+              'Request[${options.method}] => QUERY PARAMETERS: ${options.queryParameters}');
           return handler.next(options);
         },
         onResponse: (response, handler) {
@@ -133,38 +136,86 @@ class ApiService {
 
   // Stream Function
   // Generic Stream Function
+  // Stream<List<T>> fetchNewOrderStream<T>({
+  //   required String endpoint,
+  //   required T Function(Map<String, dynamic>) fromJson,
+  //   Map<String, dynamic>? query,
+  //   Duration interval = const Duration(seconds: 5),
+  // }) async* {
+
+  //   final controller = StreamController<List<T>>();
+  //   while (true) {
+  //     try {
+  //       final response = await get(endpoint,
+  //           query: query); // Using the `get` method from `ApiService`
+  //       if (response != null && response.statusCode == 200) {
+  //         final data = response.data;
+  //         if (data is List) {
+  //           // Emit the list of models by mapping the data through fromJson
+  //           yield data.map((item) => fromJson(item)).toList();
+  //         } else {
+  //           // Emit an empty list if the response data is not a list
+  //           yield [];
+  //         }
+  //       } else {
+  //         // Emit an empty list for non-200 responses
+  //         yield [];
+  //       }
+  //     } catch (e) {
+  //       // Handle errors by emitting an empty list
+  //       print('Error fetching data: $e');
+  //       yield [];
+  //     }
+
+  //     // Wait for the specified interval before fetching again
+  //     await Future.delayed(interval);
+  //   }
+  // }
+
   Stream<List<T>> fetchNewOrderStream<T>({
     required String endpoint,
     required T Function(Map<String, dynamic>) fromJson,
     Map<String, dynamic>? query,
     Duration interval = const Duration(seconds: 5),
-  }) async* {
-    while (true) {
+  }) {
+    final controller = StreamController<List<T>>();
+    Timer? timer;
+
+    void fetchData() async {
       try {
-        final response = await get(endpoint,
-            query: query); // Using the `get` method from `ApiService`
+        final response = await get(endpoint, query: query);
         if (response != null && response.statusCode == 200) {
           final data = response.data;
           if (data is List) {
-            // Emit the list of models by mapping the data through fromJson
-            yield data.map((item) => fromJson(item)).toList();
+            controller.add(data.map((item) => fromJson(item)).toList());
           } else {
-            // Emit an empty list if the response data is not a list
-            yield [];
+            controller.add([]);
           }
         } else {
-          // Emit an empty list for non-200 responses
-          yield [];
+          controller.add([]);
         }
       } catch (e) {
-        // Handle errors by emitting an empty list
         print('Error fetching data: $e');
-        yield [];
+        controller.addError(e);
       }
-
-      // Wait for the specified interval before fetching again
-      await Future.delayed(interval);
     }
+
+    // Start polling
+    timer = Timer.periodic(interval, (_) {
+      if (controller.isClosed) {
+        timer?.cancel(); // Stop polling when the stream is closed
+      } else {
+        fetchData();
+      }
+    });
+
+    // Close the timer and controller when the stream is closed
+    controller.onCancel = () {
+      timer?.cancel();
+      controller.close();
+    };
+
+    return controller.stream;
   }
 
   Future<T?> getMethod<T>({

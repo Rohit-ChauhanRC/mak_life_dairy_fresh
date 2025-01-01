@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mak_life_dairy_fresh/app/data/models/otp_model.dart';
@@ -41,10 +42,15 @@ class OtpController extends GetxController {
   RxBool isResendEnabled = false.obs;
   Timer? _timer;
 
+  var latitude = 0.0.obs;
+  var longitude = 0.0.obs;
+  var isLoading = false.obs;
+
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     mobileNumber = Get.arguments;
+
     startTimer();
   }
 
@@ -142,15 +148,19 @@ class OtpController extends GetxController {
               oId: userLogs.first.outletId!);
           if (userLogs.first.logType == "C") {
             await permisions();
+            await getCurrentLocation();
+
             Get.offAllNamed(Routes.HOME,
                 arguments: userLogs.first.userId.toString());
           } else if (userLogs.first.logType == "A") {
             await permisions();
+            await getCurrentLocation();
 
             Get.offAllNamed(Routes.ADMIN_DASHBOARD,
                 arguments: userLogs.first.userId.toString());
           } else if (userLogs.first.logType == "D") {
             await permisions();
+            await getCurrentLocation();
 
             Get.offAllNamed(Routes.DELIVERY_DASHBOARD,
                 arguments: userLogs.first.userId.toString());
@@ -186,5 +196,57 @@ class OtpController extends GetxController {
     sharedPreferenceService.setString(userUId, uid);
     sharedPreferenceService.setString(logtype, logType);
     sharedPreferenceService.setString(outletId, oId.toString());
+  }
+
+  Future<void> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    isLoading.value = true;
+
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      Get.snackbar('Error', 'Location services are disabled.');
+      isLoading.value = false;
+      return;
+    }
+
+    // Check for location permissions
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        Get.snackbar('Error', 'Location permissions are denied.');
+        isLoading.value = false;
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      Get.snackbar(
+        'Error',
+        'Location permissions are permanently denied. Cannot request permissions.',
+      );
+      isLoading.value = false;
+      return;
+    }
+
+    // Get the current location
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      latitude.value = position.latitude;
+      longitude.value = position.longitude;
+      print(
+          "longitude.value: ${longitude.value} latitude.value: ${latitude.value}");
+      // Get.snackbar('Success',
+      //     'Location fetched successfully. longitude.value ${longitude.value} latitude.value: ${latitude.value}');
+    } catch (e) {
+      Get.snackbar('Error', 'Error getting location: $e');
+    } finally {
+      isLoading.value = false;
+    }
   }
 }
