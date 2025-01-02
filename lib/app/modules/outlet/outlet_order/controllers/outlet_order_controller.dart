@@ -1,9 +1,13 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/new_order_details_outlet.dart';
 import 'package:mak_life_dairy_fresh/app/data/repos/outlet_repo.dart';
 import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
 import 'package:mak_life_dairy_fresh/app/utils/alert_popup_utils.dart';
+import 'package:mak_life_dairy_fresh/app/utils/utils.dart';
 
 class OutletOrderController extends GetxController {
   //
@@ -31,6 +35,10 @@ class OutletOrderController extends GetxController {
   List<String> get listOfIds => _listOfIds;
   set listOfIds(List<String> lst) => _listOfIds.assignAll(lst);
 
+  final RxList<String> _productListOfIds = <String>[].obs;
+  List<String> get productListOfIds => _productListOfIds;
+  set productListOfIds(List<String> lst) => _productListOfIds.assignAll(lst);
+
   @override
   void onInit() {
     id = Get.arguments;
@@ -53,10 +61,10 @@ class OutletOrderController extends GetxController {
     newOrderDetail[index].isChecked.value = value;
     if (listOfIds.contains(newOrderDetail[index].productCode)) {
       listOfIds.remove(newOrderDetail[index].productCode);
-      totalAmount += double.parse(newOrderDetail[index].payAmount.toString());
+      totalAmount -= double.parse(newOrderDetail[index].payAmount.toString());
     } else {
       listOfIds.add(newOrderDetail[index].productCode.toString());
-      totalAmount -= double.parse(newOrderDetail[index].payAmount.toString());
+      totalAmount += double.parse(newOrderDetail[index].payAmount.toString());
     }
     // update();
   }
@@ -77,38 +85,45 @@ class OutletOrderController extends GetxController {
         response.data.map((x) => NewOrderDetailOutletModel.fromJson(x)),
       );
 
-      for (var data in newOrderDetail) {
-        totalAmount += double.parse(data.payAmount!);
-      }
+      // for (var data in newOrderDetail) {
+      //   totalAmount += double.parse(data.payAmount!);
+      // }
     }
   }
 
   Future<void> rejectOrder() async {
-    try {
-      if (listOfIds.isNotEmpty) {
-        for (var i = 0; i < listOfIds.length; i++) {
-          await outletRepo.rejectSingleOrder(
-            orderId: newOrderDetail.first.orderId.toString(),
-            productId: listOfIds[i],
-            userId: sharedPreferenceService.getString(userUId)!,
-          );
-        }
-      }
-    } catch (e) {
-      showAlertMessage(e.toString());
+    for (var e in listOfIds) {
+      debugPrint("Pulkit: $e");
     }
   }
 
   Future<void> verifyOrder() async {
+    // if (listOfIds.isNotEmpty) {
+    //   List<NewOrderDetailOutletModel> b = [];
+
+    //   b.assignAll(newOrderDetail
+    //       .where((item) => !listOfIds.contains(item.productCode))
+    //       .toList());
+
+    //   for (var e in b) {
+    //     debugPrint("pulkit: ${e.productCode} ${e.product}");
+    //     productListOfIds.add(e.productCode!);
+    //   }
+    // }
+
     try {
       final response = await outletRepo.verifyOrder(
-          orderId: newOrderDetail.first.orderId.toString(),
-          userId: sharedPreferenceService.getString(userUId)!);
+        orderId: newOrderDetail.first.orderId.toString(),
+        userId: sharedPreferenceService.getString(userUId)!,
+        productIds: listOfIds,
+      );
       final a = response?.data.toString();
 
       if (response != null &&
           response.statusCode == 200 &&
-          a == "Order verified successfully !") {
+          a == "Orders processed successfully!") {
+        Utils.showSnackBar(content: a!, context: Get.context!);
+
         Get.back();
       } else {
         // Utils.showDialog(json.decode(response?.data));

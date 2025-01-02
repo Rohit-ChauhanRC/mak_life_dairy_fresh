@@ -27,6 +27,8 @@ class AssignedOrderDetailOutletModel {
   String? statename;
   String? assingDate;
   String? status;
+  String? deliveryBoy;
+  String? deliveryMobile;
 
   AssignedOrderDetailOutletModel({
     this.orderId,
@@ -41,36 +43,42 @@ class AssignedOrderDetailOutletModel {
     this.statename,
     this.assingDate,
     this.status,
+    this.deliveryBoy,
+    this.deliveryMobile,
   });
 
   factory AssignedOrderDetailOutletModel.fromJson(Map<String, dynamic> json) =>
       AssignedOrderDetailOutletModel(
         orderId: json["OrderId"],
         orderDate: json["OrderDate"],
-        payAmount: json["PayAmount"],
+        payAmount: double.parse(json["Amount"]),
         paymentOrderId: json["PaymentOrderId"],
-        name: json["Name"],
+        name: json["Names"],
         mobileNo: json["MobileNo"],
         address: json["Address"],
         city: json["City"],
         pin: json["Pin"],
         statename: json["Statename"],
-        assingDate: json["AssingDate"],
+        assingDate: json["AssignDate"],
         status: json["Status"],
+        deliveryBoy: json["DeliveryBoy"],
+        deliveryMobile: json["DeliveryMobile"],
       );
 
   Map<String, dynamic> toJson() => {
         "OrderId": orderId,
         "OrderDate": orderDate,
-        "PayAmount": payAmount,
+        "Amount": payAmount,
         "PaymentOrderId": paymentOrderId,
-        "Name": name,
+        "Names": name,
         "MobileNo": mobileNo,
         "Address": address,
         "City": city,
         "Pin": pin,
         "Statename": statename,
-        "AssingDate": assingDate,
+        "AssignDate": assingDate,
         "Status": status,
+        "DeliveryMobile": deliveryMobile,
+        "DeliveryBoy": deliveryBoy,
       };
 }

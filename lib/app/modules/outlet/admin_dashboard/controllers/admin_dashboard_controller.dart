@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/assigned_order_outlet.dart';
@@ -45,11 +46,14 @@ class AdminDashboardController extends GetxController {
     OrderEnum.cancel
   ];
 
+  final RxBool refreshVerifiedOrder = false.obs;
+  final RxBool assigningDeliveryOrder = false.obs;
+
   @override
   void onInit() {
     super.onInit();
     fetchdata();
-    // fetchVerifiedOrderData();
+    fetchVerifiedOrderData();
   }
 
   @override
@@ -79,24 +83,37 @@ class AdminDashboardController extends GetxController {
     });
   }
 
-  void fetchVerifiedOrderData() {
+  void fetchVerifiedOrderData() async {
     // newOrder.bindStream(
-    verifyOrderSubscription = outletRepo.apiService
-        .fetchNewOrderStream<VerifiedOrderDetailOutletModel>(
-            endpoint: '/api/VarifyOrder/ViewVerifiedOrderList',
-            fromJson: (json) => VerifiedOrderDetailOutletModel.fromJson(json),
-            query: {
-          "UserId": sharedPreferenceService.getString(userUId)
-        }).listen((data) {
+
+    // assignOrders
+    // verifyOrderSubscription = outletRepo.apiService
+    //     .fetchNewOrderStream<VerifiedOrderDetailOutletModel>(
+    //         endpoint: '/api/VarifyOrder/ViewVerifiedOrderList',
+    //         fromJson: (json) => VerifiedOrderDetailOutletModel.fromJson(json),
+    //         query: {
+    //       "UserId": sharedPreferenceService.getString(userUId)
+    //     }).listen((data) {
+    //   verifiedOrder.assignAll(data);
+    // });
+    refreshVerifiedOrder.value = true;
+    final response = await outletRepo.verifyOrdersListForAssigning(
+        sharedPreferenceService.getString(userUId)!);
+    if (response != null && response.statusCode == 200) {
+      List<VerifiedOrderDetailOutletModel> data =
+          List<VerifiedOrderDetailOutletModel>.from(
+        response.data.map((x) => VerifiedOrderDetailOutletModel.fromJson(x)),
+      );
+      refreshVerifiedOrder.value = false;
       verifiedOrder.assignAll(data);
-    });
+    }
   }
 
   void fetchAssignedOrderData() {
     // newOrder.bindStream(/api/VViewAssignOrderlistStatus/ViewOrderListByUser
     assignedOrderSubscription = outletRepo.apiService
         .fetchNewOrderStream<AssignedOrderDetailOutletModel>(
-            endpoint: '/api/ViewAssignOrderlistStatus/ViewOrderListByUser',
+            endpoint: '/api/ViewAssignedOrders',
             fromJson: (json) => AssignedOrderDetailOutletModel.fromJson(json),
             query: {
           "UserId": sharedPreferenceService.getString(userUId)
@@ -112,5 +129,26 @@ class AdminDashboardController extends GetxController {
     } else {
       listOfIds.add(verifiedOrder.reversed.toList()[index]!.orderId.toString());
     }
+  }
+
+  void assigningDeliveryBoyOnOrder() async {
+    assigningDeliveryOrder.value = true;
+    for (var a in listOfIds) {
+      debugPrint("vijay: $a");
+    }
+
+    final response = await outletRepo.orderAssigningDeliveryBoy(
+        orderIds: listOfIds,
+        userId: sharedPreferenceService.getString(userUId)!,
+        deliveryBoyId: "1008",
+        outletId: sharedPreferenceService.getString(outletId)!);
+
+    final a = response?.data.toString();
+    if (response != null &&
+        response.statusCode == 200 &&
+        a == "Order assigned to delivery successfully !") {
+      fetchVerifiedOrderData();
+    }
+    assigningDeliveryOrder.value = false;
   }
 }
