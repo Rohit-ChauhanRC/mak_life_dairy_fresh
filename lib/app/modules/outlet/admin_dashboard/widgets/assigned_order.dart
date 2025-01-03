@@ -89,7 +89,7 @@ class AssignedOrder extends StatelessWidget {
                               ),
                               RichText(
                                 text: TextSpan(
-                                  text: "Date & Time: ",
+                                  text: "Order Date & Time: ",
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -101,6 +101,31 @@ class AssignedOrder extends StatelessWidget {
                                           .assignedOrder.reversed
                                           .toList()[i]!
                                           .orderDate,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  text: "Assigned Date & Time: ",
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: adminDashboardController
+                                          .assignedOrder.reversed
+                                          .toList()[i]!
+                                          .assingDate,
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
@@ -163,17 +188,45 @@ class AssignedOrder extends StatelessWidget {
                                 height: 5,
                               ),
                               RichText(
-                                text: const TextSpan(
+                                text: TextSpan(
                                   text: "Delivery Boy Name: ",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12,
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: "Basant Sir",
-                                      style: TextStyle(
+                                      text: adminDashboardController
+                                          .assignedOrder.reversed
+                                          .toList()[i]!
+                                          .deliveryBoy,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  text: "Delivery Boy Mobile NO.: ",
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: adminDashboardController
+                                          .assignedOrder.reversed
+                                          .toList()[i]!
+                                          .deliveryMobile,
+                                      style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
                                       ),

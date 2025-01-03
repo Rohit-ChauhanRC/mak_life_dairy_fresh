@@ -1,3 +1,4 @@
+import 'package:mak_life_dairy_fresh/app/constants/api_constant.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/new_order_details_outlet.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/new_order_outlet_model.dart';
 import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
@@ -24,8 +25,6 @@ class OutletRepo {
           query: param,
           fromJson: (json) => NewOrderDetailOutletModel.fromJson(json));
     } catch (e) {
-      print('Error in sendOtpAPI: $e');
-      showAlertMessage("Error in sendOTPAPI: $e");
       return null;
     }
   }
@@ -35,7 +34,6 @@ class OutletRepo {
       final param = {'OrderId': orderId};
       return await apiService.get('/api/OrderDetail', query: param);
     } catch (e) {
-      print('Error in verifyOTPAPI: $e');
       // showAlertMessage("Error in verifyOTPAPI: $e");
       return null;
     }
@@ -54,7 +52,6 @@ class OutletRepo {
       };
       return await apiService.post('/api/OrderReject', data: param);
     } catch (e) {
-      print('Error in verifyOTPAPI: $e');
       // showAlertMessage("Error in verifyOTPAPI: $e");
       return null;
     }
@@ -63,15 +60,16 @@ class OutletRepo {
   Future<Response?> verifyOrder({
     required String orderId,
     required String userId,
+    required List<String> productIds,
   }) async {
     try {
       final param = {
         "OrderId": orderId,
         "UserId": userId,
+        "ProductIds": productIds,
       };
-      return await apiService.post('/api/VarifyOrder', data: param);
+      return await apiService.post(varifyOrder, data: param);
     } catch (e) {
-      print('Error in verifyOTPAPI: $e');
       // showAlertMessage("Error in verifyOTPAPI: $e");
       return null;
     }
@@ -88,7 +86,49 @@ class OutletRepo {
       };
       return await apiService.post('/api/OrderRejectAll', data: param);
     } catch (e) {
-      print('Error in verifyOTPAPI: $e');
+      // showAlertMessage("Error in verifyOTPAPI: $e");
+      return null;
+    }
+  }
+
+  Future<Response?> verifyOrdersListForAssigning(String userId) async {
+    try {
+      final param = {
+        "UserId": userId,
+      };
+      return await apiService.get(viewVerifiedOrder, query: param);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<Response?> fetchDeliveryBoyList(String userId) async {
+    try {
+      final param = {
+        "UserId": userId,
+      };
+      return await apiService.get(deliveryBoyList, query: param);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<Response?> orderAssigningDeliveryBoy({
+    required List<String> orderIds,
+    required String userId,
+    required String deliveryBoyId,
+    required String outletId,
+  }) async {
+    try {
+      final param = {
+        "OrderIds": orderIds,
+        "UserId": userId,
+        "DeliveryBoyId": deliveryBoyId,
+        "OutletId": outletId,
+        "AssignOrdersIdTo": deliveryBoyId,
+      };
+      return await apiService.post(assignOrders, data: param);
+    } catch (e) {
       // showAlertMessage("Error in verifyOTPAPI: $e");
       return null;
     }

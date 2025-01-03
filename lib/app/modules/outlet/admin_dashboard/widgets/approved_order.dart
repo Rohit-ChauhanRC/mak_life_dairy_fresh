@@ -24,7 +24,9 @@ class ApprovedOrder extends StatelessWidget {
                 border: Border.all(color: Colors.green)),
             child: Obx(() => adminDashboardController.verifiedOrder.isNotEmpty
                 ? ListView.builder(
-                    itemCount: adminDashboardController.verifiedOrder.length,
+                    itemCount: adminDashboardController.verifiedOrder.reversed
+                        .toList()
+                        .length,
                     shrinkWrap: true,
                     itemBuilder: (ctx, i) {
                       return Card(
@@ -222,14 +224,14 @@ class ApprovedOrder extends StatelessWidget {
                         elevation: 10,
                         child: Container(
                           padding: const EdgeInsets.all(10),
-                          child: Align(
+                          child: const Align(
                             child: Column(
                               children: [
-                                Image.asset(
-                                  "assets/logo.png",
-                                  height: 20,
-                                ),
-                                const Text(
+                                // Image.asset(
+                                //   "assets/logo.png",
+                                //   height: 20,
+                                // ),
+                                Text(
                                   "Name1",
                                   style: TextStyle(
                                     color: Colors.white,
@@ -237,7 +239,7 @@ class ApprovedOrder extends StatelessWidget {
                                     fontSize: 10,
                                   ),
                                 ),
-                                const Text(
+                                Text(
                                   "MOB",
                                   style: TextStyle(
                                     color: Colors.white,
@@ -245,7 +247,7 @@ class ApprovedOrder extends StatelessWidget {
                                     fontSize: 10,
                                   ),
                                 ),
-                                const Text(
+                                Text(
                                   "Avaialable",
                                   style: TextStyle(
                                     color: Colors.white,
@@ -260,18 +262,22 @@ class ApprovedOrder extends StatelessWidget {
                       ));
                 }),
           ),
-          ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-              ),
-              child: const Text(
-                "Assigned Delivery Boy",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              )),
+          Obx(() => !adminDashboardController.assigningDeliveryOrder.value
+              ? ElevatedButton(
+                  onPressed: () {
+                    adminDashboardController.assigningDeliveryBoyOnOrder();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                  ),
+                  child: const Text(
+                    "Assigned Delivery Boy",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ))
+              : const CircularProgressIndicator()),
         ],
       ),
     );

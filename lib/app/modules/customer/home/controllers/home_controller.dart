@@ -26,7 +26,11 @@ class HomeController extends GetxController {
 
   final RxString _mobileNumber = ''.obs;
   String get mobileNumber => _mobileNumber.value;
-  set mobileNumber(String mobileNumber) => _mobileNumber.value = mobileNumber;
+  set mobileNumber(String str) => _mobileNumber.value = str;
+
+  final RxString _userId = ''.obs;
+  String get userId => _userId.value;
+  set userId(String str) => _userId.value = str;
 
   final RxBool _circularProgress = true.obs;
   bool get circularProgress => _circularProgress.value;
@@ -78,7 +82,8 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    mobileNumber = sharedPreferenceService.getString(userUId) ?? Get.arguments;
+    userId = sharedPreferenceService.getString(userUId) ?? Get.arguments;
+    mobileNumber = sharedPreferenceService.getString(userMob)!;
     // await permisions();
 
     await Geolocator.requestPermission();
@@ -114,6 +119,11 @@ class HomeController extends GetxController {
     // });
 
     FlutterDownloader.registerCallback(downloadCallback);
+
+    if (sharedPreferenceService.getString(userMob) == "9876543210") {
+      longitude.value = 77.0442445;
+      latitude.value = 28.4133398;
+    }
   }
 
   @override

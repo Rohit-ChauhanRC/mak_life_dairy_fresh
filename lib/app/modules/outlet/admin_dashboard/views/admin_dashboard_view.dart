@@ -109,10 +109,26 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                         ));
                   }),
             ),
+            Obx(() => controller.orderStatus == OrderEnum.approved &&
+                    controller.refreshVerifiedOrder.value == false
+                ? InkWell(
+                    onTap: () {
+                      controller.fetchVerifiedOrderData();
+                    },
+                    child: const Icon(Icons.refresh),
+                  )
+                : const SizedBox()),
             Obx(() => controller.orderStatus == OrderEnum.preparing
                 ? NewOrder(adminDashboardController: controller)
                 : controller.orderStatus == OrderEnum.approved
-                    ? ApprovedOrder(adminDashboardController: controller)
+                    ? SizedBox(
+                        child: controller.refreshVerifiedOrder.value == false
+                            ? ApprovedOrder(
+                                adminDashboardController: controller)
+                            : const Center(
+                                child: SizedBox(
+                                    child: CircularProgressIndicator()),
+                              ))
                     : controller.orderStatus == OrderEnum.assigned
                         ? AssignedOrder(adminDashboardController: controller)
                         : controller.orderStatus == OrderEnum.completed

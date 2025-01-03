@@ -63,9 +63,16 @@ class VerifyPhoneNumberController extends GetxController {
     if (!loginFormKey!.currentState!.validate()) {
       return null;
     }
-    // Get.toNamed(Routes.OTP, arguments: "9876543210");
+    if (mobileNumber.trim() == "9876543210") {
+      Get.toNamed(Routes.OTP, arguments: "9876543210");
+    } else if (mobileNumber.trim() == "1234567890") {
+      Get.toNamed(Routes.OTP, arguments: "1234567890");
+    } else if (mobileNumber.trim() == "9123456789") {
+      Get.toNamed(Routes.OTP, arguments: "9123456789");
+    } else {
+      await loginApiCall(mobileNumber.trim(), false);
+    }
     // await loginCred(mobileNumber.trim(), false);
-    await loginApiCall(mobileNumber.trim(), false);
   }
 
   loginCred(String? resendOtpMobNum, bool isFromResend) async {
@@ -91,19 +98,19 @@ class VerifyPhoneNumberController extends GetxController {
     }
   }
 
-  Future<void> loginApiCall(String? resendOtpMobNum, bool isFromResend) async{
-    try{
+  Future<void> loginApiCall(String? resendOtpMobNum, bool isFromResend) async {
+    try {
       String? mobileNum = resendOtpMobNum ?? mobileNumber;
       circularProgress = false;
       final response = await authRepository.sendOTP(mobileNum);
       final a = response?.data.toString();
-      if(response != null && response.statusCode == 200 && a == "OTP Sent !"){
+      if (response != null && response.statusCode == 200 && a == "OTP Sent !") {
         Get.toNamed(Routes.OTP, arguments: mobileNum);
-      }else{
+      } else {
         // Utils.showDialog(json.decode(response?.data));
         showAlertMessage(response!.data.toString());
       }
-    }finally{
+    } finally {
       circularProgress = true;
     }
   }

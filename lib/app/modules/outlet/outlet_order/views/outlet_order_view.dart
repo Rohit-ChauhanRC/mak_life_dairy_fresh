@@ -363,18 +363,21 @@ class OutletOrderView extends GetView<OutletOrderController> {
             Obx(() => Card(
                   child: Padding(
                     padding: const EdgeInsets.all(10),
-                    child: Text("Total Amounts: ₹ ${controller.totalAmount}/-"),
+                    child: Text(
+                        "Total Amounts: ₹ ${controller.listOfIds.isNotEmpty ? controller.totalAmount : "0.0"}/-"),
                   ),
                 )),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                    onPressed: () async {
-                      controller.rejectOrder().then((c) {
-                        controller.verifyOrder();
-                      });
-                    },
+                Obx(() => ElevatedButton(
+                    onPressed: controller.listOfIds.isNotEmpty
+                        ? () async {
+                            // await controller.rejectOrder();
+
+                            await controller.verifyOrder();
+                          }
+                        : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),
@@ -384,7 +387,7 @@ class OutletOrderView extends GetView<OutletOrderController> {
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
-                    )),
+                    ))),
                 ElevatedButton(
                     onPressed: () async {
                       Utils.showDialogYesOrNo(
@@ -398,7 +401,7 @@ class OutletOrderView extends GetView<OutletOrderController> {
                       backgroundColor: Colors.red,
                     ),
                     child: const Text(
-                      "Cancel Order",
+                      "Complete Cancel Order",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

@@ -49,9 +49,9 @@ class VerifiedOrderDetailOutletModel {
       VerifiedOrderDetailOutletModel(
         orderId: json["OrderId"],
         orderDate: json["OrderDate"],
-        paymentAmount: json["PaymentAmount"],
+        paymentAmount: double.parse(json["Amount"]),
         paymentOrderId: json["PaymentOrderId"],
-        name: json["Name"],
+        name: json["Names"],
         mobileNo: json["MobileNo"],
         address: json["Address"],
         city: json["City"],
@@ -64,9 +64,9 @@ class VerifiedOrderDetailOutletModel {
   Map<String, dynamic> toJson() => {
         "OrderId": orderId,
         "OrderDate": orderDate,
-        "PaymentAmount": paymentAmount,
+        "Amount": paymentAmount,
         "PaymentOrderId": paymentOrderId,
-        "Name": name,
+        "Names": name,
         "MobileNo": mobileNo,
         "Address": address,
         "City": city,

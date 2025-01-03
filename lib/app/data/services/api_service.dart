@@ -130,7 +130,7 @@ class ApiService {
 
     // Log the error
     // Get.snackbar('Error', errorMessage, snackPosition: SnackPosition.BOTTOM);
-    showAlertMessage(errorMessage);
+    // showAlertMessage(errorMessage);
     print('DioError: $errorMessage');
   }
 

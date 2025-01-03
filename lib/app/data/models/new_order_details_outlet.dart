@@ -64,7 +64,7 @@ class NewOrderDetailOutletModel {
         latt: json["Latt"],
         long: json["Long"],
         status: json["Status"],
-        isChecked: true,
+        isChecked: false,
       );
 
   Map<String, dynamic> toJson() => {
