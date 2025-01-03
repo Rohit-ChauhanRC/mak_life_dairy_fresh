@@ -212,7 +212,7 @@ class OtpController extends GetxController {
     await Permission.manageExternalStorage.request();
     await Permission.location.request();
     await Permission.locationWhenInUse.request();
-    await Permission.locationAlways.request();
+    // await Permission.locationAlways.request();
   }
 
   void saveIsNumVerified(bool isNumVerified, String uid, String logType,
