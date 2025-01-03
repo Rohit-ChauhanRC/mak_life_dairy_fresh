@@ -45,7 +45,7 @@ class HomeView extends GetView<HomeController> {
                           key: controller.webViewKey,
                           initialUrlRequest: URLRequest(
                               url: WebUri(
-                                  "https://plant.maklife.in:6028/Login/After_Login/${controller.mobileNumber.toString()}/${controller.latitude.value}/${controller.longitude.value}")),
+                                  "https://plant.maklife.in:6028/Login/After_Login/${controller.userId.toString()}/${controller.latitude.value}/${controller.longitude.value}")),
                           initialSettings: controller.settings,
                           onWebViewCreated: (cx) {
                             controller.webViewController = cx;

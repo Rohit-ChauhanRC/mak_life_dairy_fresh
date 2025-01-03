@@ -65,9 +65,14 @@ class VerifyPhoneNumberController extends GetxController {
     }
     if (mobileNumber.trim() == "9876543210") {
       Get.toNamed(Routes.OTP, arguments: "9876543210");
+    } else if (mobileNumber.trim() == "1234567890") {
+      Get.toNamed(Routes.OTP, arguments: "1234567890");
+    } else if (mobileNumber.trim() == "9123456789") {
+      Get.toNamed(Routes.OTP, arguments: "9123456789");
+    } else {
+      await loginApiCall(mobileNumber.trim(), false);
     }
     // await loginCred(mobileNumber.trim(), false);
-    await loginApiCall(mobileNumber.trim(), false);
   }
 
   loginCred(String? resendOtpMobNum, bool isFromResend) async {
