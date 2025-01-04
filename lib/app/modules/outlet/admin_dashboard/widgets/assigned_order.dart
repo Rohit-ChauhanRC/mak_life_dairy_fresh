@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/controllers/admin_dashboard_controller.dart';
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
+import 'package:mak_life_dairy_fresh/app/utils/utils.dart';
 
 class AssignedOrder extends StatelessWidget {
   const AssignedOrder({super.key, required this.adminDashboardController});
@@ -97,10 +98,8 @@ class AssignedOrder extends StatelessWidget {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: adminDashboardController
-                                          .assignedOrder.reversed
-                                          .toList()[i]!
-                                          .orderDate,
+                                      text:
+                                          "${adminDashboardController.assignedOrder.reversed.toList()[i]!.orderDate} \t\t${Utils.timeFormated(adminDashboardController.assignedOrder.reversed.toList()[i]!.time!)}",
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
@@ -114,7 +113,7 @@ class AssignedOrder extends StatelessWidget {
                               ),
                               RichText(
                                 text: TextSpan(
-                                  text: "Assigned Date & Time: ",
+                                  text: "Assigned Date: ",
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -175,7 +174,7 @@ class AssignedOrder extends StatelessWidget {
                                       text: adminDashboardController
                                           .assignedOrder.reversed
                                           .toList()[i]!
-                                          .mobileNo,
+                                          .custMobile,
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
@@ -275,7 +274,7 @@ class AssignedOrder extends StatelessWidget {
                                       text: adminDashboardController
                                           .assignedOrder.reversed
                                           .toList()[i]!
-                                          .status,
+                                          .paymentStatus,
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,

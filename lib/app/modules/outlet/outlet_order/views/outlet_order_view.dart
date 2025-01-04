@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:mak_life_dairy_fresh/app/utils/app_enums/order_enum.dart';
 import 'package:mak_life_dairy_fresh/app/utils/utils.dart';
 
 import '../controllers/outlet_order_controller.dart';
@@ -248,15 +249,36 @@ class OutletOrderView extends GetView<OutletOrderController> {
                                           ),
                                         ),
                                       ),
-                                      Obx(() => Checkbox(
-                                            activeColor: Colors.green,
-                                            value: controller.newOrderDetail[i]
-                                                .isChecked.value,
-                                            onChanged: (bool? value) {
-                                              controller.toggleCheckbox(
-                                                  i, value!);
-                                            },
-                                          )),
+                                      Obx(() => controller.orderView.value ==
+                                              OrderEnum.preparing
+                                          ? Checkbox(
+                                              activeColor: Colors.green,
+                                              value: controller
+                                                  .newOrderDetail[i]
+                                                  .isChecked
+                                                  .value,
+                                              onChanged: (bool? value) {
+                                                controller.toggleCheckbox(
+                                                    i, value!);
+                                              },
+                                            )
+                                          : Text(
+                                              controller.newOrderDetail[i]
+                                                          .orderFlag ==
+                                                      "Y"
+                                                  ? "Accepted"
+                                                  : "Rejected",
+                                              style: TextStyle(
+                                                color: controller
+                                                            .newOrderDetail[i]
+                                                            .orderFlag ==
+                                                        "Y"
+                                                    ? Colors.green
+                                                    : Colors.red,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                              ),
+                                            )),
                                     ],
                                   ),
                                 ),
@@ -286,7 +308,7 @@ class OutletOrderView extends GetView<OutletOrderController> {
                                     ),
                                     RichText(
                                       text: TextSpan(
-                                        text: "Amount: ",
+                                        text: "Net Amount: ",
                                         style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
@@ -307,26 +329,30 @@ class OutletOrderView extends GetView<OutletOrderController> {
                                     const SizedBox(
                                       width: 5,
                                     ),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: "Discount: ",
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text:
-                                                "₹${controller.newOrderDetail[i].payAmount}",
-                                            style: const TextStyle(
-                                              color: Colors.red,
-                                              fontSize: 12,
+                                    double.parse(controller.newOrderDetail[i]
+                                                .discountAmt!) !=
+                                            0.0
+                                        ? RichText(
+                                            text: TextSpan(
+                                              text: "Discount: ",
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                  text:
+                                                      "₹${controller.newOrderDetail[i].discountAmt}",
+                                                  style: const TextStyle(
+                                                    color: Colors.red,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                          )
+                                        : const SizedBox(),
                                   ],
                                 ),
 
@@ -360,55 +386,60 @@ class OutletOrderView extends GetView<OutletOrderController> {
                     : const Center(child: CircularProgressIndicator())),
               ),
             ),
-            Obx(() => Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                        "Total Amounts: ₹ ${controller.listOfIds.isNotEmpty ? controller.totalAmount : "0.0"}/-"),
-                  ),
-                )),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Obx(() => ElevatedButton(
-                    onPressed: controller.listOfIds.isNotEmpty
-                        ? () async {
-                            // await controller.rejectOrder();
+            Obx(() => controller.orderView.value == OrderEnum.preparing
+                ? Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                          "Total Amounts: ₹ ${controller.listOfIds.isNotEmpty ? controller.totalAmount : "0.0"}/-"),
+                    ),
+                  )
+                : const SizedBox()),
+            Obx(() => controller.orderView.value == OrderEnum.preparing
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Obx(() => ElevatedButton(
+                          onPressed: controller.listOfIds.isNotEmpty
+                              ? () async {
+                                  // await controller.rejectOrder();
 
-                            await controller.verifyOrder();
-                          }
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                    ),
-                    child: const Text(
-                      "Accept",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ))),
-                ElevatedButton(
-                    onPressed: () async {
-                      Utils.showDialogYesOrNo(
-                          "Are you sure cancel complete order!", onTap: () {
-                        controller.orderRejectAll().then((v) {
-                          Get.back();
-                        });
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                    ),
-                    child: const Text(
-                      "Complete Cancel Order",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-              ],
-            ),
+                                  await controller.verifyOrder();
+                                }
+                              : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                          ),
+                          child: const Text(
+                            "Accept",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ))),
+                      ElevatedButton(
+                          onPressed: () async {
+                            Utils.showDialogYesOrNo(
+                                "Are you sure cancel complete order!",
+                                onTap: () {
+                              controller.orderRejectAll().then((v) {
+                                Get.back();
+                              });
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                          child: const Text(
+                            "Complete Cancel Order",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
+                    ],
+                  )
+                : const SizedBox()),
           ],
         ),
       ),

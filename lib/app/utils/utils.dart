@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class Utils {
   //
@@ -236,4 +237,12 @@ class Utils {
           ],
         ),
       );
+
+  static String timeFormated(String time24Hour) {
+    String timeWithoutMilliseconds = time24Hour.split(RegExp(r':\d+$'))[0];
+
+    DateTime parsedTime = DateFormat("HH:mm:ss").parse(timeWithoutMilliseconds);
+    String formattedTime = DateFormat("hh:mm a").format(parsedTime);
+    return formattedTime;
+  }
 }

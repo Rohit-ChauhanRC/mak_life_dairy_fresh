@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
+import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/controllers/admin_dashboard_controller.dart';
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -9,6 +10,9 @@ class AppDrawer extends StatelessWidget {
   });
 
   final sharedPreferenceService = Get.find<SharedPreferenceService>();
+
+  final AdminDashboardController controller =
+      Get.find<AdminDashboardController>();
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +107,8 @@ class AppDrawer extends StatelessWidget {
             ),
             onTap: () {
               sharedPreferenceService.clear();
+              controller.assignedOrderSubscription.cancel();
+              controller.newOrderSubscription.cancel();
               Get.offAllNamed(Routes.VERIFY_PHONE_NUMBER);
             },
           ),

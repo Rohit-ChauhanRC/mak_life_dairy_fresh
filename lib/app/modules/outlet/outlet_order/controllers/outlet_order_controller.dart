@@ -7,6 +7,7 @@ import 'package:mak_life_dairy_fresh/app/data/models/new_order_details_outlet.da
 import 'package:mak_life_dairy_fresh/app/data/repos/outlet_repo.dart';
 import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
 import 'package:mak_life_dairy_fresh/app/utils/alert_popup_utils.dart';
+import 'package:mak_life_dairy_fresh/app/utils/app_enums/order_enum.dart';
 import 'package:mak_life_dairy_fresh/app/utils/utils.dart';
 
 class OutletOrderController extends GetxController {
@@ -39,9 +40,16 @@ class OutletOrderController extends GetxController {
   List<String> get productListOfIds => _productListOfIds;
   set productListOfIds(List<String> lst) => _productListOfIds.assignAll(lst);
 
+  final RxString _view = "".obs;
+  String get view => _view.value;
+  set view(String str) => _view.value = str;
+
+  final Rx<OrderEnum> orderView = OrderEnum.preparing.obs;
+
   @override
   void onInit() {
-    id = Get.arguments;
+    id = Get.arguments[0];
+    orderView.value = Get.arguments[1];
     getSingleOrder();
 
     super.onInit();

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/controllers/admin_dashboard_controller.dart';
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
+import 'package:mak_life_dairy_fresh/app/utils/app_enums/order_enum.dart';
+import 'package:mak_life_dairy_fresh/app/utils/utils.dart';
 
 class NewOrder extends StatelessWidget {
   const NewOrder({super.key, required this.adminDashboardController});
@@ -134,7 +136,7 @@ class NewOrder extends StatelessWidget {
                             children: [
                               TextSpan(
                                 text:
-                                    "${adminDashboardController.newOrder.reversed.toList()[i]!.orderDate}",
+                                    "${adminDashboardController.newOrder.reversed.toList()[i]!.orderDate}\t\t ${Utils.timeFormated(adminDashboardController.newOrder.reversed.toList()[i]!.orderTime!)}",
                                 style: const TextStyle(
                                   color: Colors.red,
                                   fontSize: 12,
@@ -142,6 +144,32 @@ class NewOrder extends StatelessWidget {
                               ),
                             ],
                           ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            text: "Payment Status: ",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                            children: [
+                              TextSpan(
+                                text:
+                                    "${adminDashboardController.newOrder.reversed.toList()[i]!.paymentStatus}",
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
                         ),
                         Align(
                           alignment: Alignment.center,
@@ -156,11 +184,12 @@ class NewOrder extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              Get.toNamed(Routes.OUTLET_ORDER,
-                                  arguments: adminDashboardController
-                                      .newOrder.reversed
-                                      .toList()[i]!
-                                      .orderId!);
+                              Get.toNamed(Routes.OUTLET_ORDER, arguments: [
+                                adminDashboardController.newOrder.reversed
+                                    .toList()[i]!
+                                    .orderId!,
+                                OrderEnum.preparing
+                              ]);
                             },
                           ),
                         ),

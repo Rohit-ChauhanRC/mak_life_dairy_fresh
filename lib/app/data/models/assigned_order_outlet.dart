@@ -29,6 +29,9 @@ class AssignedOrderDetailOutletModel {
   String? status;
   String? deliveryBoy;
   String? deliveryMobile;
+  String? time;
+  String? custMobile;
+  String? paymentStatus;
 
   AssignedOrderDetailOutletModel({
     this.orderId,
@@ -45,6 +48,9 @@ class AssignedOrderDetailOutletModel {
     this.status,
     this.deliveryBoy,
     this.deliveryMobile,
+    this.custMobile,
+    this.paymentStatus,
+    this.time,
   });
 
   factory AssignedOrderDetailOutletModel.fromJson(Map<String, dynamic> json) =>
@@ -62,7 +68,10 @@ class AssignedOrderDetailOutletModel {
         assingDate: json["AssignDate"],
         status: json["Status"],
         deliveryBoy: json["DeliveryBoy"],
-        deliveryMobile: json["DeliveryMobile"],
+        deliveryMobile: json["DeliveryBoyMobile"],
+        custMobile: json["CustMobile"],
+        paymentStatus: json["PaymentStatus"],
+        time: json["Time"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,5 +89,8 @@ class AssignedOrderDetailOutletModel {
         "Status": status,
         "DeliveryMobile": deliveryMobile,
         "DeliveryBoy": deliveryBoy,
+        "PaymentStatus": paymentStatus,
+        "Time": time,
+        "CustMobile": custMobile,
       };
 }

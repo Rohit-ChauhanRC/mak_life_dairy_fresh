@@ -29,6 +29,8 @@ class VerifiedOrderDetailOutletModel {
   String? stateName;
   String? status;
   RxBool isChecked;
+  String? orderTime;
+  String? paymentStatus;
 
   VerifiedOrderDetailOutletModel({
     this.orderId,
@@ -43,6 +45,8 @@ class VerifiedOrderDetailOutletModel {
     this.stateName,
     this.status,
     required bool isChecked,
+    this.orderTime,
+    this.paymentStatus,
   }) : isChecked = RxBool(isChecked);
 
   factory VerifiedOrderDetailOutletModel.fromJson(Map<String, dynamic> json) =>
@@ -58,6 +62,8 @@ class VerifiedOrderDetailOutletModel {
         pin: json["Pin"],
         stateName: json["StateName"],
         status: json["Status"],
+        orderTime: json["Time"],
+        paymentStatus: json["PaymentStatus"],
         isChecked: false,
       );
 
@@ -73,5 +79,7 @@ class VerifiedOrderDetailOutletModel {
         "Pin": pin,
         "StateName": stateName,
         "Status": status,
+        "PaymentStatus": paymentStatus,
+        "Time": orderTime,
       };
 }

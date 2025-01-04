@@ -23,6 +23,8 @@ class NewOrderOutletModel {
   int? pin;
   String? stateName;
   String? status;
+  String? orderTime;
+  String? paymentStatus;
 
   NewOrderOutletModel({
     this.orderId,
@@ -36,6 +38,8 @@ class NewOrderOutletModel {
     this.pin,
     this.stateName,
     this.status,
+    this.orderTime,
+    this.paymentStatus,
   });
 
   factory NewOrderOutletModel.fromJson(Map<String, dynamic> json) =>
@@ -51,6 +55,8 @@ class NewOrderOutletModel {
         pin: json["Pin"],
         stateName: json["StateName"],
         status: json["Status"],
+        orderTime: json["Time"],
+        paymentStatus: json["PaymentStatus"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,5 +71,7 @@ class NewOrderOutletModel {
         "Pin": pin,
         "StateName": stateName,
         "Status": status,
+        "Time": orderTime,
+        "PaymentStatus": paymentStatus,
       };
 }

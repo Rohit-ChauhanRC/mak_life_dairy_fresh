@@ -29,6 +29,11 @@ class NewOrderDetailOutletModel {
   String? long;
   String? status;
   RxBool isChecked;
+  String? discountAmt;
+  String? imagePath;
+  String? orderFlag;
+  String? time;
+  String? paymentStatus;
 
   NewOrderDetailOutletModel({
     this.orderId,
@@ -46,6 +51,11 @@ class NewOrderDetailOutletModel {
     this.long,
     this.status,
     required bool isChecked,
+    this.discountAmt,
+    this.imagePath,
+    this.orderFlag,
+    this.paymentStatus,
+    this.time,
   }) : isChecked = RxBool(isChecked);
 
   factory NewOrderDetailOutletModel.fromJson(Map<String, dynamic> json) =>
@@ -65,6 +75,11 @@ class NewOrderDetailOutletModel {
         long: json["Long"],
         status: json["Status"],
         isChecked: false,
+        discountAmt: json["DiscountAmt"],
+        imagePath: json["ImagePath"],
+        orderFlag: json["OrderFlag"],
+        paymentStatus: json["PaymentStatus"],
+        time: json["Time"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -82,5 +97,10 @@ class NewOrderDetailOutletModel {
         "Latt": latt,
         "Long": long,
         "Status": status,
+        "DiscountAmt": discountAmt,
+        "OrderFlag": orderFlag,
+        "Time": time,
+        "PaymentStatus": paymentStatus,
+        "ImagePath": imagePath,
       };
 }
