@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/assigned_order_outlet.dart';
+import 'package:mak_life_dairy_fresh/app/data/models/delivered_order_outlet.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/new_order_outlet_model.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/verified_order_outlet.dart';
 import 'package:mak_life_dairy_fresh/app/data/repos/outlet_repo.dart';
@@ -28,11 +29,16 @@ class AdminDashboardController extends GetxController {
   final RxList<AssignedOrderDetailOutletModel?> assignedOrder =
       <AssignedOrderDetailOutletModel?>[].obs;
 
+  final RxList<DeliveredOrderModel?> deliveredOrder =
+      <DeliveredOrderModel?>[].obs;
+
   late StreamSubscription<List<NewOrderOutletModel>> newOrderSubscription;
   late StreamSubscription<List<VerifiedOrderDetailOutletModel>>
       verifyOrderSubscription;
   late StreamSubscription<List<AssignedOrderDetailOutletModel>>
       assignedOrderSubscription;
+
+  late StreamSubscription<List<DeliveredOrderModel>> deliveredOrderSubscription;
 
   final RxList<String> _listOfIds = <String>[].obs;
   List<String> get listOfIds => _listOfIds;
@@ -54,6 +60,7 @@ class AdminDashboardController extends GetxController {
     super.onInit();
     fetchdata();
     fetchVerifiedOrderData();
+    fetchDeliveredOrderData();
   }
 
   @override
@@ -65,8 +72,12 @@ class AdminDashboardController extends GetxController {
   void onClose() {
     newOrderSubscription.cancel();
     verifyOrderSubscription.cancel();
+    deliveredOrderSubscription.cancel();
     newOrder.clear();
-    newOrder.close();
+    assignedOrder.close();
+    deliveredOrder.close();
+    verifiedOrder.close();
+    _listOfIds.close();
     super.onClose();
   }
 
@@ -84,18 +95,6 @@ class AdminDashboardController extends GetxController {
   }
 
   void fetchVerifiedOrderData() async {
-    // newOrder.bindStream(
-
-    // assignOrders
-    // verifyOrderSubscription = outletRepo.apiService
-    //     .fetchNewOrderStream<VerifiedOrderDetailOutletModel>(
-    //         endpoint: '/api/VarifyOrder/ViewVerifiedOrderList',
-    //         fromJson: (json) => VerifiedOrderDetailOutletModel.fromJson(json),
-    //         query: {
-    //       "UserId": sharedPreferenceService.getString(userUId)
-    //     }).listen((data) {
-    //   verifiedOrder.assignAll(data);
-    // });
     refreshVerifiedOrder.value = true;
     final response = await outletRepo.verifyOrdersListForAssigning(
         sharedPreferenceService.getString(userUId)!);
@@ -119,6 +118,18 @@ class AdminDashboardController extends GetxController {
           "UserId": sharedPreferenceService.getString(userUId)
         }).listen((data) {
       assignedOrder.assignAll(data);
+    });
+  }
+
+  void fetchDeliveredOrderData() {
+    deliveredOrderSubscription = outletRepo.apiService
+        .fetchNewOrderStream<DeliveredOrderModel>(
+            endpoint: '/api/DeliveredList',
+            fromJson: (json) => DeliveredOrderModel.fromJson(json),
+            query: {
+          "UserId": sharedPreferenceService.getString(userUId)
+        }).listen((data) {
+      deliveredOrder.assignAll(data);
     });
   }
 

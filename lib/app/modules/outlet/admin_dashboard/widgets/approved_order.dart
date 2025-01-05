@@ -269,7 +269,7 @@ class ApprovedOrder extends StatelessWidget {
                                     Get.toNamed(Routes.OUTLET_ORDER,
                                         arguments: [
                                           adminDashboardController
-                                              .newOrder.reversed
+                                              .verifiedOrder.reversed
                                               .toList()[i]!
                                               .orderId!,
                                           OrderEnum.approved

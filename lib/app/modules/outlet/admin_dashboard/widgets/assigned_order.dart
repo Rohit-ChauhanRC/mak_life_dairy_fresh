@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/controllers/admin_dashboard_controller.dart';
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
+import 'package:mak_life_dairy_fresh/app/utils/app_enums/order_enum.dart';
 import 'package:mak_life_dairy_fresh/app/utils/utils.dart';
 
 class AssignedOrder extends StatelessWidget {
@@ -281,6 +282,38 @@ class AssignedOrder extends StatelessWidget {
                                       ),
                                     ),
                                   ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Align(
+                                alignment: Alignment.center,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.green),
+                                  child: const Text(
+                                    "View",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    var b = adminDashboardController
+                                        .assignedOrder.reversed
+                                        .toList()[i]!
+                                        .orderId!;
+                                    print(b);
+                                    Get.toNamed(Routes.OUTLET_ORDER,
+                                        arguments: [
+                                          adminDashboardController
+                                              .assignedOrder.reversed
+                                              .toList()[i]!
+                                              .orderId!,
+                                          OrderEnum.assigned
+                                        ]);
+                                  },
                                 ),
                               ),
                             ],

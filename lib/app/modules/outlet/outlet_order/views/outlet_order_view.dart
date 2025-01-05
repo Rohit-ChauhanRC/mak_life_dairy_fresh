@@ -265,16 +265,16 @@ class OutletOrderView extends GetView<OutletOrderController> {
                                           : Text(
                                               controller.newOrderDetail[i]
                                                           .orderFlag ==
-                                                      "Y"
-                                                  ? "Accepted"
-                                                  : "Rejected",
+                                                      "Z"
+                                                  ? "Rejected"
+                                                  : "Accepted",
                                               style: TextStyle(
                                                 color: controller
                                                             .newOrderDetail[i]
                                                             .orderFlag ==
-                                                        "Y"
-                                                    ? Colors.green
-                                                    : Colors.red,
+                                                        "Z"
+                                                    ? Colors.red
+                                                    : Colors.green,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 12,
                                               ),

@@ -63,6 +63,12 @@ class OutletOrderController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    _id.close();
+    _listOfIds.close();
+    _newOrderDetail.close();
+    _productListOfIds.close();
+    _totalAmount.close();
+    _view.close();
   }
 
   void toggleCheckbox(int index, bool value) {
