@@ -70,9 +70,14 @@ class HomeController extends GetxController {
     useOnDownloadStart: true,
     allowUniversalAccessFromFileURLs: true,
     javaScriptCanOpenWindowsAutomatically: true,
-    // automaticallyAdjustsScrollIndicatorInsets: true,
-    // contentInsetAdjustmentBehavior:
-    //     ScrollViewContentInsetAdjustmentBehavior.SCROLLABLE_AXES,
+    // allowingReadAccessTo: WebUri(source),
+    applePayAPIEnabled: true,
+    javaScriptEnabled: true,
+    useShouldOverrideUrlLoading: true,
+
+    domStorageEnabled: true,
+    loadWithOverviewMode: true,
+    verticalScrollBarEnabled: true,
     geolocationEnabled: true,
   );
 

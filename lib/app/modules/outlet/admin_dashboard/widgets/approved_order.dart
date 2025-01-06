@@ -17,7 +17,7 @@ class ApprovedOrder extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: Get.height * .5,
+            height: Get.height * .45,
             width: Get.width,
             margin: const EdgeInsets.all(10),
             padding: const EdgeInsets.all(5),
@@ -285,75 +285,128 @@ class ApprovedOrder extends StatelessWidget {
                 : const SizedBox()),
           ),
           Container(
-            height: 100,
+            height: 150,
             margin: const EdgeInsets.all(10),
             width: Get.width,
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: Colors.green)),
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 4,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (ctx, i) {
-                  // final order = controller.orderList[i];
-                  return InkWell(
-                      onTap: () {
-                        // controller.orderStatus = order;
-                      },
-                      child: Card(
-                        // margin: const EdgeInsets.only(
-                        //   left: 30,
-                        //   bottom: 5,
-                        // ),
-                        color: Colors.green,
-                        elevation: 10,
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          child: const Align(
-                            child: Column(
-                              children: [
-                                // Image.asset(
-                                //   "assets/logo.png",
-                                //   height: 20,
-                                // ),
-                                Text(
-                                  "Name1",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 10,
+            child: Obx(() => adminDashboardController.driverList.isNotEmpty
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: adminDashboardController.driverList.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (ctx, i) {
+                      final boy = adminDashboardController.driverList[i];
+                      // final RxBool isSelected =
+                      //     adminDashboardController.deliveryIds.isNotEmpty
+                      //         ? adminDashboardController.deliveryIds.first ==
+                      //                 boy?.deliveryBoyId
+                      //             ? true.obs
+                      //             : false.obs
+                      //         : false.obs;
+                      return Obx(() => InkWell(
+                          onTap: () {},
+                          child: SizedBox(
+                            height: 150,
+                            child: Card(
+                                color: adminDashboardController
+                                        .deliveryIds.isNotEmpty
+                                    ? (adminDashboardController
+                                                    .deliveryIds.first ==
+                                                boy?.deliveryBoyId) ==
+                                            true
+                                        ? Colors.grey
+                                        : Colors.green
+                                    : Colors.green,
+                                elevation: 10,
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Obx(() => boy!.status! == "Available"
+                                          ? SizedBox(
+                                              height: 30,
+                                              // width: 150,
+                                              child: Row(
+                                                children: [
+                                                  const Text(
+                                                    "Assign",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  Checkbox(
+                                                      activeColor: Colors.green,
+                                                      value: adminDashboardController
+                                                              .deliveryIds
+                                                              .isNotEmpty
+                                                          ? (adminDashboardController
+                                                                      .deliveryIds
+                                                                      .first ==
+                                                                  boy.deliveryBoyId)
+                                                              ? true
+                                                              : false
+                                                          : false,
+                                                      onChanged: (bool? b) {
+                                                        adminDashboardController
+                                                            .selectDeliveryBoy(boy
+                                                                .deliveryBoyId!);
+                                                      }),
+                                                ],
+                                              ),
+                                            )
+                                          : const SizedBox()),
+                                      // Image.asset(
+                                      //   "assets/logo.png",
+                                      //   height: 20,
+                                      // ),
+                                      Text(
+                                        boy!.deliveryBoy!,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      Text(
+                                        boy.mobileNo!,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      Text(
+                                        boy.status!,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Text(
-                                  "MOB",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                                Text(
-                                  "Avaialable",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ));
-                }),
+                                )),
+                          )));
+                    })
+                : const SizedBox()),
           ),
           Obx(() => !adminDashboardController.assigningDeliveryOrder.value
               ? ElevatedButton(
-                  onPressed: () {
-                    adminDashboardController.assigningDeliveryBoyOnOrder();
-                  },
+                  onPressed: adminDashboardController.deliveryIds.isNotEmpty &&
+                          adminDashboardController.listOfIds.isNotEmpty
+                      ? () {
+                          adminDashboardController.assigningDeliveryBoyOnOrder(
+                              adminDashboardController.deliveryIds.first);
+                        }
+                      : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                   ),

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/assigned_order_outlet.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/delivered_order_outlet.dart';
+import 'package:mak_life_dairy_fresh/app/data/models/driver_outlet_model.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/new_order_outlet_model.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/verified_order_outlet.dart';
 import 'package:mak_life_dairy_fresh/app/data/repos/outlet_repo.dart';
@@ -32,6 +33,10 @@ class AdminDashboardController extends GetxController {
   final RxList<DeliveredOrderModel?> deliveredOrder =
       <DeliveredOrderModel?>[].obs;
 
+  final RxList<DriverListModel?> driverList = <DriverListModel?>[].obs;
+
+  var selectedBoy = Rxn<DriverListModel>();
+
   late StreamSubscription<List<NewOrderOutletModel>> newOrderSubscription;
   late StreamSubscription<List<VerifiedOrderDetailOutletModel>>
       verifyOrderSubscription;
@@ -40,9 +45,15 @@ class AdminDashboardController extends GetxController {
 
   late StreamSubscription<List<DeliveredOrderModel>> deliveredOrderSubscription;
 
+  late StreamSubscription<List<DriverListModel>> driverListSubscription;
+
   final RxList<String> _listOfIds = <String>[].obs;
   List<String> get listOfIds => _listOfIds;
   set listOfIds(List<String> lst) => _listOfIds.assignAll(lst);
+
+  final RxList<String> _deliveryIds = <String>[].obs;
+  List<String> get deliveryIds => _deliveryIds;
+  set deliveryIds(List<String> lst) => _deliveryIds.assignAll(lst);
 
   final orderList = [
     OrderEnum.preparing,
@@ -61,6 +72,7 @@ class AdminDashboardController extends GetxController {
     fetchdata();
     fetchVerifiedOrderData();
     fetchDeliveredOrderData();
+    fetchDriverListData();
   }
 
   @override
@@ -73,12 +85,23 @@ class AdminDashboardController extends GetxController {
     newOrderSubscription.cancel();
     verifyOrderSubscription.cancel();
     deliveredOrderSubscription.cancel();
+    assignedOrderSubscription.cancel();
+    deliveredOrderSubscription.cancel();
+    driverListSubscription.cancel();
     newOrder.clear();
     assignedOrder.close();
     deliveredOrder.close();
     verifiedOrder.close();
     _listOfIds.close();
+    driverList.close();
+    driverListSubscription.cancel();
     super.onClose();
+  }
+
+  void selectDeliveryBoy(String id) {
+    // selectedBoy.value = boy; // Update the selected delivery boy
+    deliveryIds.assign(id);
+    debugPrint("boys: $id");
   }
 
   void fetchdata() {
@@ -133,6 +156,18 @@ class AdminDashboardController extends GetxController {
     });
   }
 
+  void fetchDriverListData() {
+    driverListSubscription = outletRepo.apiService
+        .fetchNewOrderStream<DriverListModel>(
+            endpoint: '/api/DeliveryList',
+            fromJson: (json) => DriverListModel.fromJson(json),
+            query: {
+          "outletId": sharedPreferenceService.getString(outletId)
+        }).listen((data) {
+      driverList.assignAll(data);
+    });
+  }
+
   void toggleCheckbox(int index, bool value) {
     verifiedOrder.reversed.toList()[index]!.isChecked.value = value;
     if (listOfIds.contains(verifiedOrder.reversed.toList()[index]!.orderId)) {
@@ -142,7 +177,7 @@ class AdminDashboardController extends GetxController {
     }
   }
 
-  void assigningDeliveryBoyOnOrder() async {
+  void assigningDeliveryBoyOnOrder(String deliveryBoyId) async {
     assigningDeliveryOrder.value = true;
     for (var a in listOfIds) {
       debugPrint("vijay: $a");
@@ -151,13 +186,16 @@ class AdminDashboardController extends GetxController {
     final response = await outletRepo.orderAssigningDeliveryBoy(
         orderIds: listOfIds,
         userId: sharedPreferenceService.getString(userUId)!,
-        deliveryBoyId: "1008",
+        deliveryBoyId: deliveryBoyId,
         outletId: sharedPreferenceService.getString(outletId)!);
 
     final a = response?.data.toString();
     if (response != null &&
         response.statusCode == 200 &&
         a == "Order assigned to delivery successfully !") {
+      deliveryIds = [];
+      deliveryIds.clear();
+      listOfIds.clear();
       fetchVerifiedOrderData();
     }
     assigningDeliveryOrder.value = false;

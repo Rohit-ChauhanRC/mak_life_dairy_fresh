@@ -99,9 +99,13 @@ class OutletOrderController extends GetxController {
         response.data.map((x) => NewOrderDetailOutletModel.fromJson(x)),
       );
 
-      // for (var data in newOrderDetail) {
-      //   totalAmount += double.parse(data.payAmount!);
-      // }
+      if (orderView.value != OrderEnum.preparing) {
+        for (var data in newOrderDetail) {
+          if (data.orderFlag != "Z") {
+            totalAmount += double.parse(data.payAmount!);
+          }
+        }
+      }
     }
   }
 

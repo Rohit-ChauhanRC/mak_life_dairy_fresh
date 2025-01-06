@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -84,6 +85,31 @@ class HomeView extends GetView<HomeController> {
                                 return NavigationActionPolicy.DOWNLOAD;
                               }
                             }
+                            var url = navigationAction.request.url;
+
+                            if (url!.scheme == "upi" &&
+                                url.path.contains("pay")) {
+                              try {
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                } else {
+                                  ScaffoldMessenger.of(Get.context!)
+                                      .showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            "No UPI app found to handle this request.")),
+                                  );
+                                }
+                              } catch (e) {
+                                ScaffoldMessenger.of(Get.context!).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text("Error launching UPI app: $e")),
+                                );
+                              }
+                              return NavigationActionPolicy.CANCEL;
+                            }
+
                             return NavigationActionPolicy.ALLOW;
                           },
                           onDownloadStartRequest: (cx, request) async {
@@ -105,6 +131,15 @@ class HomeView extends GetView<HomeController> {
                               origin: origin,
                               retain: true,
                             );
+                          },
+                          onTitleChanged: (controller, title) {
+                            if (title == "Web page not available") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        "Unable to load the requested page.")),
+                              );
+                            }
                           },
                         ),
                         Positioned(

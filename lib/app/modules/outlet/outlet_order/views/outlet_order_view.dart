@@ -395,6 +395,15 @@ class OutletOrderView extends GetView<OutletOrderController> {
                     ),
                   )
                 : const SizedBox()),
+            Obx(() => controller.orderView.value != OrderEnum.preparing
+                ? Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child:
+                          Text("Total Amounts: ₹ ${controller.totalAmount}/-"),
+                    ),
+                  )
+                : const SizedBox()),
             Obx(() => controller.orderView.value == OrderEnum.preparing
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

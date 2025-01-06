@@ -52,6 +52,19 @@ xmlns:tools="http://schemas.android.com/tools" package="com.genmak.mak_life_dair
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="upi" android:host="upi://pay?pa=maklife.esbz@icici" />
+                <data android:scheme="upi" />
+            </intent-filter>
+            <!-- <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="upi" />
+            </intent-filter> -->
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
@@ -80,12 +93,29 @@ xmlns:tools="http://schemas.android.com/tools" package="com.genmak.mak_life_dair
             android:name="android.support.FILE_PROVIDER_PATHS"
             android:resource="@xml/provider_paths"/>
     </provider>
+
+    
+
         
     </application>
      <queries>
         <package android:name="com.google.android.apps.photos" />
         <package android:name="com.google.android.apps.docs" />
         <package android:name="com.google.android.documentsui" />
+
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="pay"
+                    android:scheme="upi" />
+        </intent>
+        <package android:name="com.google.android.apps.nbu.paisa.user" />
+        <package android:name="net.one97.paytm" />
+        <package android:name="com.phonepe.app" />
+        <package android:name="in.org.npci.upiapp" />
+        <package android:name="in.amazon.mShop.android.shopping" />
+        <package android:name="com.whatsapp" />
      </queries>
 </manifest>
 
