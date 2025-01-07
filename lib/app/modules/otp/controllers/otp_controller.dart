@@ -89,18 +89,7 @@ class OtpController extends GetxController {
     if (!otpFormKey!.currentState!.validate()) {
       return null;
     }
-    if (mobileNumber.trim() == "9876543210" && otp == "1234") {
-      saveIsNumVerified(true, "1007", "C", mobileNo: "9876543210");
-      await permisions();
-      await getCurrentLocation();
-      Get.offAllNamed(Routes.HOME, arguments: "1007");
-    } else if (mobileNumber.trim() == "1234567890" && otp == "1234") {
-      saveIsNumVerified(true, "1009", "D", mobileNo: "1234567890");
-      await permisions();
-      await getCurrentLocation();
-
-      Get.offAllNamed(Routes.DELIVERY_DASHBOARD, arguments: "1007");
-    } else if (mobileNumber.trim() == "9123456789" && otp == "1234") {
+    if (mobileNumber.trim() == "9123456789" && otp == "1234") {
       saveIsNumVerified(true, "1010", "A", mobileNo: "9123456789", oId: 899);
       await permisions();
       await getCurrentLocation();
@@ -174,23 +163,11 @@ class OtpController extends GetxController {
           saveIsNumVerified(true, userLogs.first.userId.toString(),
               userLogs.first.logType.toString(),
               oId: userLogs.first.outletId!, mobileNo: mobileNumber);
-          if (userLogs.first.logType == "C") {
-            await permisions();
-            await getCurrentLocation();
-
-            Get.offAllNamed(Routes.HOME,
-                arguments: userLogs.first.userId.toString());
-          } else if (userLogs.first.logType == "A") {
+          if (userLogs.first.logType == "A") {
             await permisions();
             await getCurrentLocation();
 
             Get.offAllNamed(Routes.ADMIN_DASHBOARD,
-                arguments: userLogs.first.userId.toString());
-          } else if (userLogs.first.logType == "D") {
-            await permisions();
-            await getCurrentLocation();
-
-            Get.offAllNamed(Routes.DELIVERY_DASHBOARD,
                 arguments: userLogs.first.userId.toString());
           }
         }

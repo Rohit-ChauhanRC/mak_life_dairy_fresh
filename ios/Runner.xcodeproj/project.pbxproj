@@ -499,7 +499,7 @@
 				FLUTTER_BUILD_NAME = 1.1;
 				FLUTTER_BUILD_NUMBER = 1;
 				INFOPLIST_FILE = Runner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Mak Life Dairy Fresh";
+				INFOPLIST_KEY_CFBundleDisplayName = "Mak Life Dairy Fresh Outlet";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				IPHONEOS_DEPLOYMENT_TARGET = 14;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -507,7 +507,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.genmak.makLifeDairyFresh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.genmak.maklifeDairyFreshOutlet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -696,7 +696,7 @@
 				FLUTTER_BUILD_NAME = 1.1;
 				FLUTTER_BUILD_NUMBER = 1;
 				INFOPLIST_FILE = Runner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Mak Life Dairy Fresh";
+				INFOPLIST_KEY_CFBundleDisplayName = "Mak Life Dairy Fresh Outlet";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				IPHONEOS_DEPLOYMENT_TARGET = 14;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -704,7 +704,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.genmak.makLifeDairyFresh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.genmak.maklifeDairyFreshOutlet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -731,7 +731,7 @@
 				FLUTTER_BUILD_NAME = 1.1;
 				FLUTTER_BUILD_NUMBER = 1;
 				INFOPLIST_FILE = Runner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Mak Life Dairy Fresh";
+				INFOPLIST_KEY_CFBundleDisplayName = "Mak Life Dairy Fresh Outlet";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				IPHONEOS_DEPLOYMENT_TARGET = 14;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -739,7 +739,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.genmak.makLifeDairyFresh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.genmak.maklifeDairyFreshOutlet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
