@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh/app/data/models/get_assigned_order_model.dart';
-import 'package:mak_life_dairy_fresh/app/modules/delivery/deliveryDashboard/controllers/delivery_dashboard_controller.dart';
-import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
+import 'package:mak_life_dairy_fresh_delivery/app/data/models/get_assigned_order_model.dart';
+import 'package:mak_life_dairy_fresh_delivery/app/modules/delivery/deliveryDashboard/controllers/delivery_dashboard_controller.dart';
+import 'package:mak_life_dairy_fresh_delivery/app/routes/app_pages.dart';
 
 import '../../../../constants/colors.dart';
 import '../controllers/order_controller.dart';

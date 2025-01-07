@@ -8,8 +8,13 @@ import 'package:http/http.dart' as http;
 
 import '../../../../constants/api_constant.dart';
 import '../../../../constants/colors.dart';
+import '../../../../data/repos/delivery_order_repo.dart';
+import '../../../../utils/alert_popup_utils.dart';
 
 class OrderDetailsController extends GetxController {
+  final DeliveryOrderRepository deliveryOrderRepository;
+
+  OrderDetailsController({required this.deliveryOrderRepository});
 
  final Rx<LatLng> _pickUpPosition = LatLng(0.0, 0.0).obs;
  LatLng get pickUpPosition => _pickUpPosition.value;
@@ -26,6 +31,10 @@ class OrderDetailsController extends GetxController {
  final Completer<GoogleMapController> mapController = Completer();
  final Location locationService = Location();
 
+ final RxBool _circularProgress = true.obs;
+ bool get circularProgress => _circularProgress.value;
+ set circularProgress(bool v) => _circularProgress.value = v;
+
  final RxBool _isPaymentDetailVisible = false.obs;
  bool get isPaymentDetailVisible => _isPaymentDetailVisible.value;
  set isPaymentDetailVisible(bool v) => _isPaymentDetailVisible.value = v;
@@ -33,6 +42,10 @@ class OrderDetailsController extends GetxController {
  final RxBool _isOrderStatusVisible = false.obs;
  bool get isOrderStatusVisible => _isOrderStatusVisible.value;
  set isOrderStatusVisible(bool v) => _isOrderStatusVisible.value = v;
+
+ final RxString _orderCurrentStatusName = "ASSIGNED".obs;
+ String get orderCurrentStatusName => _orderCurrentStatusName.value;
+ set orderCurrentStatusName(String v) => _orderCurrentStatusName.value = v;
   
   @override
   void onInit() {
@@ -53,6 +66,24 @@ class OrderDetailsController extends GetxController {
     pickUpPosition = LatLng(0.0, 0.0);
     destinationPosition = LatLng(0.0, 0.0);
   }
+
+  //MARK: <----------------API CALL----------------->
+ Future<void> updateOrderStatusAPI(String orderId, String statusCode) async{
+   try{
+     circularProgress = false;
+     final response = await deliveryOrderRepository.updateOrderStatus(orderId, statusCode);
+     if(response != null && response.statusCode == 200){
+
+     }else {
+       showAlertMessage(json.decode(response?.data));
+     }
+   }finally{
+     circularProgress = true;
+   }
+ }
+
+
+
 
   /// Updates the camera to a new position on the map
   Future<void> updateCameraPosition(LatLng newPosition) async {

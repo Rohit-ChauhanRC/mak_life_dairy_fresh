@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh/app/modules/delivery/deliveryDashboard/controllers/delivery_dashboard_controller.dart';
+import 'package:mak_life_dairy_fresh_delivery/app/modules/delivery/deliveryDashboard/controllers/delivery_dashboard_controller.dart';
 
 class OrderController extends GetxController {
 

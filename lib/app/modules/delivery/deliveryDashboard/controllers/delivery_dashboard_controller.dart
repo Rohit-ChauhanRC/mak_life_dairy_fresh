@@ -2,10 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
-import 'package:mak_life_dairy_fresh/app/data/models/get_assigned_order_model.dart';
-import 'package:mak_life_dairy_fresh/app/data/repos/delivery_order_repo.dart';
-import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
+import 'package:mak_life_dairy_fresh_delivery/app/data/models/get_assigned_order_model.dart';
+import 'package:mak_life_dairy_fresh_delivery/app/data/repos/delivery_order_repo.dart';
+import 'package:mak_life_dairy_fresh_delivery/app/data/services/shared_preference_service.dart';
 
 import '../../../../utils/alert_popup_utils.dart';
 
@@ -60,9 +59,12 @@ class DeliveryDashboardController extends GetxController {
   void fetchAssignedOrderAPI() {
     getAllOrderSubscription = deliveryOrderRepository.apiService
         .fetchNewOrderStream<GetAssignedOrderModel>(
-    endpoint: '/api/ViewAssignOrderlistStatus/ViewAssignOrderListStatus',
+    endpoint: '/api/AssignOrdersToDeliveryBoy',
     fromJson: (json) => GetAssignedOrderModel.fromJson(json),
-    query: {"DeliveryBoyId": 1001}).listen((data) {
+    query: {
+      "UserId": deliveryOrderRepository.getDeliveryBoyId()
+      // "UserId": 1005
+    }).listen((data) {
     getAllOrderList.assignAll(data);
     getOpenOrders = getAllOrderList.where((e) => e.status != "DELIVERED").toList();
     totalOpenOrder = getOpenOrders.length;
@@ -90,18 +92,5 @@ class DeliveryDashboardController extends GetxController {
     }
   }
 
-  Future<void> updateOrderStatusAPI(String orderId, String statusCode) async{
-    try{
-      circularProgress = false;
-      final response = await deliveryOrderRepository.updateOrderStatus(orderId, statusCode);
-      if(response != null && response.statusCode == 200){
-
-      }else {
-        showAlertMessage(json.decode(response?.data));
-      }
-    }finally{
-      circularProgress = true;
-    }
-  }
 
 }

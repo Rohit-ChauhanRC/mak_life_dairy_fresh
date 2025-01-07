@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mak_life_dairy_fresh/app/constants/colors.dart';
+import 'package:mak_life_dairy_fresh_delivery/app/constants/colors.dart';
+import 'package:mak_life_dairy_fresh_delivery/app/modules/delivery/orderDetails/Widgets/delivery_comfirmation_popup.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../utils/alert_popup_utils.dart';
 import '../controllers/order_details_controller.dart';
 
 class OrderDetailsView extends GetView<OrderDetailsController> {
@@ -18,7 +20,9 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(left: 18, right: 18, top: 10),
-        child: Column(
+        child: !controller.circularProgress ? Container(
+            height: MediaQuery.of(context).size.height,
+            child: Center(child: CircularProgressIndicator(color: appGreen,),)):Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -358,14 +362,30 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
               ),
             ),
             SizedBox(height: 16,),
-            ElevatedButton(
-                onPressed: (){}, 
-                child: Text('Pick Up in Progress', style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Colors.white),),
-              style: ElevatedButton.styleFrom(
-                fixedSize: Size(Get.width, 50),
-              backgroundColor: appGreen,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            )
+            Obx(
+              ()=> Visibility(
+                visible: controller.orderCurrentStatusName == "ASSIGNED" || controller.orderCurrentStatusName == "TRANSIT"? true: false,
+                child: ElevatedButton(
+                    onPressed: (){
+                      if(controller.orderCurrentStatusName == "ASSIGNED"){
+                        showAlertForPickUp(context, "Order Picked up successfully.", controller, 1001);
+                      }else if(controller.orderCurrentStatusName == "TRANSIT"){
+                        // Get.to(SuccessfullyDelivery(orderID: "1000001",));
+                        showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (context)=>DeliveryConfirmationPopup());
+                      }
+                    },
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(Get.width, 50),
+                  backgroundColor: appGreen,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                ),
+                    child: Text(controller.orderCurrentStatusName == "ASSIGNED"?'Mark as picked up':'Mark as Delivered', style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Colors.white),)
+                ),
+              ),
             ),
             SizedBox(height: 16,),
           ],

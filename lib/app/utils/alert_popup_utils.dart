@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../main.dart';
 import '../constants/colors.dart';
+import '../modules/delivery/orderDetails/controllers/order_details_controller.dart';
 
 void showAlertMessage( String message) {
   final context = navigatorKey.currentContext;
@@ -28,6 +29,28 @@ void showAlertMessage( String message) {
                   Get.back();
                 },
                 child: const Text("OK", style: TextStyle(color: appGreen))),
+          )
+        ],
+      ));
+}
+
+void showAlertForPickUp(BuildContext context, String message,
+    OrderDetailsController orderDetailsController, int oderId) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title:  const Text("Maklife Dairy Fresh"),
+        content:  Text(message, style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14, color: blackColor)),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            onPressed: () {
+              orderDetailsController.orderCurrentStatusName = "TRANSIT";
+              Get.back();
+              // orderProvider
+              //     .getOrderListApiCall(context, oderId ?? 0, 0,
+              //     userDefault.read(USERID), 0, "", 1);
+            },
+            child: Text("OK", style: TextStyle(color: appGreen)),
           )
         ],
       ));

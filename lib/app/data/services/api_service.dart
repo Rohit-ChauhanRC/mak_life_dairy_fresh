@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart' as dio;
-import 'package:mak_life_dairy_fresh/app/utils/alert_popup_utils.dart';
 
 import '../../constants/api_constant.dart';
 

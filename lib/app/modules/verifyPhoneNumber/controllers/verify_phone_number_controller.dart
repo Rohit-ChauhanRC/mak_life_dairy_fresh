@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
-import 'package:mak_life_dairy_fresh/app/utils/utils.dart';
-import 'package:mak_life_dairy_fresh/app/constants/api_constant.dart';
+import 'package:mak_life_dairy_fresh_delivery/app/routes/app_pages.dart';
+import 'package:mak_life_dairy_fresh_delivery/app/utils/utils.dart';
+import 'package:mak_life_dairy_fresh_delivery/app/constants/api_constant.dart';
 
 import '../../../data/repos/auth_repo.dart';
 import '../../../utils/alert_popup_utils.dart';
@@ -75,28 +74,28 @@ class VerifyPhoneNumberController extends GetxController {
     // await loginCred(mobileNumber.trim(), false);
   }
 
-  loginCred(String? resendOtpMobNum, bool isFromResend) async {
-    String? mobileNum = resendOtpMobNum ?? mobileNumber;
-    circularProgress = false;
-    try {
-      var res = await http.post(Uri.parse("$baseUrl/api/Users"), body: {
-        "MobileNo": mobileNum,
-      });
-      final a = jsonDecode(res.body);
-
-      if (res.statusCode == 200 && a == "OTP Sent !") {
-        Get.toNamed(Routes.OTP, arguments: mobileNum);
-      } else {
-        //
-        Utils.showDialog(json.decode(res.body));
-      }
-      circularProgress = true;
-    } catch (e) {
-      circularProgress = true;
-      print("API error:-----> $e");
-      Utils.showDialog(e.toString());
-    }
-  }
+  // loginCred(String? resendOtpMobNum, bool isFromResend) async {
+  //   String? mobileNum = resendOtpMobNum ?? mobileNumber;
+  //   circularProgress = false;
+  //   try {
+  //     var res = await http.post(Uri.parse("$baseUrl/api/Users"), body: {
+  //       "MobileNo": mobileNum,
+  //     });
+  //     final a = jsonDecode(res.body);
+  //
+  //     if (res.statusCode == 200 && a == "OTP Sent !") {
+  //       Get.toNamed(Routes.OTP, arguments: mobileNum);
+  //     } else {
+  //       //
+  //       Utils.showDialog(json.decode(res.body));
+  //     }
+  //     circularProgress = true;
+  //   } catch (e) {
+  //     circularProgress = true;
+  //     print("API error:-----> $e");
+  //     Utils.showDialog(e.toString());
+  //   }
+  // }
 
   Future<void> loginApiCall(String? resendOtpMobNum, bool isFromResend) async {
     try {

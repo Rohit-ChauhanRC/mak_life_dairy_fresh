@@ -1,4 +1,4 @@
-const appName = "GenChatApp";
+const appName = "Maklife Dairy Fresh Delivery";
 const poweredBy = "Powered by";
 const genmak = "Genmak";
 const welcomeToGenchat = "Welcome to Genchatapp";
