@@ -40,14 +40,8 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       title: "Mak Life Dairy Fresh",
-      initialRoute: userExist.isNotEmpty
-          ? logType == "C"
-              ? AppPages.INITIAL2
-              : logType == "A"
-                  ? AppPages.INITIAL1
-                  : logType == "D"
-                      ? AppPages.INITIAL3
-                      : AppPages.INITIAL
+      initialRoute: userExist.isNotEmpty && logType == "C"
+          ? AppPages.INITIAL2
           : AppPages.INITIAL,
       getPages: AppPages.routes,
     );
