@@ -40,23 +40,9 @@ class VerifyPhoneNumberController extends GetxController {
   ];
 
   @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
   void onClose() {
     super.onClose();
     _mobileNumber.close();
-  }
-
-  void sendPhoneNumber() async {
-    String phoneNumber = mobileNumber.trim();
   }
 
   Future login() async {
@@ -93,7 +79,7 @@ class VerifyPhoneNumberController extends GetxController {
       circularProgress = true;
     } catch (e) {
       circularProgress = true;
-      print("API error:-----> $e");
+      debugPrint("API error:-----> $e");
       Utils.showDialog(e.toString());
     }
   }

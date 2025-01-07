@@ -30,7 +30,7 @@ class Utils {
         },
         title: title ?? "success",
         content: Text(
-          message ?? "error",
+          message,
           textAlign: TextAlign.center,
           maxLines: 6,
           style: TextStyle(
@@ -69,7 +69,7 @@ class Utils {
         image = File(pickedImage.path);
       }
     } catch (e) {
-      showSnackBar(context: context, content: e.toString());
+      showSnackBar(context: Get.context!, content: e.toString());
     }
     return image;
   }
@@ -84,7 +84,7 @@ class Utils {
         image = File(pickedImage.path);
       }
     } catch (e) {
-      showSnackBar(context: context, content: e.toString());
+      showSnackBar(context: Get.context!, content: e.toString());
     }
     return image;
   }

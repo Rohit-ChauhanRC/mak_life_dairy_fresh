@@ -304,7 +304,7 @@ class AssignedOrder extends StatelessWidget {
                                         .assignedOrder.reversed
                                         .toList()[i]!
                                         .orderId!;
-                                    print(b);
+                                    debugPrint(b);
                                     Get.toNamed(Routes.OUTLET_ORDER,
                                         arguments: [
                                           adminDashboardController

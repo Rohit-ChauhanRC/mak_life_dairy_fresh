@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:mak_life_dairy_fresh/app/constants/colors.dart';
-import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 
 import '../../../constants/constants.dart';
 import '../controllers/verify_phone_number_controller.dart';
@@ -136,7 +135,7 @@ class VerifyPhoneNumberView extends GetView<VerifyPhoneNumberController> {
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     shape: const RoundedRectangleBorder(
-                                        borderRadius: const BorderRadius.all(
+                                        borderRadius: BorderRadius.all(
                                             Radius.circular(10))),
                                     // padding: const EdgeInsets.only(
                                     //     left: 60, right: 60),

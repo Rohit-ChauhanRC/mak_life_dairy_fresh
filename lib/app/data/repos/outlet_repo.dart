@@ -1,9 +1,6 @@
 import 'package:mak_life_dairy_fresh/app/constants/api_constant.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/new_order_details_outlet.dart';
-import 'package:mak_life_dairy_fresh/app/data/models/new_order_outlet_model.dart';
 import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
-import 'package:mak_life_dairy_fresh/app/utils/alert_popup_utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/api_service.dart';
 import 'package:dio/dio.dart';

@@ -1,6 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/new_order_details_outlet.dart';
@@ -56,11 +55,6 @@ class OutletOrderController extends GetxController {
   }
 
   @override
-  void onReady() async {
-    super.onReady();
-  }
-
-  @override
   void onClose() {
     super.onClose();
     _id.close();
@@ -86,9 +80,9 @@ class OutletOrderController extends GetxController {
   void getOrderDetails() async {
     try {
       newOrderDetail = (await outletRepo.getNewOrderDetails(id))!;
-      print(newOrderDetail);
+      debugPrint("$newOrderDetail");
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 

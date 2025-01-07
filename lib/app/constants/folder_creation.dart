@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -36,7 +35,7 @@ class FolderCreation {
             await dir.create(recursive: true);
           } else {
             if (kDebugMode) {
-              print(dir.path);
+              debugPrint(dir.path);
             }
           }
         }
@@ -44,9 +43,9 @@ class FolderCreation {
         await Permission.storage.request();
         await Permission.manageExternalStorage.request();
       }
-      // print("App folder structure created successfully.");
+      // debugPrint("App folder structure created successfully.");
     } catch (e) {
-      print("Error creating folder structure: $e");
+      debugPrint("Error creating folder structure: $e");
     }
   }
 
@@ -70,7 +69,7 @@ class FolderCreation {
       // return file.path;
       return "$subFolderPath/$fileName";
     } catch (e) {
-      print("Error saving file: $e");
+      debugPrint("Error saving file: $e");
       return "error!";
     }
   }

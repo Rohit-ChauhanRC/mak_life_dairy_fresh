@@ -4,14 +4,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:mak_life_dairy_fresh/app/data/models/otp_model.dart';
 import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
 import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 import 'package:mak_life_dairy_fresh/app/modules/verifyPhoneNumber/controllers/verify_phone_number_controller.dart';
-import 'package:mak_life_dairy_fresh/app/utils/utils.dart';
-import 'package:mak_life_dairy_fresh/app/constants/api_constant.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../data/repos/auth_repo.dart';
@@ -241,7 +238,7 @@ class OtpController extends GetxController {
       );
       latitude.value = position.latitude;
       longitude.value = position.longitude;
-      print(
+      debugPrint(
           "longitude.value: ${longitude.value} latitude.value: ${latitude.value}");
       // Get.snackbar('Success',
       //     'Location fetched successfully. longitude.value ${longitude.value} latitude.value: ${latitude.value}');

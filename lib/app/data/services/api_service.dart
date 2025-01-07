@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 
 import 'package:dio/dio.dart' as dio;
-import 'package:mak_life_dairy_fresh/app/utils/alert_popup_utils.dart';
 
 import '../../constants/api_constant.dart';
 
@@ -23,13 +23,14 @@ class ApiService {
     _dio.interceptors.add(
       dio.InterceptorsWrapper(
         onRequest: (options, handler) {
-          print('Request[${options.method}] => PATH: ${options.path}');
-          print(
+          debugPrint('Request[${options.method}] => PATH: ${options.path}');
+          debugPrint(
               'Request[${options.method}] => QUERY PARAMETERS: ${options.queryParameters}');
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          print('Response[${response.statusCode}] => DATA: ${response.data}');
+          debugPrint(
+              'Response[${response.statusCode}] => DATA: ${response.data}');
           return handler.next(response);
         },
         onError: (dio.DioException error, handler) {
@@ -131,7 +132,7 @@ class ApiService {
     // Log the error
     // Get.snackbar('Error', errorMessage, snackPosition: SnackPosition.BOTTOM);
     // showAlertMessage(errorMessage);
-    print('DioError: $errorMessage');
+    debugPrint('DioError: $errorMessage');
   }
 
   // Stream Function
@@ -163,7 +164,7 @@ class ApiService {
   //       }
   //     } catch (e) {
   //       // Handle errors by emitting an empty list
-  //       print('Error fetching data: $e');
+  //       debugPrint('Error fetching data: $e');
   //       yield [];
   //     }
 
@@ -195,7 +196,7 @@ class ApiService {
           controller.add([]);
         }
       } catch (e) {
-        print('Error fetching data: $e');
+        debugPrint('Error fetching data: $e');
         controller.addError(e);
       }
     }
@@ -230,7 +231,7 @@ class ApiService {
       }
       return null;
     } catch (e) {
-      print('GET Error: $e');
+      debugPrint('GET Error: $e');
       return null;
     }
   }
@@ -252,7 +253,7 @@ class ApiService {
       }
       return [];
     } catch (e) {
-      print('GET List Error: $e');
+      debugPrint('GET List Error: $e');
       return null;
     }
   }
