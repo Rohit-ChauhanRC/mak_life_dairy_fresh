@@ -17,7 +17,7 @@ class ApprovedOrder extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: Get.height * .45,
+            height: Get.height * .40,
             width: Get.width,
             margin: const EdgeInsets.all(10),
             padding: const EdgeInsets.all(5),
@@ -285,7 +285,7 @@ class ApprovedOrder extends StatelessWidget {
                 : const SizedBox()),
           ),
           Container(
-            height: 150,
+            height: 120,
             margin: const EdgeInsets.all(10),
             width: Get.width,
             padding: const EdgeInsets.all(5),
@@ -299,102 +299,94 @@ class ApprovedOrder extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (ctx, i) {
                       final boy = adminDashboardController.driverList[i];
-                      // final RxBool isSelected =
-                      //     adminDashboardController.deliveryIds.isNotEmpty
-                      //         ? adminDashboardController.deliveryIds.first ==
-                      //                 boy?.deliveryBoyId
-                      //             ? true.obs
-                      //             : false.obs
-                      //         : false.obs;
+
                       return Obx(() => InkWell(
-                          onTap: () {},
-                          child: SizedBox(
-                            height: 150,
-                            child: Card(
-                                color: adminDashboardController
-                                        .deliveryIds.isNotEmpty
-                                    ? (adminDashboardController
-                                                    .deliveryIds.first ==
-                                                boy?.deliveryBoyId) ==
-                                            true
-                                        ? Colors.grey
-                                        : Colors.green
-                                    : Colors.green,
-                                elevation: 10,
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Obx(() => boy!.status! == "Available"
-                                          ? SizedBox(
-                                              height: 30,
-                                              // width: 150,
-                                              child: Row(
-                                                children: [
-                                                  const Text(
-                                                    "Assign",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 12,
-                                                    ),
+                          onTap: () {
+                            adminDashboardController
+                                .selectDeliveryBoy(boy.deliveryBoyId!);
+                          },
+                          child: Card(
+                              color: adminDashboardController
+                                      .deliveryIds.isNotEmpty
+                                  ? (adminDashboardController
+                                                  .deliveryIds.first ==
+                                              boy?.deliveryBoyId) ==
+                                          true
+                                      ? Colors.grey
+                                      : Colors.green
+                                  : Colors.green,
+                              elevation: 10,
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Obx(() => boy!.status! == "Available"
+                                        ? SizedBox(
+                                            height: 25,
+                                            // width: 150,
+                                            child: Row(
+                                              children: [
+                                                const Text(
+                                                  "Assign",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
                                                   ),
-                                                  Checkbox(
-                                                      activeColor: Colors.green,
-                                                      value: adminDashboardController
-                                                              .deliveryIds
-                                                              .isNotEmpty
-                                                          ? (adminDashboardController
-                                                                      .deliveryIds
-                                                                      .first ==
-                                                                  boy.deliveryBoyId)
-                                                              ? true
-                                                              : false
-                                                          : false,
-                                                      onChanged: (bool? b) {
-                                                        adminDashboardController
-                                                            .selectDeliveryBoy(boy
-                                                                .deliveryBoyId!);
-                                                      }),
-                                                ],
-                                              ),
-                                            )
-                                          : const SizedBox()),
-                                      // Image.asset(
-                                      //   "assets/logo.png",
-                                      //   height: 20,
-                                      // ),
-                                      Text(
-                                        boy!.deliveryBoy!,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
+                                                ),
+                                                Checkbox(
+                                                    activeColor: Colors.green,
+                                                    value: adminDashboardController
+                                                            .deliveryIds
+                                                            .isNotEmpty
+                                                        ? (adminDashboardController
+                                                                    .deliveryIds
+                                                                    .first ==
+                                                                boy.deliveryBoyId)
+                                                            ? true
+                                                            : false
+                                                        : false,
+                                                    onChanged: (bool? b) {
+                                                      adminDashboardController
+                                                          .selectDeliveryBoy(boy
+                                                              .deliveryBoyId!);
+                                                    }),
+                                              ],
+                                            ),
+                                          )
+                                        : const SizedBox()),
+                                    // Image.asset(
+                                    //   "assets/logo.png",
+                                    //   height: 20,
+                                    // ),
+                                    Text(
+                                      boy!.deliveryBoy!,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
                                       ),
-                                      Text(
-                                        boy.mobileNo!,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
+                                    ),
+                                    Text(
+                                      boy.mobileNo!,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
                                       ),
-                                      Text(
-                                        boy.status!,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
+                                    ),
+                                    Text(
+                                      boy.status!,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
                                       ),
-                                    ],
-                                  ),
-                                )),
-                          )));
+                                    ),
+                                  ],
+                                ),
+                              ))));
                     })
                 : const SizedBox()),
           ),
