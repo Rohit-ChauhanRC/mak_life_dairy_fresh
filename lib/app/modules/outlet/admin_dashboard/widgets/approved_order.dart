@@ -301,15 +301,17 @@ class ApprovedOrder extends StatelessWidget {
 
                       return Obx(() => InkWell(
                           onTap: () {
-                            adminDashboardController
-                                .selectDeliveryBoy(boy.deliveryBoyId!);
+                            if (boy.status! == "Available") {
+                              adminDashboardController
+                                  .selectDeliveryBoy(boy.deliveryBoyId!);
+                            }
                           },
                           child: Card(
                               color: adminDashboardController
                                       .deliveryIds.isNotEmpty
                                   ? (adminDashboardController
                                                   .deliveryIds.first ==
-                                              boy?.deliveryBoyId) ==
+                                              boy!.deliveryBoyId) ==
                                           true
                                       ? Colors.grey
                                       : Colors.green
@@ -354,7 +356,16 @@ class ApprovedOrder extends StatelessWidget {
                                               ],
                                             ),
                                           )
-                                        : const SizedBox()),
+                                        : SizedBox(
+                                            child: Text(
+                                              boy.status!,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          )),
                                     // Image.asset(
                                     //   "assets/logo.png",
                                     //   height: 20,

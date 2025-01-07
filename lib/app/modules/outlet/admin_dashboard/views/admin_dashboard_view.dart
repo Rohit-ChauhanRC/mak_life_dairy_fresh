@@ -66,7 +66,7 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                           if (order == OrderEnum.approved) {
                             controller.fetchVerifiedOrderData();
                           } else if (order == OrderEnum.assigned) {
-                            controller.fetchAssignedOrderData();
+                            // controller.fetchAssignedOrderData();
                           } else if (order == OrderEnum.completed) {
                             // controller.fetchVerifiedOrderData();
                           } else if (order == OrderEnum.cancel) {

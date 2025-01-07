@@ -71,6 +71,7 @@ class AdminDashboardController extends GetxController {
     super.onInit();
     fetchdata();
     fetchVerifiedOrderData();
+    fetchAssignedOrderData();
     fetchDeliveredOrderData();
     fetchDriverListData();
   }
