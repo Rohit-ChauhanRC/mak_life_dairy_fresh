@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,16 +21,17 @@ class HomeView extends GetView<HomeController> {
       // },
       canPop: false,
       onPopInvokedWithResult: (didPop, b) async {
+        exit(3);
         // logic
-        if (didPop) {
-          return;
-        }
-        final NavigatorState navigator = Navigator.of(context);
-        if (await controller.webViewController!.canGoBack()) {
-          controller.webViewController!.goBack();
-        } else {
-          navigator.pop();
-        }
+        // if (didPop) {
+        //   return;
+        // }
+        // final NavigatorState navigator = Navigator.of(context);
+        // if (await controller.webViewController!.canGoBack()) {
+        //   controller.webViewController!.goBack();
+        // } else {
+        //   navigator.pop();
+        // }
       },
       child: Scaffold(
         // body: Center(
