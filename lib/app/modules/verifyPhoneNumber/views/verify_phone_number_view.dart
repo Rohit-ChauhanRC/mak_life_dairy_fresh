@@ -36,6 +36,7 @@ class VerifyPhoneNumberView extends GetView<VerifyPhoneNumberController> {
                     );
                   }).toList(),
                   options: CarouselOptions(
+                    viewportFraction: 1,
                     height: 300.0,
                     autoPlay: true,
                     enlargeCenterPage: true,

@@ -58,28 +58,27 @@ class HomeController extends GetxController {
   final ReceivePort _port = ReceivePort();
 
   InAppWebViewSettings settings = InAppWebViewSettings(
-    isInspectable: kDebugMode,
-    mediaPlaybackRequiresUserGesture: false,
-    allowsInlineMediaPlayback: true,
-    iframeAllow: "camera; microphone;storage;location",
-    iframeAllowFullscreen: true,
-    allowFileAccessFromFileURLs: true,
-    allowContentAccess: true,
-    allowFileAccess: true,
-    allowsBackForwardNavigationGestures: true,
-    useOnDownloadStart: true,
-    allowUniversalAccessFromFileURLs: true,
-    javaScriptCanOpenWindowsAutomatically: true,
-    // allowingReadAccessTo: WebUri(source),
-    applePayAPIEnabled: true,
-    javaScriptEnabled: true,
-    useShouldOverrideUrlLoading: true,
-
-    domStorageEnabled: true,
-    loadWithOverviewMode: true,
-    verticalScrollBarEnabled: true,
-    geolocationEnabled: true,
-  );
+      isInspectable: kDebugMode,
+      mediaPlaybackRequiresUserGesture: false,
+      allowsInlineMediaPlayback: true,
+      iframeAllow: "camera; microphone;storage;location",
+      iframeAllowFullscreen: true,
+      allowFileAccessFromFileURLs: true,
+      allowContentAccess: true,
+      allowFileAccess: true,
+      allowsBackForwardNavigationGestures: true,
+      useOnDownloadStart: true,
+      allowUniversalAccessFromFileURLs: true,
+      javaScriptCanOpenWindowsAutomatically: true,
+      // allowingReadAccessTo: WebUri(source),
+      applePayAPIEnabled: true,
+      javaScriptEnabled: true,
+      useShouldOverrideUrlLoading: true,
+      domStorageEnabled: true,
+      loadWithOverviewMode: true,
+      verticalScrollBarEnabled: true,
+      geolocationEnabled: true,
+      limitsNavigationsToAppBoundDomains: true);
 
   PullToRefreshController? pullToRefreshController;
 
