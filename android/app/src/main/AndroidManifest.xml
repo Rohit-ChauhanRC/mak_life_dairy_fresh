@@ -23,7 +23,7 @@ xmlns:tools="http://schemas.android.com/tools" package="com.genmak.mak_life_dair
     <!-- <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />   -->
     
     <application
-        android:label="Mak Life Dairy Fresh Outlet"
+        android:label="MakLife Admin"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">

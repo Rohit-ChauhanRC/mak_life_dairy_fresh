@@ -188,14 +188,14 @@ class ApprovedOrder extends StatelessWidget {
                                         fontSize: 12,
                                       ),
                                     ),
-                                    TextSpan(
-                                      text:
-                                          "\t\t ${Utils.timeFormated(adminDashboardController.verifiedOrder.reversed.toList()[i]!.orderTime!)}",
-                                      style: const TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 12,
-                                      ),
-                                    ),
+                                    // TextSpan(
+                                    //   text:
+                                    //       "\t\t ${Utils.timeFormated(adminDashboardController.verifiedOrder.reversed.toList()[i]!.orderTime!)}",
+                                    //   style: const TextStyle(
+                                    //     color: Colors.red,
+                                    //     fontSize: 12,
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -246,6 +246,39 @@ class ApprovedOrder extends StatelessWidget {
                                         fontSize: 12,
                                       ),
                                     ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  text: "Verified Date & Time: ",
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: adminDashboardController
+                                          .verifiedOrder.reversed
+                                          .toList()[i]!
+                                          .varifyDate,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    // TextSpan(
+                                    //   text:
+                                    //       "\t\t ${Utils.timeFormated(adminDashboardController.verifiedOrder.reversed.toList()[i]!.orderTime!)}",
+                                    //   style: const TextStyle(
+                                    //     color: Colors.red,
+                                    //     fontSize: 12,
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),

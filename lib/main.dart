@@ -39,7 +39,7 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
-      title: "Mak Life Dairy Fresh Outlet",
+      title: "MakLife Admin",
       initialRoute: userExist.isNotEmpty && logType == "A"
           ? AppPages.INITIAL1
           : AppPages.INITIAL,

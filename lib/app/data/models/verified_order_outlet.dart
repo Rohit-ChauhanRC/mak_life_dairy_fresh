@@ -29,7 +29,7 @@ class VerifiedOrderDetailOutletModel {
   String? stateName;
   String? status;
   RxBool isChecked;
-  String? orderTime;
+  String? varifyDate;
   String? paymentStatus;
 
   VerifiedOrderDetailOutletModel({
@@ -45,7 +45,7 @@ class VerifiedOrderDetailOutletModel {
     this.stateName,
     this.status,
     required bool isChecked,
-    this.orderTime,
+    this.varifyDate,
     this.paymentStatus,
   }) : isChecked = RxBool(isChecked);
 
@@ -62,7 +62,7 @@ class VerifiedOrderDetailOutletModel {
         pin: json["Pin"],
         stateName: json["StateName"],
         status: json["Status"],
-        orderTime: json["Time"],
+        varifyDate: json["VarifyDate"],
         paymentStatus: json["PaymentStatus"],
         isChecked: false,
       );
@@ -80,6 +80,6 @@ class VerifiedOrderDetailOutletModel {
         "StateName": stateName,
         "Status": status,
         "PaymentStatus": paymentStatus,
-        "Time": orderTime,
+        "VarifyDate": varifyDate,
       };
 }

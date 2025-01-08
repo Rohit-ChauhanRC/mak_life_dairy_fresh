@@ -499,7 +499,7 @@
 				FLUTTER_BUILD_NAME = 1.1;
 				FLUTTER_BUILD_NUMBER = 1;
 				INFOPLIST_FILE = Runner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Mak Life Dairy Fresh Outlet";
+				INFOPLIST_KEY_CFBundleDisplayName = "MakLife Admin";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				IPHONEOS_DEPLOYMENT_TARGET = 14;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -696,7 +696,7 @@
 				FLUTTER_BUILD_NAME = 1.1;
 				FLUTTER_BUILD_NUMBER = 1;
 				INFOPLIST_FILE = Runner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Mak Life Dairy Fresh Outlet";
+				INFOPLIST_KEY_CFBundleDisplayName = "MakLife Admin";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				IPHONEOS_DEPLOYMENT_TARGET = 14;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -731,7 +731,7 @@
 				FLUTTER_BUILD_NAME = 1.1;
 				FLUTTER_BUILD_NUMBER = 1;
 				INFOPLIST_FILE = Runner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Mak Life Dairy Fresh Outlet";
+				INFOPLIST_KEY_CFBundleDisplayName = "MakLife Admin";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				IPHONEOS_DEPLOYMENT_TARGET = 14;
 				LD_RUNPATH_SEARCH_PATHS = (
