@@ -21,7 +21,7 @@ class HomeView extends GetView<HomeController> {
       // },
       canPop: false,
       onPopInvokedWithResult: (didPop, b) async {
-        exit(3);
+        controller.onWillPop();
         // logic
         // if (didPop) {
         //   return;

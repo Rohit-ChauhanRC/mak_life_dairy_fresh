@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -81,6 +82,9 @@ class HomeController extends GetxController {
       limitsNavigationsToAppBoundDomains: true);
 
   PullToRefreshController? pullToRefreshController;
+
+  // int backPressCounter = 0;
+  DateTime? lastBackPressTime;
 
   final count = 0.obs;
   @override
@@ -252,5 +256,38 @@ class HomeController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<bool> onWillPop() async {
+    final now = DateTime.now();
+
+    // Reset counter if time difference is more than 2 seconds
+    if (lastBackPressTime == null ||
+        now.difference(lastBackPressTime!) > const Duration(seconds: 2)) {
+      count.value = 0;
+    }
+
+    lastBackPressTime = now;
+
+    // Check if WebView can go back
+    if (await webViewController!.canGoBack()) {
+      webViewController!.goBack();
+      return false; // Prevent app exit
+    }
+
+    // Increment back press counter
+    count.value++;
+    if (count.value == 3) {
+      exit(0); // Exit the app
+    } else {
+      final remaining = 3 - count.value;
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+        SnackBar(
+          content: Text('Press back $remaining more time(s) to exit.'),
+          duration: const Duration(seconds: 1),
+        ),
+      );
+    }
+    return false; // Prevent app exit
   }
 }
