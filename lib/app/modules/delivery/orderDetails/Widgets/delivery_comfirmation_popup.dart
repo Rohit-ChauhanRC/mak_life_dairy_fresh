@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/constants/colors.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/modules/delivery/orderDetails/Widgets/successfully_delivery.dart';
+import 'package:mak_life_delivery/app/constants/colors.dart';
+import 'package:mak_life_delivery/app/modules/delivery/orderDetails/Widgets/successfully_delivery.dart';
+import 'package:mak_life_delivery/app/modules/delivery/orderDetails/controllers/order_details_controller.dart';
+import 'package:mak_life_delivery/app/utils/alert_popup_utils.dart';
 
 class DeliveryConfirmationPopup extends StatefulWidget {
-  const DeliveryConfirmationPopup({super.key});
+  String? orderId;
+   DeliveryConfirmationPopup({super.key, this.orderId});
 
   @override
   State<DeliveryConfirmationPopup> createState() => _DeliveryConfirmationPopupState();
 }
 
 class _DeliveryConfirmationPopupState extends State<DeliveryConfirmationPopup> {
+  final orderDetailsController = Get.find<OrderDetailsController>();
+  final TextEditingController receiverName = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -35,6 +40,7 @@ class _DeliveryConfirmationPopupState extends State<DeliveryConfirmationPopup> {
                 child: TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   // onChanged: (v) => controller.mobileNumber = v,
+                  controller: receiverName,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -66,8 +72,16 @@ class _DeliveryConfirmationPopupState extends State<DeliveryConfirmationPopup> {
               const SizedBox(height: 20,),
               ElevatedButton(
                   onPressed: (){
-                    Get.back();
-                    Get.to(SuccessfullyDelivery(orderID: "1000001",));
+                    if(receiverName.text.trim().isNotEmpty){
+                      Get.back();
+                      orderDetailsController.updateOrderStatusAPI(widget.orderId.toString(), "D").then((c){
+                        Get.to(SuccessfullyDelivery(orderID: widget.orderId,));
+                      });
+                    }else{
+                      showAlertMessage("Please enter order receiver name.");
+                    }
+
+
                   },
                   style: ElevatedButton.styleFrom(
                     fixedSize: Size(Get.width * 0.8, 50),

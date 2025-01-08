@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/data/models/get_assigned_order_model.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/modules/delivery/deliveryDashboard/controllers/delivery_dashboard_controller.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/routes/app_pages.dart';
+import 'package:intl/intl.dart';
+import 'package:mak_life_delivery/app/data/models/get_assigned_order_model.dart';
+import 'package:mak_life_delivery/app/modules/delivery/deliveryDashboard/controllers/delivery_dashboard_controller.dart';
+import 'package:mak_life_delivery/app/routes/app_pages.dart';
+import 'package:mak_life_delivery/app/utils/utils.dart';
 
 import '../../../../constants/colors.dart';
 import '../controllers/order_controller.dart';
@@ -24,7 +26,11 @@ class OrderView extends GetView<OrderController> {
             children: [
               Obx(()=> orderTypeList()),
               SizedBox(height: 10,),
-              Obx(()=> orderList(deliveryDashboardController.getOpenOrders ?? [], deliveryDashboardController.getCompletedOrder ?? [])),
+              Obx(()=> Visibility(
+                    visible: controller.isCompleteOrder == true? true: false,
+                    child:  dateSelector()),
+              ),
+              Obx(()=> orderList(deliveryDashboardController.getOpenOrders, controller.getFilteredCompletedOrder)),
 
             ],
           ),
@@ -66,9 +72,34 @@ class OrderView extends GetView<OrderController> {
         ),
       ],);
   }
+  Widget dateSelector() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Selected Date: ${DateFormat('dd MMM yyyy').format(controller.selectedDate)}',
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        IconButton(
+          icon: const Icon(Icons.calendar_today),
+          onPressed: () async {
+            DateTime? pickedDate = await showDatePicker(
+              context: Get.context!,
+              initialDate: controller.selectedDate,
+              firstDate: DateTime(2024),
+              lastDate: DateTime(2100),
+            );
+            if (pickedDate != null) {
+              controller.filterOrdersByAssignDate(pickedDate);
+            }
+          },
+        ),
+      ],
+    );
+  }
   Widget orderList(List<GetAssignedOrderModel> openOrderList, List<GetAssignedOrderModel> completedOrderList ){
     return SizedBox(
-      height: Get.height * 0.79,
+      height: controller.isCompleteOrder? Get.height * 0.734: Get.height * 0.79,
       child: ListView.builder(
           padding: EdgeInsets.only(top: 10),
           shrinkWrap: true,
@@ -81,7 +112,7 @@ class OrderView extends GetView<OrderController> {
             return openOrderList.isNotEmpty ?
             InkWell(
               onTap: (){
-                Get.toNamed(Routes.ORDER_DETAILS);
+                Get.toNamed(Routes.ORDER_DETAILS, arguments: openOrderList[openAndCompletedIndex].orderId);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -112,12 +143,12 @@ class OrderView extends GetView<OrderController> {
                             child: Center(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10,right: 10,top: 3,bottom: 3),
-                                child: Text("paymentType", style:
+                                child: Text("${openOrderList[openAndCompletedIndex].paymentStatus}", style:
                                 TextStyle(fontSize: 9,fontWeight: FontWeight.bold,color: blackColor),),
                               ),
                             ),
                           ),
-                          Text("${openOrderList[openAndCompletedIndex].orderDate}", style:
+                          Text(Utils.formatDateTime(date: "${openOrderList[openAndCompletedIndex].orderDate}", time: "${openOrderList[openAndCompletedIndex].time}"), style:
                           TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: blackColor),)
                         ],),
                       SizedBox(height: 8,),
@@ -126,10 +157,10 @@ class OrderView extends GetView<OrderController> {
                         children: [
                           Text("Delivery Point", style:
                           TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: blackColor),),
-                          Text("₹ ${openOrderList[openAndCompletedIndex].payAmount}", style:
+                          Text("₹ ${openOrderList[openAndCompletedIndex].amount}", style:
                           TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: blackColor),)
                         ],),
-                      Text("${openOrderList[openAndCompletedIndex].address} ${openOrderList[openAndCompletedIndex].city} ${openOrderList[openAndCompletedIndex].statename} ${openOrderList[openAndCompletedIndex].pin}",
+                      Text("${openOrderList[openAndCompletedIndex].shippingTo}",
                         style: TextStyle(fontSize: 14,color: blackColor),),
                       SizedBox(height: 5,),
                       // Text("Delivery Point", style:
@@ -146,7 +177,7 @@ class OrderView extends GetView<OrderController> {
           else if(controller.isCompleteOrder){
             return completedOrderList.isNotEmpty? InkWell(
               onTap: (){
-                Get.toNamed(Routes.ORDER_DETAILS);
+                Get.toNamed(Routes.ORDER_DETAILS, arguments: completedOrderList[openAndCompletedIndex].orderId);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -179,12 +210,12 @@ class OrderView extends GetView<OrderController> {
                             child: Center(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10,right: 10,top: 3,bottom: 3),
-                                child: Text("paymentType", style:
+                                child: Text("${completedOrderList[openAndCompletedIndex].paymentStatus}", style:
                                 TextStyle(fontSize: 9,fontWeight: FontWeight.bold,color: blackColor),),
                               ),
                             ),
                           ),
-                          Text("${completedOrderList[openAndCompletedIndex].orderDate}", style:
+                          Text(Utils.formatDateTime(date: "${completedOrderList[openAndCompletedIndex].orderDate}", time: "${completedOrderList[openAndCompletedIndex].time}"), style:
                           TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: blackColor),)
                         ],),
                       SizedBox(height: 8,),
@@ -193,10 +224,10 @@ class OrderView extends GetView<OrderController> {
                         children: [
                           Text("Delivery Point", style:
                           TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: blackColor),),
-                          Text("₹ ${completedOrderList[openAndCompletedIndex].payAmount}", style:
+                          Text("₹ ${completedOrderList[openAndCompletedIndex].amount}", style:
                           TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: blackColor),)
                         ],),
-                      Text("${completedOrderList[openAndCompletedIndex].address} ${completedOrderList[openAndCompletedIndex].city} ${completedOrderList[openAndCompletedIndex].statename} ${completedOrderList[openAndCompletedIndex].pin}",
+                      Text("${completedOrderList[openAndCompletedIndex].shippingTo}",
                         style: TextStyle(fontSize: 14,color: blackColor),),
                       SizedBox(height: 5,),
                       // Text("Delivery Point", style:
@@ -209,7 +240,7 @@ class OrderView extends GetView<OrderController> {
             )
                 :Padding(
               padding: EdgeInsets.only(top: Get.height /3),
-              child: Text("You haven't completed any orders yet. Once you finish a delivery, It will appear here.", textAlign: TextAlign.center,),);
+              child: Text("No orders found for the selected date please change the date or you haven't completed any orders yet. Once you finish a delivery, It will appear here.", textAlign: TextAlign.center,),);
           }
 
           }),

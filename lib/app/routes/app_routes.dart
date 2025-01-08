@@ -18,6 +18,7 @@ abstract class Routes {
   static const DRIVER_NOTIFICATION = _Paths.DRIVER_NOTIFICATION;
   // static const OUTLIE_ADD_DELIVERY_BOY = _Paths.OUTLIE_ADD_DELIVERY_BOY;
   // static const OUTLET_PROFILE = _Paths.OUTLET_PROFILE;
+  static const ORDER_REPORT = _Paths.ORDER_REPORT;
 }
 
 abstract class _Paths {
@@ -37,4 +38,5 @@ abstract class _Paths {
   static const DRIVER_NOTIFICATION = '/driver-notification';
   // static const OUTLIE_ADD_DELIVERY_BOY = '/outlie-add-delivery-boy';
   // static const OUTLET_PROFILE = '/outlet-profile';
+  static const ORDER_REPORT = '/order-report';
 }

@@ -4,11 +4,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/data/models/otp_model.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/data/services/shared_preference_service.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/constants/constants.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/routes/app_pages.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/modules/verifyPhoneNumber/controllers/verify_phone_number_controller.dart';
+import 'package:mak_life_delivery/app/data/models/otp_model.dart';
+import 'package:mak_life_delivery/app/data/services/shared_preference_service.dart';
+import 'package:mak_life_delivery/app/constants/constants.dart';
+import 'package:mak_life_delivery/app/routes/app_pages.dart';
+import 'package:mak_life_delivery/app/modules/verifyPhoneNumber/controllers/verify_phone_number_controller.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../data/repos/auth_repo.dart';

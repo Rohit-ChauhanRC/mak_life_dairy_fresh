@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/data/models/get_assigned_order_model.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/data/repos/delivery_order_repo.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/data/services/shared_preference_service.dart';
+import 'package:mak_life_delivery/app/data/models/get_assigned_order_model.dart';
+import 'package:mak_life_delivery/app/data/repos/delivery_order_repo.dart';
+import 'package:mak_life_delivery/app/data/services/shared_preference_service.dart';
 
 import '../../../../utils/alert_popup_utils.dart';
 

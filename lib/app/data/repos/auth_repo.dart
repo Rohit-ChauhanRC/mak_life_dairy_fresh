@@ -1,5 +1,5 @@
-import 'package:mak_life_dairy_fresh_delivery/app/data/services/shared_preference_service.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/utils/alert_popup_utils.dart';
+import 'package:mak_life_delivery/app/data/services/shared_preference_service.dart';
+import 'package:mak_life_delivery/app/utils/alert_popup_utils.dart';
 
 import '../services/api_service.dart';
 import 'package:dio/dio.dart';

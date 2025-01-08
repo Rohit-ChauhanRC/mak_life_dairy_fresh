@@ -35,7 +35,7 @@ void showAlertMessage( String message) {
 }
 
 void showAlertForPickUp(BuildContext context, String message,
-    OrderDetailsController orderDetailsController, int oderId) {
+    OrderDetailsController orderDetailsController, String orderId) {
   showDialog(
       context: context,
       builder: (BuildContext context) => CupertinoAlertDialog(
@@ -44,8 +44,9 @@ void showAlertForPickUp(BuildContext context, String message,
         actions: <Widget>[
           CupertinoDialogAction(
             onPressed: () {
-              orderDetailsController.orderCurrentStatusName = "TRANSIT";
+              // orderDetailsController.orderCurrentStatusName = "TRANSIT";
               Get.back();
+              orderDetailsController.updateOrderStatusAPI(orderId, "T");
               // orderProvider
               //     .getOrderListApiCall(context, oderId ?? 0, 0,
               //     userDefault.read(USERID), 0, "", 1);

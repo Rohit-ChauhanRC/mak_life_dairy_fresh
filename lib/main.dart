@@ -6,7 +6,7 @@ import 'app/data/services/shared_preference_service.dart';
 
 import 'app/routes/app_pages.dart';
 import 'get_di.dart' as di;
-import 'package:mak_life_dairy_fresh_delivery/app/constants/constants.dart';
+import 'package:mak_life_delivery/app/constants/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

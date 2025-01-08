@@ -1,5 +1,5 @@
 import 'package:dio/src/response.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/data/services/api_service.dart';
+import 'package:mak_life_delivery/app/data/services/api_service.dart';
 
 import '../../constants/constants.dart';
 import '../../utils/alert_popup_utils.dart';
@@ -42,7 +42,7 @@ class DeliveryOrderRepository{
     try{
       final params = {
         "DeliveryBoyId":getDeliveryBoyId(),
-        "OrderId":"O000000002",
+        "OrderId": orderId,
         "Status": statusCode
       };
       return await apiService.post('/api/OrderShipped',data: params);

@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/constants/colors.dart';
+import 'package:mak_life_delivery/app/constants/colors.dart';
 
 import '../../../constants/constants.dart';
 import '../controllers/verify_phone_number_controller.dart';

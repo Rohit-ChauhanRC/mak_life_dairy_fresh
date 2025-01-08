@@ -1,11 +1,8 @@
-import 'dart:convert';
 
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/routes/app_pages.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/utils/utils.dart';
-import 'package:mak_life_dairy_fresh_delivery/app/constants/api_constant.dart';
+import 'package:mak_life_delivery/app/routes/app_pages.dart';
 
 import '../../../data/repos/auth_repo.dart';
 import '../../../utils/alert_popup_utils.dart';

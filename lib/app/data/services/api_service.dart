@@ -22,13 +22,13 @@ class ApiService {
     _dio.interceptors.add(
       dio.InterceptorsWrapper(
         onRequest: (options, handler) {
-          print('Request[${options.method}] => PATH: ${options.path}');
+          print('API Request[${options.method}] => PATH: ${options.path}');
           print(
-              'Request[${options.method}] => QUERY PARAMETERS: ${options.queryParameters}');
+              'API Request[${options.method}] => QUERY PARAMETERS: ${options.queryParameters}');
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          print('Response[${response.statusCode}] => DATA: ${response.data}');
+          print('API Response[${response.statusCode}] => DATA: ${response.data}');
           return handler.next(response);
         },
         onError: (dio.DioException error, handler) {
@@ -53,6 +53,7 @@ class ApiService {
   // POST Method
   Future<dio.Response?> post(String endpoint, {dynamic data}) async {
     try {
+      print("API BODY: $data");
       final response = await _dio.post(endpoint, data: data);
       return response;
     } catch (e) {

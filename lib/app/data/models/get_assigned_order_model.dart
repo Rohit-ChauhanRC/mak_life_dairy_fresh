@@ -10,56 +10,64 @@ String getAssignedOrderModelToJson(List<GetAssignedOrderModel> data) => json.enc
 
 class GetAssignedOrderModel {
   String? orderId;
+  String? names;
   String? orderDate;
-  double? payAmount;
-  String? paymentOrderId;
-  String? name;
-  String? mobileNo;
-  String? address;
-  String? city;
-  String? pin;
-  String? statename;
+  String? assignDate;
+  String? amount;
+  String? shippingFrom;
+  String? shippingTo;
+  String? deliveryBoy;
+  String? deliveryBoyMobile;
+  String? time;
+  String? custMobile;
+  String? paymentStatus;
   String? status;
 
   GetAssignedOrderModel({
     this.orderId,
+    this.names,
     this.orderDate,
-    this.payAmount,
-    this.paymentOrderId,
-    this.name,
-    this.mobileNo,
-    this.address,
-    this.city,
-    this.pin,
-    this.statename,
+    this.assignDate,
+    this.amount,
+    this.shippingFrom,
+    this.shippingTo,
+    this.deliveryBoy,
+    this.deliveryBoyMobile,
+    this.time,
+    this.custMobile,
+    this.paymentStatus,
     this.status,
   });
 
   factory GetAssignedOrderModel.fromJson(Map<String, dynamic> json) => GetAssignedOrderModel(
     orderId: json["OrderId"],
+    names: json["Names"],
     orderDate: json["OrderDate"],
-    payAmount: json["PayAmount"],
-    paymentOrderId: json["PaymentOrderId"],
-    name: json["Name"],
-    mobileNo: json["MobileNo"],
-    address: json["Address"],
-    city: json["City"],
-    pin: json["Pin"],
-    statename: json["Statename"],
+    assignDate: json["AssignDate"],
+    amount: json["Amount"],
+    shippingFrom: json["ShippingFrom"],
+    shippingTo: json["ShippingTo"],
+    deliveryBoy: json["DeliveryBoy"],
+    deliveryBoyMobile: json["DeliveryBoyMobile"],
+    time: json["Time"],
+    custMobile: json["CustMobile"],
+    paymentStatus: json["PaymentStatus"],
     status: json["Status"],
   );
 
   Map<String, dynamic> toJson() => {
     "OrderId": orderId,
+    "Names": names,
     "OrderDate": orderDate,
-    "PayAmount": payAmount,
-    "PaymentOrderId": paymentOrderId,
-    "Name": name,
-    "MobileNo": mobileNo,
-    "Address": address,
-    "City": city,
-    "Pin": pin,
-    "Statename": statename,
+    "AssignDate": assignDate,
+    "Amount": amount,
+    "ShippingFrom": shippingFrom,
+    "ShippingTo": shippingTo,
+    "DeliveryBoy": deliveryBoy,
+    "DeliveryBoyMobile": deliveryBoyMobile,
+    "Time": time,
+    "CustMobile": custMobile,
+    "PaymentStatus": paymentStatus,
     "Status": status,
   };
 }
