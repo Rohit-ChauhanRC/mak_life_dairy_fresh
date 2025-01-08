@@ -127,7 +127,7 @@ class NewOrder extends StatelessWidget {
                         ),
                         RichText(
                           text: TextSpan(
-                            text: "Date & Time: ",
+                            text: "Order Date & Time: ",
                             style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,

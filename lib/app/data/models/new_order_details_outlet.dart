@@ -34,29 +34,31 @@ class NewOrderDetailOutletModel {
   String? orderFlag;
   String? time;
   String? paymentStatus;
+  String? mrp;
 
-  NewOrderDetailOutletModel({
-    this.orderId,
-    this.orderDate,
-    this.productCode,
-    this.product,
-    this.quantity,
-    this.payAmount,
-    this.paymentOrderId,
-    this.customerName,
-    this.mobileNo,
-    this.customerAddress,
-    this.shippedFrom,
-    this.latt,
-    this.long,
-    this.status,
-    required bool isChecked,
-    this.discountAmt,
-    this.imagePath,
-    this.orderFlag,
-    this.paymentStatus,
-    this.time,
-  }) : isChecked = RxBool(isChecked);
+  NewOrderDetailOutletModel(
+      {this.orderId,
+      this.orderDate,
+      this.productCode,
+      this.product,
+      this.quantity,
+      this.payAmount,
+      this.paymentOrderId,
+      this.customerName,
+      this.mobileNo,
+      this.customerAddress,
+      this.shippedFrom,
+      this.latt,
+      this.long,
+      this.status,
+      required bool isChecked,
+      this.discountAmt,
+      this.imagePath,
+      this.orderFlag,
+      this.paymentStatus,
+      this.time,
+      this.mrp})
+      : isChecked = RxBool(isChecked);
 
   factory NewOrderDetailOutletModel.fromJson(Map<String, dynamic> json) =>
       NewOrderDetailOutletModel(
@@ -80,6 +82,7 @@ class NewOrderDetailOutletModel {
         orderFlag: json["OrderFlag"],
         paymentStatus: json["PaymentStatus"],
         time: json["Time"],
+        mrp: json["Mrp"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -102,5 +105,6 @@ class NewOrderDetailOutletModel {
         "Time": time,
         "PaymentStatus": paymentStatus,
         "ImagePath": imagePath,
+        "Mrp": mrp,
       };
 }

@@ -183,8 +183,8 @@ class OutletOrderView extends GetView<OutletOrderController> {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: controller
-                                            .newOrderDetail.first.orderDate,
+                                        text:
+                                            "${controller.newOrderDetail.first.orderDate}\t\t\t${Utils.timeFormated(controller.newOrderDetail.first.time!)}",
                                         style: const TextStyle(
                                           color: Colors.red,
                                           fontSize: 12,
@@ -201,8 +201,28 @@ class OutletOrderView extends GetView<OutletOrderController> {
                     )
                   : const SizedBox()),
             ),
+            Obx(() => controller.orderView.value == OrderEnum.preparing
+                ? Container(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                        ),
+                        onPressed: () {
+                          controller.selectAllToggle();
+                        },
+                        child: const Text(
+                          "Select All",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        )),
+                  )
+                : const SizedBox()),
             Container(
-              margin: const EdgeInsets.only(top: 10),
+              // margin: const EdgeInsets.only(top: 10),
               height: Get.height * 0.40,
               width: Get.width,
               decoration: BoxDecoration(
@@ -308,7 +328,7 @@ class OutletOrderView extends GetView<OutletOrderController> {
                                     ),
                                     RichText(
                                       text: TextSpan(
-                                        text: "Net Amount: ",
+                                        text: "MRP: ",
                                         style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
@@ -317,7 +337,7 @@ class OutletOrderView extends GetView<OutletOrderController> {
                                         children: [
                                           TextSpan(
                                             text:
-                                                "₹${controller.newOrderDetail[i].payAmount}",
+                                                "₹${controller.newOrderDetail[i].mrp}/-",
                                             style: const TextStyle(
                                               color: Colors.red,
                                               fontSize: 12,
@@ -334,7 +354,7 @@ class OutletOrderView extends GetView<OutletOrderController> {
                                             0.0
                                         ? RichText(
                                             text: TextSpan(
-                                              text: "Discount: ",
+                                              text: "Disc. Amt: ",
                                               style: const TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
@@ -343,7 +363,7 @@ class OutletOrderView extends GetView<OutletOrderController> {
                                               children: [
                                                 TextSpan(
                                                   text:
-                                                      "₹${controller.newOrderDetail[i].discountAmt}",
+                                                      "₹${controller.newOrderDetail[i].discountAmt}/-",
                                                   style: const TextStyle(
                                                     color: Colors.red,
                                                     fontSize: 12,
@@ -355,29 +375,29 @@ class OutletOrderView extends GetView<OutletOrderController> {
                                         : const SizedBox(),
                                   ],
                                 ),
-
                                 const SizedBox(
                                   height: 5,
                                 ),
-                                // RichText(
-                                //   text: const TextSpan(
-                                //     text: "CGST/SGST: ",
-                                //     style: TextStyle(
-                                //       color: Colors.black,
-                                //       fontWeight: FontWeight.bold,
-                                //       fontSize: 12,
-                                //     ),
-                                //     children: [
-                                //       TextSpan(
-                                //         text: "₹97/-",
-                                //         style: TextStyle(
-                                //           color: Colors.red,
-                                //           fontSize: 12,
-                                //         ),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: "Net Amount: ",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            "₹${controller.newOrderDetail[i].payAmount}/-",
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           );

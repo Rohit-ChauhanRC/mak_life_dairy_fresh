@@ -299,30 +299,34 @@ class ApprovedOrder extends StatelessWidget {
                     itemBuilder: (ctx, i) {
                       final boy = adminDashboardController.driverList[i];
 
-                      return Obx(() => InkWell(
-                          onTap: () {
-                            if (boy.status! == "Available") {
-                              adminDashboardController
-                                  .selectDeliveryBoy(boy.deliveryBoyId!);
-                            }
-                          },
+                      return InkWell(
+                          onTap: boy!.status == "Available"
+                              ? () {
+                                  if (boy.status! == "Available") {
+                                    adminDashboardController
+                                        .selectDeliveryBoy(boy.deliveryBoyId!);
+                                  }
+                                }
+                              : null,
                           child: Card(
-                              color: adminDashboardController
-                                      .deliveryIds.isNotEmpty
-                                  ? (adminDashboardController
-                                                  .deliveryIds.first ==
-                                              boy!.deliveryBoyId) ==
-                                          true
-                                      ? Colors.grey
+                              color: (boy.status! == "Available")
+                                  ? adminDashboardController
+                                          .deliveryIds.isNotEmpty
+                                      ? (adminDashboardController
+                                                      .deliveryIds.first ==
+                                                  boy.deliveryBoyId) ==
+                                              true
+                                          ? Colors.grey
+                                          : Colors.green
                                       : Colors.green
-                                  : Colors.green,
+                                  : Colors.grey,
                               elevation: 10,
                               child: Container(
                                 padding: const EdgeInsets.all(10),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Obx(() => boy!.status! == "Available"
+                                    boy.status == "Available"
                                         ? SizedBox(
                                             height: 25,
                                             // width: 150,
@@ -336,7 +340,7 @@ class ApprovedOrder extends StatelessWidget {
                                                     fontSize: 12,
                                                   ),
                                                 ),
-                                                Checkbox(
+                                                Obx(() => Checkbox(
                                                     activeColor: Colors.green,
                                                     value: adminDashboardController
                                                             .deliveryIds
@@ -352,26 +356,17 @@ class ApprovedOrder extends StatelessWidget {
                                                       adminDashboardController
                                                           .selectDeliveryBoy(boy
                                                               .deliveryBoyId!);
-                                                    }),
+                                                    })),
                                               ],
                                             ),
                                           )
-                                        : SizedBox(
-                                            child: Text(
-                                              boy.status!,
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          )),
+                                        : const SizedBox(),
                                     // Image.asset(
                                     //   "assets/logo.png",
                                     //   height: 20,
                                     // ),
                                     Text(
-                                      boy!.deliveryBoy!,
+                                      boy.deliveryBoy!,
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -396,7 +391,7 @@ class ApprovedOrder extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                              ))));
+                              )));
                     })
                 : const SizedBox()),
           ),

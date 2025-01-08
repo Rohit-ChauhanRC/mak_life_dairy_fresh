@@ -77,6 +77,18 @@ class OutletOrderController extends GetxController {
     // update();
   }
 
+  void selectAllToggle() {
+    for (var item in newOrderDetail) {
+      item.isChecked.value = true;
+      if (!listOfIds.contains(item.productCode)) {
+        listOfIds.add(item.productCode.toString());
+        totalAmount += double.parse(item.payAmount.toString());
+      }
+    }
+
+    // update();
+  }
+
   void getOrderDetails() async {
     try {
       newOrderDetail = (await outletRepo.getNewOrderDetails(id))!;
