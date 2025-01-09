@@ -1,12 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -21,6 +18,12 @@ class HomeView extends GetView<HomeController> {
       // },
       canPop: false,
       onPopInvokedWithResult: (didPop, b) async {
+        // controller.count = controller.count + 1;
+        // debugPrint("controller.count: ${controller.count}");
+        // if (controller.count == 3) {
+        //   controller.showExitConfirmationDialog(Get.context!);
+        //   // controller.count = 0;
+        // }
         controller.onWillPop();
         // logic
         // if (didPop) {
