@@ -85,11 +85,11 @@ class DeliveryDashboardView extends GetView<DeliveryDashboardController> {
                   child: ListView.builder(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
-                      reverse: true,
+                      // reverse: true,
                       physics: AlwaysScrollableScrollPhysics(),
                       itemCount: controller.getOpenOrders.length,
                       itemBuilder: (context,openOrderIndex){
-                        var openOrders = controller.getOpenOrders[openOrderIndex];
+                        var openOrders = controller.getOpenOrders.reversed.toList()[openOrderIndex];
                         return InkWell(
                           onTap: (){
                             Get.toNamed(Routes.ORDER_DETAILS, arguments: openOrders.orderId);

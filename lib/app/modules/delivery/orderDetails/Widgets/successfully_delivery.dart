@@ -24,7 +24,7 @@ class _SuccessfullyDeliveryState extends State<SuccessfullyDelivery> {
           children: [
             Image.asset("assets/dropOrder.png",height: 180,width: 180,),
             const Text("Order delivered successfully",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 24,color: blackColor),),
-            Text("Order ${widget.orderID}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: blackColor)),
+            Text("Order No.: ${widget.orderID}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: blackColor)),
             SizedBox(height: 10,),
             ElevatedButton(
               onPressed: () {

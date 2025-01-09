@@ -15,7 +15,11 @@ class GetAssignedOrderModel {
   String? assignDate;
   String? amount;
   String? shippingFrom;
+  double? shippingLatt;
+  double? shippingLong;
   String? shippingTo;
+  double? pickupLatt;
+  double? pickupLong;
   String? deliveryBoy;
   String? deliveryBoyMobile;
   String? time;
@@ -30,7 +34,11 @@ class GetAssignedOrderModel {
     this.assignDate,
     this.amount,
     this.shippingFrom,
+    this.shippingLatt,
+    this.shippingLong,
     this.shippingTo,
+    this.pickupLatt,
+    this.pickupLong,
     this.deliveryBoy,
     this.deliveryBoyMobile,
     this.time,
@@ -46,7 +54,11 @@ class GetAssignedOrderModel {
     assignDate: json["AssignDate"],
     amount: json["Amount"],
     shippingFrom: json["ShippingFrom"],
+    shippingLatt: json["ShippingLatt"]?.toDouble(),
+    shippingLong: json["shippingLong"]?.toDouble(),
     shippingTo: json["ShippingTo"],
+    pickupLatt: json["PickupLatt"]?.toDouble(),
+    pickupLong: json["PickupLong"]?.toDouble(),
     deliveryBoy: json["DeliveryBoy"],
     deliveryBoyMobile: json["DeliveryBoyMobile"],
     time: json["Time"],
@@ -62,7 +74,11 @@ class GetAssignedOrderModel {
     "AssignDate": assignDate,
     "Amount": amount,
     "ShippingFrom": shippingFrom,
+    "ShippingLatt": shippingLatt,
+    "shippingLong": shippingLong,
     "ShippingTo": shippingTo,
+    "PickupLatt": pickupLatt,
+    "PickupLong": pickupLong,
     "DeliveryBoy": deliveryBoy,
     "DeliveryBoyMobile": deliveryBoyMobile,
     "Time": time,

@@ -216,6 +216,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
               Obx(()=> Visibility(
                   visible: controller.isPaymentDetailVisible,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -235,15 +236,15 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                       //     Text("₹ 200.00", style:
                       //     TextStyle(fontSize: 14, fontWeight: FontWeight.w700),)
                       //   ],),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Discount", style:
-                          TextStyle(fontSize: 14,fontWeight: FontWeight.w700),),
-                          Text("₹ -${controller.getAssignedOrderDetails.orderDiscount}", style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w700),)
-                        ],),
+                      // SizedBox(height: 10,),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Text("Discount", style:
+                      //     TextStyle(fontSize: 14,fontWeight: FontWeight.w700),),
+                      //     Text("₹ -${controller.getAssignedOrderDetails.orderDiscount}", style:
+                      //     TextStyle(fontSize: 14, fontWeight: FontWeight.w700),)
+                      //   ],),
                       SizedBox(height: 10,),
                       Divider(height: 1,color: Colors.grey,),
                       SizedBox(height: 10,),
@@ -255,6 +256,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                           Text("₹ ${controller.getAssignedOrderDetails.orderAmount}", style:
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w700),)
                         ],),
+                      Text("*Including Delivery charges", style: TextStyle(fontSize: 8, fontWeight: FontWeight.w400, color: blackColor),),
                       SizedBox(height: 10,),
                       Divider(height: 1,color: Colors.grey,),
                     ],
@@ -318,7 +320,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                               reverse: true,
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
-                              physics: AlwaysScrollableScrollPhysics(),
+                              physics: NeverScrollableScrollPhysics(),
                               itemCount: controller.getAssignedOrderDetails.notes?.length,
                               itemBuilder: (context, notesIndex){
                                 var orderUpdateDetails = controller.getAssignedOrderDetails.notes?[notesIndex];
@@ -352,7 +354,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text("${orderUpdateDetails?.action}",style:
+                                                  Text("${orderUpdateDetails?.action?[0].toUpperCase()}${orderUpdateDetails?.action?.substring(1).toLowerCase()} ",style:
                                                   TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
                                                   Text(Utils.formatIsoDateTime(isoDateTime: orderUpdateDetails!.createdDate.toString()),style:
                                                   TextStyle(fontSize: 10,fontWeight: FontWeight.bold),)

@@ -90,7 +90,7 @@ class DeliveryDrawer extends StatelessWidget {
               Get.toNamed(Routes.ORDER_REPORT);
             },
             title: const Text(
-              "Order Report",
+              "Compliance Report",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: Colors.white,

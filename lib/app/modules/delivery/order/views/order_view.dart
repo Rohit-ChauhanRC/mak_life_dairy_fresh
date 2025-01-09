@@ -112,7 +112,7 @@ class OrderView extends GetView<OrderController> {
             return openOrderList.isNotEmpty ?
             InkWell(
               onTap: (){
-                Get.toNamed(Routes.ORDER_DETAILS, arguments: openOrderList[openAndCompletedIndex].orderId);
+                Get.toNamed(Routes.ORDER_DETAILS, arguments: openOrderList.reversed.toList()[openAndCompletedIndex].orderId);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -129,9 +129,9 @@ class OrderView extends GetView<OrderController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("${openOrderList[openAndCompletedIndex].orderId}", style:
+                          Text("${openOrderList.reversed.toList()[openAndCompletedIndex].orderId}", style:
                           TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: blackColor),),
-                          Text("${openOrderList[openAndCompletedIndex].status}", style:
+                          Text("${openOrderList.reversed.toList()[openAndCompletedIndex].status}", style:
                           TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.green),)
                         ],),
                       SizedBox(height: 5,),
@@ -143,12 +143,12 @@ class OrderView extends GetView<OrderController> {
                             child: Center(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10,right: 10,top: 3,bottom: 3),
-                                child: Text("${openOrderList[openAndCompletedIndex].paymentStatus}", style:
+                                child: Text("${openOrderList.reversed.toList()[openAndCompletedIndex].paymentStatus}", style:
                                 TextStyle(fontSize: 9,fontWeight: FontWeight.bold,color: blackColor),),
                               ),
                             ),
                           ),
-                          Text(Utils.formatDateTime(date: "${openOrderList[openAndCompletedIndex].orderDate}", time: "${openOrderList[openAndCompletedIndex].time}"), style:
+                          Text(Utils.formatDateTime(date: "${openOrderList.reversed.toList()[openAndCompletedIndex].orderDate}", time: "${openOrderList.reversed.toList()[openAndCompletedIndex].time}"), style:
                           TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: blackColor),)
                         ],),
                       SizedBox(height: 8,),
@@ -157,10 +157,10 @@ class OrderView extends GetView<OrderController> {
                         children: [
                           Text("Delivery Point", style:
                           TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: blackColor),),
-                          Text("₹ ${openOrderList[openAndCompletedIndex].amount}", style:
+                          Text("₹ ${openOrderList.reversed.toList()[openAndCompletedIndex].amount}", style:
                           TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: blackColor),)
                         ],),
-                      Text("${openOrderList[openAndCompletedIndex].shippingTo}",
+                      Text("${openOrderList.reversed.toList()[openAndCompletedIndex].shippingTo}",
                         style: TextStyle(fontSize: 14,color: blackColor),),
                       SizedBox(height: 5,),
                       // Text("Delivery Point", style:
@@ -177,7 +177,7 @@ class OrderView extends GetView<OrderController> {
           else if(controller.isCompleteOrder){
             return completedOrderList.isNotEmpty? InkWell(
               onTap: (){
-                Get.toNamed(Routes.ORDER_DETAILS, arguments: completedOrderList[openAndCompletedIndex].orderId);
+                Get.toNamed(Routes.ORDER_DETAILS, arguments: completedOrderList.reversed.toList()[openAndCompletedIndex].orderId);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -196,9 +196,9 @@ class OrderView extends GetView<OrderController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("${completedOrderList[openAndCompletedIndex].orderId}", style:
+                          Text("${completedOrderList.reversed.toList()[openAndCompletedIndex].orderId}", style:
                           TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: blackColor),),
-                          Text("${completedOrderList[openAndCompletedIndex].status}", style:
+                          Text("${completedOrderList.reversed.toList()[openAndCompletedIndex].status}", style:
                           TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.green),)
                         ],),
                       SizedBox(height: 5,),
@@ -210,12 +210,12 @@ class OrderView extends GetView<OrderController> {
                             child: Center(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10,right: 10,top: 3,bottom: 3),
-                                child: Text("${completedOrderList[openAndCompletedIndex].paymentStatus}", style:
+                                child: Text("${completedOrderList.reversed.toList()[openAndCompletedIndex].paymentStatus}", style:
                                 TextStyle(fontSize: 9,fontWeight: FontWeight.bold,color: blackColor),),
                               ),
                             ),
                           ),
-                          Text(Utils.formatDateTime(date: "${completedOrderList[openAndCompletedIndex].orderDate}", time: "${completedOrderList[openAndCompletedIndex].time}"), style:
+                          Text(Utils.formatDateTime(date: "${completedOrderList.reversed.toList()[openAndCompletedIndex].orderDate}", time: "${completedOrderList.reversed.toList()[openAndCompletedIndex].time}"), style:
                           TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: blackColor),)
                         ],),
                       SizedBox(height: 8,),
@@ -224,10 +224,10 @@ class OrderView extends GetView<OrderController> {
                         children: [
                           Text("Delivery Point", style:
                           TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: blackColor),),
-                          Text("₹ ${completedOrderList[openAndCompletedIndex].amount}", style:
+                          Text("₹ ${completedOrderList.reversed.toList()[openAndCompletedIndex].amount}", style:
                           TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: blackColor),)
                         ],),
-                      Text("${completedOrderList[openAndCompletedIndex].shippingTo}",
+                      Text("${completedOrderList.reversed.toList()[openAndCompletedIndex].shippingTo}",
                         style: TextStyle(fontSize: 14,color: blackColor),),
                       SizedBox(height: 5,),
                       // Text("Delivery Point", style:

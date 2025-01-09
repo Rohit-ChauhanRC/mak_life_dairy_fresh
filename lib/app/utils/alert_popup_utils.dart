@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
 
 import '../../main.dart';
 import '../constants/colors.dart';
@@ -52,6 +53,31 @@ void showAlertForPickUp(BuildContext context, String message,
               //     userDefault.read(USERID), 0, "", 1);
             },
             child: Text("OK", style: TextStyle(color: appGreen)),
+          )
+        ],
+      ));
+}
+
+
+void showAlertFileSavedDialog(BuildContext context, String message, String filePath) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title:  const Text("Maklife Dairy Fresh"),
+        content:  Text(message, style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14, color: blackColor)),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            onPressed: () {
+              Get.back();
+            },
+            child: Text("Close", style: TextStyle(color: blackColor)),
+          ),
+          CupertinoDialogAction(
+            onPressed: () async{
+              Get.back();
+              await OpenFile.open(filePath);
+            },
+            child: Text("Open", style: TextStyle(color: appGreen)),
           )
         ],
       ));
