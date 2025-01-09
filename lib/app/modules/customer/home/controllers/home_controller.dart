@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -82,7 +83,13 @@ class HomeController extends GetxController {
 
   PullToRefreshController? pullToRefreshController;
 
-  final count = 0.obs;
+  // int backPressCounter = 0;
+  DateTime? lastBackPressTime;
+
+  final RxInt _count = 0.obs;
+  int get count => _count.value;
+  set count(int i) => _count.value = i;
+
   @override
   void onInit() async {
     super.onInit();
@@ -188,11 +195,14 @@ class HomeController extends GetxController {
               content: const Text('Are you sure you want to exit the app?'),
               actions: [
                 TextButton(
-                  onPressed: () => Navigator.of(context).pop(false),
+                  onPressed: () => {
+                    Navigator.of(context).pop(false),
+                    count = 0,
+                  },
                   child: const Text('Cancel'),
                 ),
                 TextButton(
-                  onPressed: () => Navigator.of(context).pop(true),
+                  onPressed: () => exit(0),
                   child: const Text('Exit'),
                 ),
               ],
@@ -252,5 +262,45 @@ class HomeController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<bool> onWillPop() async {
+    // final now = DateTime.now();
+
+    // Reset counter if time difference is more than 2 seconds
+    // if (lastBackPressTime == null ||
+    //     now.difference(lastBackPressTime!) > const Duration(seconds: 2)) {
+    //   count.value = 0;
+    // }
+    // count.value = 0;
+    // count = count + 1;
+
+    count = count + 1;
+    debugPrint("controller.count: $count");
+
+    // lastBackPressTime = now;
+    if (count == 3) {
+      showExitConfirmationDialog(Get.context!);
+      // exit(0); // Exit the app
+    }
+
+    // Check if WebView can go back
+    if (await webViewController!.canGoBack()) {
+      webViewController!.goBack();
+      return false; // Prevent app exit
+    }
+
+    // Increment back press counter
+    // count.value = count.value + 1;
+    //  else {
+    //   // final remaining = 3 - count.value;
+    //   // ScaffoldMessenger.of(Get.context!).showSnackBar(
+    //   //   SnackBar(
+    //   //     content: Text('Press back $remaining more time(s) to exit.'),
+    //   //     duration: const Duration(seconds: 1),
+    //   //   ),
+    //   // );
+    // }
+    return false; // Prevent app exit
   }
 }
