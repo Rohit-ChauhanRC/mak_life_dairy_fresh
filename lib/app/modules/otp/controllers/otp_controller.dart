@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:mak_life_dairy_fresh/app/data/models/otp_model.dart';
 import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
 import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
@@ -178,13 +177,13 @@ class OtpController extends GetxController {
   }
 
   Future<void> permisions() async {
-    await Permission.storage.request();
-    await Permission.camera.request();
-    await Permission.mediaLibrary.request();
-    await Permission.microphone.request();
-    await Permission.photos.request();
-    await Permission.notification.request();
-    await Permission.manageExternalStorage.request();
+    // await Permission.storage.request();
+    // await Permission.camera.request();
+    // await Permission.mediaLibrary.request();
+    // await Permission.microphone.request();
+    // await Permission.photos.request();
+    // await Permission.notification.request();
+    // await Permission.manageExternalStorage.request();
     await Permission.location.request();
     await Permission.locationWhenInUse.request();
     // await Permission.locationAlways.request();

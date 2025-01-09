@@ -22,7 +22,7 @@ dependencies:
   google_maps_flutter: ^2.10.0
   google_places_flutter: ^2.0.9
   http: ^1.2.2
-  image_picker: ^1.1.2
+#  image_picker: ^1.1.2
   intl: ^0.20.1
   location: ^7.0.1
   open_filex: ^4.5.0

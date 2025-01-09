@@ -169,7 +169,9 @@ class HomeController extends GetxController {
         url: url,
         headers: {},
         // optional: header send with url (auth token etc)
-        savedDir: (await getApplicationDocumentsDirectory()).path,
+        savedDir: (
+            Platform.isIOS ? await getApplicationDocumentsDirectory()
+                : Directory("/storage/emulated/0/Download")).path,
         saveInPublicStorage: true,
         showNotification: true,
         openFileFromNotification: true,
