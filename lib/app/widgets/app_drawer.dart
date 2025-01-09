@@ -28,9 +28,12 @@ class AppDrawer extends StatelessWidget {
                 Column(
                   children: [
                     CircleAvatar(
-                      radius: 70,
+                      radius: 80,
                       backgroundColor: Colors.green,
-                      backgroundImage: Image.asset("assets/logo.png").image,
+                      foregroundImage: Image.asset(
+                        "assets/outlet_logo.jpeg",
+                        fit: BoxFit.contain,
+                      ).image,
                     ),
                     const SizedBox(height: 20),
                     const Divider(color: Colors.white),

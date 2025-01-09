@@ -157,8 +157,8 @@ class OutletOrderView extends GetView<OutletOrderController> {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text:
-                                        controller.newOrderDetail.first.status,
+                                    text: controller.newOrderDetail.first
+                                        .status!.capitalizeFirst,
                                     style: const TextStyle(
                                       color: Colors.red,
                                       fontSize: 12,

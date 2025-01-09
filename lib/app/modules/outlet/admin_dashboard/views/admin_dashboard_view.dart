@@ -22,7 +22,7 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
         title: Row(
           children: [
             CircleAvatar(
-              backgroundImage: Image.asset("assets/logo.png").image,
+              backgroundImage: Image.asset("assets/outlet_logo.jpeg").image,
               radius: 20,
             ),
             const SizedBox(

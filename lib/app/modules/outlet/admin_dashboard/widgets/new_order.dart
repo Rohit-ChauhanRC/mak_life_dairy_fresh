@@ -159,7 +159,7 @@ class NewOrder extends StatelessWidget {
                             children: [
                               TextSpan(
                                 text:
-                                    "${adminDashboardController.newOrder.reversed.toList()[i]!.paymentStatus}",
+                                    "${adminDashboardController.newOrder.reversed.toList()[i]!.paymentStatus!.capitalizeFirst}",
                                 style: const TextStyle(
                                   color: Colors.red,
                                   fontSize: 12,

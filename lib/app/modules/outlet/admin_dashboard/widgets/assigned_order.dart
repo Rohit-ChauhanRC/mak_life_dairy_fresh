@@ -250,7 +250,8 @@ class AssignedOrder extends StatelessWidget {
                                       text: adminDashboardController
                                           .assignedOrder.reversed
                                           .toList()[i]!
-                                          .status,
+                                          .status!
+                                          .capitalizeFirst,
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
@@ -275,7 +276,8 @@ class AssignedOrder extends StatelessWidget {
                                       text: adminDashboardController
                                           .assignedOrder.reversed
                                           .toList()[i]!
-                                          .paymentStatus,
+                                          .paymentStatus!
+                                          .capitalizeFirst,
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,

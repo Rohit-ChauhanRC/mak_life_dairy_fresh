@@ -215,7 +215,8 @@ class ApprovedOrder extends StatelessWidget {
                                       text: adminDashboardController
                                           .verifiedOrder.reversed
                                           .toList()[i]!
-                                          .paymentStatus,
+                                          .paymentStatus!
+                                          .capitalizeFirst,
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
@@ -240,7 +241,8 @@ class ApprovedOrder extends StatelessWidget {
                                       text: adminDashboardController
                                           .verifiedOrder.reversed
                                           .toList()[i]!
-                                          .status,
+                                          .status!
+                                          .capitalizeFirst,
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,

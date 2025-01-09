@@ -100,7 +100,7 @@ class DeliveredOrder extends StatelessWidget {
                                   children: [
                                     TextSpan(
                                       text:
-                                          "${adminDashboardController.deliveredOrder.reversed.toList()[i]!.orderDate} \t\t${Utils.timeFormated(adminDashboardController.deliveredOrder.reversed.toList()[i]!.time!)}",
+                                          "${adminDashboardController.deliveredOrder.reversed.toList()[i]!.orderDate} ",
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
@@ -250,7 +250,8 @@ class DeliveredOrder extends StatelessWidget {
                                       text: adminDashboardController
                                           .deliveredOrder.reversed
                                           .toList()[i]!
-                                          .status,
+                                          .status!
+                                          .capitalizeFirst,
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
@@ -275,7 +276,8 @@ class DeliveredOrder extends StatelessWidget {
                                       text: adminDashboardController
                                           .deliveredOrder.reversed
                                           .toList()[i]!
-                                          .paymentStatus,
+                                          .paymentStatus!
+                                          .capitalizeFirst,
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
