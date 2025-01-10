@@ -69,6 +69,18 @@ class HomeView extends GetView<HomeController> {
                       initialSettings: controller.settings,
                       onWebViewCreated: (cx) {
                         controller.webViewController = cx;
+
+                        controller.webViewController!.addJavaScriptHandler(
+                          handlerName: "deletionAccount",
+                          callback: (args) {
+                            // Handle the call from JavaScript
+                            debugPrint(
+                                "JavaScript called Dart with arguments: $args");
+
+                            // Return a response to JavaScript
+                            return "Dart received: ${args[0]}";
+                          },
+                        );
                       },
                       onLoadStop: (cx, url) async {
                         controller.circularProgress = false;
@@ -97,16 +109,16 @@ class HomeView extends GetView<HomeController> {
                         const platform = MethodChannel(
                             "com.genmak.mak_life_dairy_fresh/upi");
 
-                        // if (!kIsWeb &&
-                        //     defaultTargetPlatform == TargetPlatform.iOS) {
-                        //   final shouldPerformDownload =
-                        //       navigationAction.shouldPerformDownload ?? false;
-                        //   final url = navigationAction.request.url;
-                        //   if (shouldPerformDownload && url != null) {
-                        //     await controller.downloadFile(url.toString());
-                        //     return NavigationActionPolicy.DOWNLOAD;
-                        //   }
-                        // }
+                        if (!kIsWeb &&
+                            defaultTargetPlatform == TargetPlatform.iOS) {
+                          final shouldPerformDownload =
+                              navigationAction.shouldPerformDownload ?? false;
+                          final url = navigationAction.request.url;
+                          if (shouldPerformDownload && url != null) {
+                            await controller.downloadFile(url.toString());
+                            return NavigationActionPolicy.DOWNLOAD;
+                          }
+                        }
                         // var url = navigationAction.request.url;
 
                         // if (url!.scheme == "upi" && url.path.contains("pay")) {
