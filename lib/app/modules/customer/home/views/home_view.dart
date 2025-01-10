@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:get/get.dart';
+import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -66,19 +69,52 @@ class HomeView extends GetView<HomeController> {
                       initialUrlRequest: URLRequest(
                           url: WebUri(
                               "https://plant.maklife.in:6028/Login/After_Login/${controller.userId.toString()}/${controller.latitude.value}/${controller.longitude.value}")),
+
+                      //               initialUrlRequest:
+                      //                   URLRequest(url: WebUri.uri(Uri.dataFromString("""
+                      //   <!DOCTYPE html>
+                      //   <html>
+                      //   <head>
+                      //     <title>Test</title>
+                      //     <h1>check</h1>
+                      //     <script>
+                      //       function callDart() {
+                      //         if (window.flutter_inappwebview) {
+                      //           window.flutter_inappwebview.callHandler('deletionAccount', 'Test Message')
+                      //             .then(response => alert('Response from Dart: ' + response))
+                      //             .catch(error => alert('Error: ' + error));
+                      //         } else {
+                      //           alert('flutter_inappwebview is not available');
+                      //         }
+                      //       }
+                      //     </script>
+                      //   </head>
+                      //   <body>
+                      //     <h1>Test Page</h1>
+                      //     <button onclick="callDart()">Call Dart</button>
+                      //   </body>
+                      //   </html>
+                      // """, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')))),
                       initialSettings: controller.settings,
                       onWebViewCreated: (cx) {
                         controller.webViewController = cx;
 
-                        controller.webViewController!.addJavaScriptHandler(
+                        cx.addJavaScriptHandler(
                           handlerName: "deletionAccount",
-                          callback: (args) {
+                          callback: (args) async {
+                            controller.sharedPreferenceService.clear();
                             // Handle the call from JavaScript
-                            debugPrint(
-                                "JavaScript called Dart with arguments: $args");
+                            // debugPrint(
+                            //     "JavaScript called Dart with arguments: $args");
 
-                            // Return a response to JavaScript
-                            return "Dart received: ${args[0]}";
+                            // // Return a response to JavaScript
+                            // return "Dart received: ${args[0]}";
+                            // if (await cx.canGoBack()) {
+                            //   cx.goBack();
+                            //   return true; // Prevent app exit
+                            // }
+
+                            Get.offAllNamed(Routes.VERIFY_PHONE_NUMBER);
                           },
                         );
                       },

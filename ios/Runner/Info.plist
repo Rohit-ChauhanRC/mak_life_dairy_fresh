@@ -56,6 +56,13 @@
 				<key>NSTemporaryExceptionMinimumTLSVersion</key>
 				<string>TLSv1.1</string>
 			</dict>
+			<key>https://plant.maklife.in:6030/</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 			<key>upi://pay?</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
