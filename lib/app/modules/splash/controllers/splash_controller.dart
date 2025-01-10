@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
-import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
+import 'package:mak_life_delivery/app/constants/constants.dart';
+import 'package:mak_life_delivery/app/data/services/shared_preference_service.dart';
 
 class SplashController extends GetxController {
   final sharedPreferenceService = Get.find<SharedPreferenceService>();

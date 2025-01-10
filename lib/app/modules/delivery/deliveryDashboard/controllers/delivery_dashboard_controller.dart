@@ -1,10 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
-import 'package:mak_life_dairy_fresh/app/data/models/get_assigned_order_model.dart';
-import 'package:mak_life_dairy_fresh/app/data/repos/delivery_order_repo.dart';
-import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
+import 'package:mak_life_delivery/app/data/models/get_assigned_order_model.dart';
+import 'package:mak_life_delivery/app/data/repos/delivery_order_repo.dart';
+import 'package:mak_life_delivery/app/data/services/shared_preference_service.dart';
 
 import '../../../../utils/alert_popup_utils.dart';
 
@@ -23,6 +23,8 @@ class DeliveryDashboardController extends GetxController {
   int get totalOpenOrder => _totalOpenOrder.value;
   set totalOpenOrder(int n) => _totalOpenOrder.value = n;
 
+  late StreamSubscription<List<GetAssignedOrderModel>> getAllOrderSubscription;
+
   final RxList<GetAssignedOrderModel> _getAllOrderList = <GetAssignedOrderModel>[].obs;
   List<GetAssignedOrderModel> get getAllOrderList => _getAllOrderList;
   set getAllOrderList(List<GetAssignedOrderModel> allOrderList) => _getAllOrderList.assignAll(allOrderList);
@@ -40,7 +42,7 @@ class DeliveryDashboardController extends GetxController {
   void onInit() {
     print("DeliveryBoyId:--------------> ${deliveryOrderRepository.getDeliveryBoyId()}");
     super.onInit();
-    getAssignedOrderAPI();
+    fetchAssignedOrderAPI();
   }
 
   @override
@@ -51,8 +53,26 @@ class DeliveryDashboardController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    getAllOrderSubscription.cancel();
   }
 
+  void fetchAssignedOrderAPI() {
+    getAllOrderSubscription = deliveryOrderRepository.apiService
+        .fetchNewOrderStream<GetAssignedOrderModel>(
+    endpoint: '/api/AssignOrdersToDeliveryBoy',
+    fromJson: (json) => GetAssignedOrderModel.fromJson(json),
+    query: {
+      "UserId": deliveryOrderRepository.getDeliveryBoyId()
+      // "UserId": 1005
+    }).listen((data) {
+    getAllOrderList.assignAll(data);
+    getOpenOrders = getAllOrderList.where((e) => e.status != "DELIVERED").toList();
+    totalOpenOrder = getOpenOrders.length;
+    getCompletedOrder = getAllOrderList.where((e) => e.status == "DELIVERED").toList();
+    });
+  }
+
+  //Onetime Future call API
   Future<void> getAssignedOrderAPI() async{
     try{
       circularProgress = false;
@@ -72,18 +92,5 @@ class DeliveryDashboardController extends GetxController {
     }
   }
 
-  Future<void> updateOrderStatusAPI(String orderId, String statusCode) async{
-    try{
-      circularProgress = false;
-      final response = await deliveryOrderRepository.updateOrderStatus(orderId, statusCode);
-      if(response != null && response.statusCode == 200){
-
-      }else {
-        showAlertMessage(json.decode(response?.data));
-      }
-    }finally{
-      circularProgress = true;
-    }
-  }
 
 }

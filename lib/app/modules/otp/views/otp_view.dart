@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh/app/constants/colors.dart';
+import 'package:mak_life_delivery/app/constants/colors.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../controllers/otp_controller.dart';

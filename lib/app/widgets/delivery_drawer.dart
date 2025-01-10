@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh/app/constants/colors.dart';
-import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
+import 'package:mak_life_delivery/app/constants/colors.dart';
+import 'package:mak_life_delivery/app/data/services/shared_preference_service.dart';
 
 import '../routes/app_pages.dart';
 
@@ -82,6 +82,22 @@ class DeliveryDrawer extends StatelessWidget {
               ),
             ),
             leading: ImageIcon(AssetImage("assets/order_icon.png"), color: whiteColor,),
+          ),
+          //Order Report
+          ListTile(
+            onTap: () {
+              Get.back();
+              Get.toNamed(Routes.ORDER_REPORT);
+            },
+            title: const Text(
+              "Compliance Report",
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
+            leading: Icon(Icons.file_copy_rounded, size: 30, color: whiteColor,),
           ),
           //Settings
           ListTile(

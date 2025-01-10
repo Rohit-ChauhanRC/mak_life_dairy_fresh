@@ -1,5 +1,5 @@
 import 'package:dio/src/response.dart';
-import 'package:mak_life_dairy_fresh/app/data/services/api_service.dart';
+import 'package:mak_life_delivery/app/data/services/api_service.dart';
 
 import '../../constants/constants.dart';
 import '../../utils/alert_popup_utils.dart';
@@ -14,9 +14,9 @@ class DeliveryOrderRepository{
   Future<Response?> getAssignOrder() async{
     try{
       final params = {
-        "DeliveryBoyId": 1001,
+        "UserId": getDeliveryBoyId(),
       };
-      return await apiService.get("/api/ViewAssignOrderlistStatus/ViewAssignOrderListStatus",query: params);
+      return await apiService.get("/api/AssignOrdersToDeliveryBoy",query: params);
     }catch(e){
       print('Error in getAssignOrder: $e');
       showAlertMessage("Error in getAssignOrder: $e");
@@ -24,14 +24,29 @@ class DeliveryOrderRepository{
     }
   }
 
-  Future<Response?> updateOrderStatus(String orderId,String statusCode ) async{
+  Future<Response?> getAssignedOrderDetails(String orderId) async{
+    try{
+      final params = {
+        "deliveryBoyId": getDeliveryBoyId(),
+        "OrderId": orderId
+      };
+      return await apiService.get("/api/Response",query: params);
+    }catch(e){
+      print('Error in getAssignOrder: $e');
+      showAlertMessage("Error in getAssignOrder: $e");
+      return null;
+    }
+  }
+
+  Future<Response?> updateOrderStatus(String orderId,String statusCode, String orderReceiverName) async{
     try{
       final params = {
         "DeliveryBoyId":getDeliveryBoyId(),
-        "OrderId":"O000000002",
-        "Status": statusCode
+        "OrderId": orderId,
+        "Status": statusCode,
+        "ReceiverName": orderReceiverName
       };
-      return await apiService.post('endpoint',data: params);
+      return await apiService.post('/api/OrderShipped',data: params);
     }catch(e){
       print('Error in updateOrderStatusAPI: $e');
       showAlertMessage("Error in updateOrderStatusAPI: $e");

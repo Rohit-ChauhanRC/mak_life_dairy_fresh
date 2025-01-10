@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart' as dio;
-import 'package:mak_life_dairy_fresh/app/utils/alert_popup_utils.dart';
 
 import '../../constants/api_constant.dart';
 
@@ -21,12 +22,13 @@ class ApiService {
     _dio.interceptors.add(
       dio.InterceptorsWrapper(
         onRequest: (options, handler) {
-          print('Request[${options.method}] => PATH: ${options.path}');
-          print('Request[${options.method}] => QUERY PARAMETERS: ${options.queryParameters}');
+          print('API Request[${options.method}] => PATH: ${options.path}');
+          print(
+              'API Request[${options.method}] => QUERY PARAMETERS: ${options.queryParameters}');
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          print('Response[${response.statusCode}] => DATA: ${response.data}');
+          print('API Response[${response.statusCode}] => DATA: ${response.data}');
           return handler.next(response);
         },
         onError: (dio.DioException error, handler) {
@@ -51,6 +53,7 @@ class ApiService {
   // POST Method
   Future<dio.Response?> post(String endpoint, {dynamic data}) async {
     try {
+      print("API BODY: $data");
       final response = await _dio.post(endpoint, data: data);
       return response;
     } catch (e) {
@@ -127,22 +130,130 @@ class ApiService {
 
     // Log the error
     // Get.snackbar('Error', errorMessage, snackPosition: SnackPosition.BOTTOM);
-    showAlertMessage(errorMessage);
+    // showAlertMessage(errorMessage);
     print('DioError: $errorMessage');
   }
 
   // Stream Function
-  Stream<dio.Response?> fetchStream<T>(String endpoint,
-      {Map<String, dynamic>? query,
-      Duration interval = const Duration(seconds: 5)}) async* {
-    while (true) {
+  // Generic Stream Function
+  // Stream<List<T>> fetchNewOrderStream<T>({
+  //   required String endpoint,
+  //   required T Function(Map<String, dynamic>) fromJson,
+  //   Map<String, dynamic>? query,
+  //   Duration interval = const Duration(seconds: 5),
+  // }) async* {
+
+  //   final controller = StreamController<List<T>>();
+  //   while (true) {
+  //     try {
+  //       final response = await get(endpoint,
+  //           query: query); // Using the `get` method from `ApiService`
+  //       if (response != null && response.statusCode == 200) {
+  //         final data = response.data;
+  //         if (data is List) {
+  //           // Emit the list of models by mapping the data through fromJson
+  //           yield data.map((item) => fromJson(item)).toList();
+  //         } else {
+  //           // Emit an empty list if the response data is not a list
+  //           yield [];
+  //         }
+  //       } else {
+  //         // Emit an empty list for non-200 responses
+  //         yield [];
+  //       }
+  //     } catch (e) {
+  //       // Handle errors by emitting an empty list
+  //       print('Error fetching data: $e');
+  //       yield [];
+  //     }
+
+  //     // Wait for the specified interval before fetching again
+  //     await Future.delayed(interval);
+  //   }
+  // }
+
+  Stream<List<T>> fetchNewOrderStream<T>({
+    required String endpoint,
+    required T Function(Map<String, dynamic>) fromJson,
+    Map<String, dynamic>? query,
+    Duration interval = const Duration(seconds: 5),
+  }) {
+    final controller = StreamController<List<T>>();
+    Timer? timer;
+
+    void fetchData() async {
       try {
-        final response = await _dio.get(endpoint, queryParameters: query);
-        yield response;
+        final response = await get(endpoint, query: query);
+        if (response != null && response.statusCode == 200) {
+          final data = response.data;
+          if (data is List) {
+            controller.add(data.map((item) => fromJson(item)).toList());
+          } else {
+            controller.add([]);
+          }
+        } else {
+          controller.add([]);
+        }
       } catch (e) {
-        yield null;
+        print('Error fetching data: $e');
+        controller.addError(e);
       }
-      await Future.delayed(interval);
+    }
+
+    // Start polling
+    timer = Timer.periodic(interval, (_) {
+      if (controller.isClosed) {
+        timer?.cancel(); // Stop polling when the stream is closed
+      } else {
+        fetchData();
+      }
+    });
+
+    // Close the timer and controller when the stream is closed
+    controller.onCancel = () {
+      timer?.cancel();
+      controller.close();
+    };
+
+    return controller.stream;
+  }
+
+  Future<T?> getMethod<T>({
+    required String endpoint,
+    Map<String, dynamic>? query,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    try {
+      final response = await _dio.get(endpoint, queryParameters: query);
+      if (response.statusCode == 200) {
+        return fromJson(response.data);
+      }
+      return null;
+    } catch (e) {
+      print('GET Error: $e');
+      return null;
+    }
+  }
+
+  Future<List<T>?> fetchList<T>({
+    required String endpoint,
+    Map<String, dynamic>? query,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    try {
+      final response = await _dio.get(endpoint, queryParameters: query);
+      if (response.statusCode == 200) {
+        final data = response.data;
+        if (data is List) {
+          // Return the list of models by mapping through the fromJson function
+          return data.map((item) => fromJson(item)).toList();
+        }
+        return [];
+      }
+      return [];
+    } catch (e) {
+      print('GET List Error: $e');
+      return null;
     }
   }
 }

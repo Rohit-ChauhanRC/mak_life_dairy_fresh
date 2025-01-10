@@ -4,8 +4,8 @@
 
     <domain-config cleartextTrafficPermitted="true">
 
-        <domain includeSubdomains="true">https://gtdemo.in/dkbapp1/</domain>
-        <!-- <domain includeSubdomains="true">http://app.maklife.in:8016/index.php</domain> -->
+<!--        <domain includeSubdomains="true">https://gtdemo.in/dkbapp1/</domain>-->
+         <domain includeSubdomains="true">http://app.maklife.in:8016/index.php</domain>
 
     </domain-config>
     <base-config cleartextTrafficPermitted="true">
