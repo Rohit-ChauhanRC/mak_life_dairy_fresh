@@ -206,8 +206,8 @@ class OutletOrderView extends GetView<OutletOrderController> {
                     alignment: Alignment.centerRight,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                        ),
+                            backgroundColor: Colors.green,
+                            fixedSize: Size(150, 20)),
                         onPressed: () {
                           controller.selectAllToggle();
                         },
@@ -223,7 +223,7 @@ class OutletOrderView extends GetView<OutletOrderController> {
                 : const SizedBox()),
             Container(
               // margin: const EdgeInsets.only(top: 10),
-              height: Get.height * 0.40,
+              height: Get.height * 0.38,
               width: Get.width,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),

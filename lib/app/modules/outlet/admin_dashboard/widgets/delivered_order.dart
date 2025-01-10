@@ -100,7 +100,7 @@ class DeliveredOrder extends StatelessWidget {
                                   children: [
                                     TextSpan(
                                       text:
-                                          "${adminDashboardController.deliveredOrder.reversed.toList()[i]!.orderDate} ",
+                                          "${Utils.dateChg(adminDashboardController.deliveredOrder.reversed.toList()[i]!.orderDate!)} ",
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
@@ -122,10 +122,11 @@ class DeliveredOrder extends StatelessWidget {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: adminDashboardController
-                                          .deliveredOrder.reversed
-                                          .toList()[i]!
-                                          .deliveredDate,
+                                      text: Utils.dateChg(
+                                          adminDashboardController
+                                              .deliveredOrder.reversed
+                                              .toList()[i]!
+                                              .deliveredDate!),
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,

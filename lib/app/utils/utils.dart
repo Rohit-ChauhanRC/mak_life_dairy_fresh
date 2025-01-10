@@ -245,4 +245,17 @@ class Utils {
     String formattedTime = DateFormat("hh:mm a").format(parsedTime);
     return formattedTime;
   }
+
+  static dateChg(String date) {
+    DateFormat inputFormat = DateFormat("M/d/yyyy h:mm:ss a");
+    DateTime dateTime = inputFormat.parse(date);
+
+    // Format the DateTime object into the desired format
+    DateFormat outputFormat = DateFormat("MMM d yyyy  h:mm a");
+    String formattedDate = outputFormat.format(dateTime);
+
+    // Print the result
+    debugPrint(formattedDate); // Output: Jan 9 2025  2:31 PM
+    return formattedDate;
+  }
 }

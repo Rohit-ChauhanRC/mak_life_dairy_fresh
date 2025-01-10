@@ -100,7 +100,7 @@ class AssignedOrder extends StatelessWidget {
                                   children: [
                                     TextSpan(
                                       text:
-                                          "${adminDashboardController.assignedOrder.reversed.toList()[i]!.orderDate} \t\t${Utils.timeFormated(adminDashboardController.assignedOrder.reversed.toList()[i]!.time!)}",
+                                          "${Utils.dateChg(adminDashboardController.assignedOrder.reversed.toList()[i]!.orderDate!)}",
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
@@ -122,10 +122,11 @@ class AssignedOrder extends StatelessWidget {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: adminDashboardController
-                                          .assignedOrder.reversed
-                                          .toList()[i]!
-                                          .assingDate,
+                                      text: Utils.dateChg(
+                                          adminDashboardController
+                                              .assignedOrder.reversed
+                                              .toList()[i]!
+                                              .assingDate!),
                                       style: const TextStyle(
                                         color: Colors.red,
                                         fontSize: 12,
