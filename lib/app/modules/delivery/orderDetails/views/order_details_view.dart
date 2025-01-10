@@ -43,6 +43,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                     children: [
                       GestureDetector(
                           onTap: (){
+                            controller.redirectToGoogleMaps(controller.pickUpPosition);
                             controller.updateCameraPosition(controller.pickUpPosition);
                           },
                           child: Icon(Icons.location_on_outlined,color: Colors.red,)),
@@ -70,6 +71,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                     children: [
                       GestureDetector(
                           onTap: (){
+                            controller.redirectToGoogleMaps(controller.destinationPosition);
                             controller.updateCameraPosition(controller.destinationPosition);
                           },
                           child: Icon(Icons.location_on_outlined,color: Colors.green,)),

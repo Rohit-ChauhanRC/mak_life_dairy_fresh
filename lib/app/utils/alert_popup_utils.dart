@@ -47,7 +47,7 @@ void showAlertForPickUp(BuildContext context, String message,
             onPressed: () {
               // orderDetailsController.orderCurrentStatusName = "TRANSIT";
               Get.back();
-              orderDetailsController.updateOrderStatusAPI(orderId, "T");
+              orderDetailsController.updateOrderStatusAPI(orderId, "T","");
               // orderProvider
               //     .getOrderListApiCall(context, oderId ?? 0, 0,
               //     userDefault.read(USERID), 0, "", 1);

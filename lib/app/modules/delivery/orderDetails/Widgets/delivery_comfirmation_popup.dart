@@ -74,7 +74,7 @@ class _DeliveryConfirmationPopupState extends State<DeliveryConfirmationPopup> {
                   onPressed: (){
                     if(receiverName.text.trim().isNotEmpty){
                       Get.back();
-                      orderDetailsController.updateOrderStatusAPI(widget.orderId.toString(), "D").then((c){
+                      orderDetailsController.updateOrderStatusAPI(widget.orderId.toString(), "D", receiverName.text).then((c){
                         Get.to(SuccessfullyDelivery(orderID: widget.orderId,));
                       });
                     }else{

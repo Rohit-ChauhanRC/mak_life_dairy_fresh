@@ -38,12 +38,13 @@ class DeliveryOrderRepository{
     }
   }
 
-  Future<Response?> updateOrderStatus(String orderId,String statusCode ) async{
+  Future<Response?> updateOrderStatus(String orderId,String statusCode, String orderReceiverName) async{
     try{
       final params = {
         "DeliveryBoyId":getDeliveryBoyId(),
         "OrderId": orderId,
-        "Status": statusCode
+        "Status": statusCode,
+        "ReceiverName": orderReceiverName
       };
       return await apiService.post('/api/OrderShipped',data: params);
     }catch(e){

@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
 import 'package:mak_life_delivery/app/data/models/get_assigned_order_details_model.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../constants/api_constant.dart';
 import '../../../../constants/colors.dart';
@@ -24,6 +27,10 @@ class OrderDetailsController extends GetxController {
  final Rx<LatLng> _destinationPosition = LatLng(0.0, 0.0).obs;
  LatLng get destinationPosition => _destinationPosition.value;
  set destinationPosition(LatLng pickupLatLng) => _destinationPosition.value = pickupLatLng;
+
+  final Rx<LatLng> _currentPosition = LatLng(0.0, 0.0).obs;
+  LatLng get currentPosition => _currentPosition.value;
+  set currentPosition(LatLng currentLatLng) => _currentPosition.value = currentLatLng;
 
  final RxMap<PolylineId, Polyline> _polyLines = <PolylineId, Polyline>{}.obs;
  Map<PolylineId, Polyline> get polyLines => _polyLines.value;
@@ -78,6 +85,7 @@ class OrderDetailsController extends GetxController {
     super.onClose();
     pickUpPosition = LatLng(0.0, 0.0);
     destinationPosition = LatLng(0.0, 0.0);
+    currentPosition = LatLng(0.0, 0.0);
   }
 
   //MARK: <----------------API CALL----------------->
@@ -105,10 +113,10 @@ class OrderDetailsController extends GetxController {
     }
   }
 
-  Future<void> updateOrderStatusAPI(String orderId, String statusCode) async{
+  Future<void> updateOrderStatusAPI(String orderId, String statusCode, String orderReceiverName) async{
    try{
      circularProgress = false;
-     final response = await deliveryOrderRepository.updateOrderStatus(orderId, statusCode);
+     final response = await deliveryOrderRepository.updateOrderStatus(orderId, statusCode, orderReceiverName);
      if(response != null && response.statusCode == 200){
        print("order Updated Successfully: ${response.data}");
        await getAssignedOrderDetailsAPI(orderId);
@@ -153,10 +161,11 @@ class OrderDetailsController extends GetxController {
 
     locationService.onLocationChanged.listen((LocationData locationData) {
       if (locationData.latitude != null && locationData.longitude != null) {
-        LatLng currentPosition = LatLng(locationData.latitude!, locationData.longitude!);
+         currentPosition = LatLng(locationData.latitude!, locationData.longitude!);
         // setState(() {
         //   _pickUpPosition = currentPosition;
         // });
+        // currentPosition = LatLng(locationData.latitude!, locationData.longitude!);
 
         // Fetch polyline and directions
         _fetchDirectionsAndInstructions(pickUpPosition, destinationPosition);
@@ -235,4 +244,16 @@ class OrderDetailsController extends GetxController {
 
   }
 
+  void redirectToGoogleMaps(LatLng destinationLatLng) async {
+    final String googleMapsUrl = 'https://www.google.com/maps/dir/?api=1&origin=${currentPosition.latitude},${currentPosition.longitude}&destination=${destinationLatLng.latitude},${destinationLatLng.longitude}&travelmode=driving';
+    final String appleMapsUrl = 'http://maps.apple.com/?saddr=${currentPosition.latitude},${currentPosition.longitude}&daddr=${destinationLatLng.latitude},${destinationLatLng.longitude}&dirflg=d';
+
+    if (await canLaunchUrlString(googleMapsUrl)) {
+      await launchUrlString(googleMapsUrl);
+    } else if (await canLaunchUrlString(appleMapsUrl)) {
+      await canLaunchUrlString(appleMapsUrl);
+    } else {
+      throw 'Could not launch maps';
+    }
+  }
 }
