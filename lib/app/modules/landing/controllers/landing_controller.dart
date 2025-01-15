@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
+import 'package:mak_life_delivery/app/routes/app_pages.dart';
 
 class LandingController extends GetxController {
 //
