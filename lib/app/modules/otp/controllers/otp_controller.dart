@@ -167,6 +167,8 @@ class OtpController extends GetxController {
             Get.offAllNamed(Routes.HOME,
                 arguments: userLogs.first.userId.toString());
           }
+        } else {
+          showAlertMessage(json.decode("Otp does not match!"));
         }
       } else {
         showAlertMessage(json.decode(response?.data));
