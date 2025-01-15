@@ -58,7 +58,7 @@ class _DeliveryConfirmationPopupState extends State<DeliveryConfirmationPopup> {
                       //     padding: const EdgeInsets.only(
                       //         left: 10, right: 10, top: 14, bottom: 10),
                       //     child: Image.asset("assets/flag.png")),
-                      hintText: 'Enter receiver number',
+                      hintText: 'Enter receiver name',
                       hintStyle: const TextStyle(
                           color: greyColor,
                           fontSize: 14,

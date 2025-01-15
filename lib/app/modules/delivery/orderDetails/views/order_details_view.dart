@@ -196,8 +196,8 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                       TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: blackColor),),
                                       Text("${productDetails?.productDesc}",style:
                                       TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: blackColor),),
-                                      Text("₹ ${productDetails?.productPrice}",style:
-                                      TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: blackColor),),
+                                      // Text("₹ ${productDetails?.productPrice}",style:
+                                      // TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: blackColor),),
                                       SizedBox(height: 10,)
                                     ],),
                                 )
