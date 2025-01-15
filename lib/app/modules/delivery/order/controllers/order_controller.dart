@@ -32,6 +32,7 @@ class OrderController extends GetxController {
     isOpenOrder = Get.arguments[0];
     isCompleteOrder = Get.arguments[1];
     deliveryDashboardController.fetchAssignedOrderAPI();
+    deliveryDashboardController.getCurrentLocation();
     filterOrdersByAssignDate(DateTime.now());
   }
 

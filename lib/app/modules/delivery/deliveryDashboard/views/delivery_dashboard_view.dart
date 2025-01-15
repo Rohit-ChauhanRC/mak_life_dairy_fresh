@@ -89,7 +89,7 @@ class DeliveryDashboardView extends GetView<DeliveryDashboardController> {
                       physics: AlwaysScrollableScrollPhysics(),
                       itemCount: controller.getOpenOrders.length,
                       itemBuilder: (context,openOrderIndex){
-                        var openOrders = controller.getOpenOrders.reversed.toList()[openOrderIndex];
+                        var openOrders = controller.getOpenOrders[openOrderIndex];
                         return InkWell(
                           onTap: (){
                             Get.toNamed(Routes.ORDER_DETAILS, arguments: openOrders.orderId);
