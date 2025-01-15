@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
 import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
+import 'package:open_filex/open_filex.dart';
 
 class HomeController extends GetxController {
   //
@@ -120,16 +121,10 @@ class HomeController extends GetxController {
             },
           );
 
-    IsolateNameServer.registerPortWithName(
-        _port.sendPort, 'downloader_send_port');
-    // _port.listen((dynamic data) {
-    //   String id = data[0];
-    //   DownloadTaskStatus status = DownloadTaskStatus(data[1]);
-    //   int progress = data[2];
+    // IsolateNameServer.registerPortWithName(
+    //     _port.sendPort, 'downloader_send_port');
 
-    // });
-
-    FlutterDownloader.registerCallback(downloadCallback);
+    // FlutterDownloader.registerCallback(downloadCallback);
 
     if (sharedPreferenceService.getString(userMob) == "9876543210") {
       longitude.value = 77.0442445;
@@ -145,15 +140,15 @@ class HomeController extends GetxController {
   @override
   void onClose() {
     // super.onClose();
-    IsolateNameServer.removePortNameMapping('downloader_send_port');
+    // IsolateNameServer.removePortNameMapping('downloader_send_port');
   }
 
-  @pragma('vm:entry-point')
-  static void downloadCallback(String id, int status, int progress) {
-    final SendPort? send =
-        IsolateNameServer.lookupPortByName('downloader_send_port');
-    send!.send([id, status, progress]);
-  }
+  // @pragma('vm:entry-point')
+  // static void downloadCallback(String id, int status, int progress) {
+  //   final SendPort? send =
+  //       IsolateNameServer.lookupPortByName('downloader_send_port');
+  //   send!.send([id, status, progress]);
+  // }
 
   void handleClick(WebUri url) async {
     await webViewController?.loadUrl(
@@ -179,6 +174,13 @@ class HomeController extends GetxController {
         fileName: filename,
         allowCellular: true,
       );
+
+      var filePath = (Platform.isIOS
+              ? await getApplicationDocumentsDirectory()
+              : Directory("/storage/emulated/0/Download"))
+          .path;
+
+      OpenFilex.open("$filePath/$filename");
 
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
         content: Text("Download $filename completed!"),
