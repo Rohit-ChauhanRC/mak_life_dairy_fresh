@@ -25,6 +25,8 @@ class VerifyPhoneNumberController extends GetxController {
   bool get circularProgress => _circularProgress.value;
   set circularProgress(bool v) => _circularProgress.value = v;
 
+
+
   final RxInt _current = 0.obs;
   int get current => _current.value;
   set current(int i) => _current.value = i;
