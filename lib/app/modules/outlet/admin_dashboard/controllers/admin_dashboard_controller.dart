@@ -30,6 +30,9 @@ class AdminDashboardController extends GetxController {
   final RxList<AssignedOrderDetailOutletModel?> assignedOrder =
       <AssignedOrderDetailOutletModel?>[].obs;
 
+  final RxList<AssignedOrderDetailOutletModel?> intransitOrder =
+      <AssignedOrderDetailOutletModel?>[].obs;
+
   final RxList<DeliveredOrderModel?> deliveredOrder =
       <DeliveredOrderModel?>[].obs;
 
@@ -42,6 +45,8 @@ class AdminDashboardController extends GetxController {
       verifyOrderSubscription;
   late StreamSubscription<List<AssignedOrderDetailOutletModel>>
       assignedOrderSubscription;
+  late StreamSubscription<List<AssignedOrderDetailOutletModel>>
+      intransitOrderSubscription;
 
   late StreamSubscription<List<DeliveredOrderModel>> deliveredOrderSubscription;
 
@@ -59,6 +64,7 @@ class AdminDashboardController extends GetxController {
     OrderEnum.preparing,
     OrderEnum.approved,
     OrderEnum.assigned,
+    // OrderEnum.inTransit,
     OrderEnum.completed,
     OrderEnum.cancel
   ];
@@ -89,6 +95,8 @@ class AdminDashboardController extends GetxController {
     assignedOrderSubscription.cancel();
     deliveredOrderSubscription.cancel();
     driverListSubscription.cancel();
+    intransitOrder.close();
+    intransitOrderSubscription.cancel();
     newOrder.clear();
     assignedOrder.close();
     deliveredOrder.close();
@@ -133,6 +141,19 @@ class AdminDashboardController extends GetxController {
   }
 
   void fetchAssignedOrderData() {
+    // newOrder.bindStream(/api/VViewAssignOrderlistStatus/ViewOrderListByUser
+    assignedOrderSubscription = outletRepo.apiService
+        .fetchNewOrderStream<AssignedOrderDetailOutletModel>(
+            endpoint: '/api/ViewAssignedOrders',
+            fromJson: (json) => AssignedOrderDetailOutletModel.fromJson(json),
+            query: {
+          "UserId": sharedPreferenceService.getString(userUId)
+        }).listen((data) {
+      assignedOrder.assignAll(data);
+    });
+  }
+
+  void fetchintransitOrderData() {
     // newOrder.bindStream(/api/VViewAssignOrderlistStatus/ViewOrderListByUser
     assignedOrderSubscription = outletRepo.apiService
         .fetchNewOrderStream<AssignedOrderDetailOutletModel>(

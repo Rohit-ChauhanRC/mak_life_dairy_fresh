@@ -5,6 +5,7 @@ import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/widgets/
 import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/widgets/assigned_order.dart';
 import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/widgets/cancel_order.dart';
 import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/widgets/delivered_order.dart';
+import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/widgets/intransit_order.dart';
 import 'package:mak_life_dairy_fresh/app/modules/outlet/admin_dashboard/widgets/new_order.dart';
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 import 'package:mak_life_dairy_fresh/app/utils/app_enums/order_enum.dart';
@@ -71,6 +72,8 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                             // controller.fetchVerifiedOrderData();
                           } else if (order == OrderEnum.cancel) {
                             // controller.fetchVerifiedOrderData();
+                          } else if (order == OrderEnum.inTransit) {
+                            // controller.fetchVerifiedOrderData();
                           }
                         },
                         child: Obx(
@@ -93,6 +96,8 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                                           ? "Approved Orders"
                                           : order == OrderEnum.assigned
                                               ? "Assigned Orders"
+                                              // : order == OrderEnum.inTransit
+                                              //     ? "Order Intransit"
                                               : order == OrderEnum.completed
                                                   ? "Order Delivered"
                                                   : "Canceled Orders",
@@ -133,8 +138,11 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                         : controller.orderStatus == OrderEnum.completed
                             ? DeliveredOrder(
                                 adminDashboardController: controller)
-                            : CancelOrder(
-                                adminDashboardController: controller)),
+                            : controller.orderStatus == OrderEnum.inTransit
+                                ? IntransitOrder(
+                                    adminDashboardController: controller)
+                                : CancelOrder(
+                                    adminDashboardController: controller)),
           ],
         ),
       ),
