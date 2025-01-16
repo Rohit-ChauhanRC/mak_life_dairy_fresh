@@ -94,7 +94,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                   child: Obx(()=>GoogleMap(
                         initialCameraPosition: CameraPosition(
                           // target: orderDetailsProvider.orderListData?.first.currentStatusName=="Pick Up in Progress"?_pickUpPosition!:_destinationPosition!,
-                          target: controller.pickUpPosition,
+                          target: controller.destinationPosition,
                           zoom: 12.0,
                         ),
                       markers: {

@@ -1,4 +1,4 @@
-package com.genmak.mak_life_dairy_fresh_delivery
+package com.genmak.mak_life_delivery
 
 import io.flutter.embedding.android.FlutterActivity
 

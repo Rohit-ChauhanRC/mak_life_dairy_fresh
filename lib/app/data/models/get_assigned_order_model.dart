@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:get/get.dart';
+
 List<GetAssignedOrderModel> getAssignedOrderModelFromJson(String str) => List<GetAssignedOrderModel>.from(json.decode(str).map((x) => GetAssignedOrderModel.fromJson(x)));
 
 String getAssignedOrderModelToJson(List<GetAssignedOrderModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -20,6 +22,7 @@ class GetAssignedOrderModel {
   String? shippingTo;
   double? pickupLatt;
   double? pickupLong;
+  RxDouble? distance = RxDouble(0.0);
   String? deliveryBoy;
   String? deliveryBoyMobile;
   String? time;
@@ -39,6 +42,7 @@ class GetAssignedOrderModel {
     this.shippingTo,
     this.pickupLatt,
     this.pickupLong,
+    this.distance,
     this.deliveryBoy,
     this.deliveryBoyMobile,
     this.time,
@@ -59,6 +63,7 @@ class GetAssignedOrderModel {
     shippingTo: json["ShippingTo"],
     pickupLatt: json["PickupLatt"]?.toDouble(),
     pickupLong: json["PickupLong"]?.toDouble(),
+    distance: RxDouble(0.0),
     deliveryBoy: json["DeliveryBoy"],
     deliveryBoyMobile: json["DeliveryBoyMobile"],
     time: json["Time"],

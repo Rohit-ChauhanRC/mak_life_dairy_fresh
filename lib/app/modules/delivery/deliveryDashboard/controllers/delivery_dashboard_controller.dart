@@ -2,13 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:mak_life_delivery/app/data/models/get_assigned_order_model.dart';
 import 'package:mak_life_delivery/app/data/repos/delivery_order_repo.dart';
 import 'package:mak_life_delivery/app/data/services/shared_preference_service.dart';
+import 'package:http/http.dart' as http;
 
+import '../../../../constants/api_constant.dart';
 import '../../../../utils/alert_popup_utils.dart';
 
 class DeliveryDashboardController extends GetxController {
@@ -73,46 +76,65 @@ class DeliveryDashboardController extends GetxController {
       // "UserId": 1005
     }).listen((data) {
     getAllOrderList.assignAll(data);
-    getOpenOrders = getAllOrderList.where((e) => e.status != "DELIVERED").toList();
-    totalOpenOrder = getOpenOrders.length;
-    sortOpenOrdersByDistance();
-    print("Sorted open orders by distance: ${getOpenOrders.map((e) => e.orderId).toList()}");
-    getCompletedOrder = getAllOrderList.where((e) => e.status == "DELIVERED").toList();
+    final newOpenOrders = getAllOrderList.where((e) => e.status != "DELIVERED").toList();
+    final newCompletedOrders = getAllOrderList.where((e) => e.status == "DELIVERED").toList();
+
+    // getOpenOrders.assignAll(newOpenOrders);
+    totalOpenOrder = newOpenOrders.length;
+    sortOpenOrdersByDistance(newOpenOrders);
+
+    getCompletedOrder.assignAll(newCompletedOrders);
     });
   }
 
   /// Sorts the open orders by the shortest distance from the delivery person's current position.
-  void sortOpenOrdersByDistance() {
-    print("Sorting open orders by distance...");
-    getOpenOrders.sort((a, b) {
-      double distanceA = calculateDistance(
-        currentPosition.latitude,
-        currentPosition.longitude,
-        a.shippingLatt ?? 0.0,
-        a.shippingLong ?? 0.0,
-      );
-      double distanceB = calculateDistance(
-        currentPosition.latitude,
-        currentPosition.longitude,
-        b.shippingLatt ?? 0.0,
-        b.shippingLong ?? 0.0,
-      );
-      return distanceA.compareTo(distanceB);
-    });
-    print("Sorted open orders: ${getOpenOrders.map((e) => e.orderId).toList()}");
-  }
+  void sortOpenOrdersByDistance(List<GetAssignedOrderModel> newOpenOrders) async {
+    if (newOpenOrders.isEmpty || currentPosition.latitude == 0.0 || currentPosition.longitude == 0.0) {
+      print("No open orders or current location not set.");
+      return;
+    }
+    print("Fetching distances from Google Distance Matrix API...");
 
-  /// Calculates the distance between two geographic points using the Haversine formula.
-  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-    const double R = 6371; // Radius of Earth in kilometers
-    double dLat = (lat2 - lat1) * (pi / 180);
-    double dLon = (lon2 - lon1) * (pi / 180);
+    try {
+      // Build the origin and destinations strings
+      String origins = "${currentPosition.latitude},${currentPosition.longitude}";
+      String destinations = newOpenOrders.map((e) => "${e.shippingLatt},${e.shippingLong}").join('|');
 
-    double a = sin(dLat / 2) * sin(dLat / 2) +
-        cos(lat1 * (pi / 180)) * cos(lat2 * (pi / 180)) *
-            sin(dLon / 2) * sin(dLon / 2);
-    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    return R * c; // Distance in kilometers
+      // Distance Matrix API URL
+      final String url =
+          'https://maps.googleapis.com/maps/api/distancematrix/json?'
+          'origins=$origins&destinations=$destinations&mode=driving&departure_time=now&key=$googleMapApiKey';
+
+      // API Call
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['status'] == 'OK') {
+          // Extract distances and map to open orders
+          List<dynamic> rows = data['rows'][0]['elements'];
+          for (int i = 0; i < rows.length; i++) {
+            final distanceText = rows[i]['distance']['text']; // Human-readable distance
+            final distanceValue = rows[i]['distance']['value']; // Distance in meters
+            newOpenOrders[i].distance?.value = distanceValue / 1000;
+            // getOpenOrders[i].distance?.value = double.parse(distanceText.split(' ')[0]); // Extract numeric value
+            print("Order ID: ${newOpenOrders[i].orderId}, "
+                "Distance: ${newOpenOrders[i].distance?.value.toStringAsFixed(2)} km");
+          }
+
+          // Sort orders based on distance
+          newOpenOrders.sort((a, b) => (a.distance?.value ?? 0.0).compareTo(b.distance?.value ?? 0.0));
+          getOpenOrders.assignAll(newOpenOrders);
+          print("Open orders sorted by distance: ${getOpenOrders.map((e) => e.orderId).toList()}");
+        } else {
+          print("Error in Distance Matrix API response: ${data['error_message']}");
+        }
+      } else {
+        print("Failed to fetch distances. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error fetching distances: $e");
+    }
   }
 
   /// Fetches the current location of the delivery person.
@@ -133,8 +155,6 @@ class DeliveryDashboardController extends GetxController {
     LocationData locationData = await locationService.getLocation();
     currentPosition = LatLng(locationData.latitude ?? 0.0, locationData.longitude ?? 0.0);
     print("Current location lat & long: $currentPosition");
-    // Re-sort open orders whenever location is updated
-    sortOpenOrdersByDistance();
   }
 
   //Onetime Future call API

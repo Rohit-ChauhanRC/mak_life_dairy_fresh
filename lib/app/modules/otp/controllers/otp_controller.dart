@@ -203,18 +203,18 @@ class OtpController extends GetxController {
     }
   }
 
-  Future<void> permisions() async {
-    await Permission.storage.request();
-    await Permission.camera.request();
-    await Permission.mediaLibrary.request();
-    await Permission.microphone.request();
-    await Permission.photos.request();
-    await Permission.notification.request();
-    await Permission.manageExternalStorage.request();
-    await Permission.location.request();
-    await Permission.locationWhenInUse.request();
-    // await Permission.locationAlways.request();
-  }
+  // Future<void> permisions() async {
+  //   await Permission.storage.request();
+  //   await Permission.camera.request();
+  //   await Permission.mediaLibrary.request();
+  //   await Permission.microphone.request();
+  //   await Permission.photos.request();
+  //   await Permission.notification.request();
+  //   await Permission.manageExternalStorage.request();
+  //   await Permission.location.request();
+  //   await Permission.locationWhenInUse.request();
+  //   // await Permission.locationAlways.request();
+  // }
 
   void saveIsNumVerified(bool isNumVerified, String uid, String logType,
       {int? oId, String? mobileNo}) {
