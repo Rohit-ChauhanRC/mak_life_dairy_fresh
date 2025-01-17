@@ -88,7 +88,7 @@ class OtpController extends GetxController {
     }
     if (mobileNumber.trim() == "9123456789" && otp == "1234") {
       saveIsNumVerified(true, "1010", "A", mobileNo: "9123456789", oId: 899);
-      await permisions();
+      // await permisions();
       // await getCurrentLocation();
 
       Get.offAllNamed(Routes.ADMIN_DASHBOARD, arguments: "1010");
@@ -161,7 +161,7 @@ class OtpController extends GetxController {
               userLogs.first.logType.toString(),
               oId: userLogs.first.outletId!, mobileNo: mobileNumber);
           if (userLogs.first.logType == "A") {
-            await permisions();
+            // await permisions();
             // await getCurrentLocation();
 
             Get.offAllNamed(Routes.ADMIN_DASHBOARD,
@@ -176,18 +176,18 @@ class OtpController extends GetxController {
     }
   }
 
-  Future<void> permisions() async {
-    await Permission.storage.request();
-    await Permission.camera.request();
-    await Permission.mediaLibrary.request();
-    await Permission.microphone.request();
-    await Permission.photos.request();
-    await Permission.notification.request();
-    await Permission.manageExternalStorage.request();
-    await Permission.location.request();
-    await Permission.locationWhenInUse.request();
-    // await Permission.locationAlways.request();
-  }
+  // Future<void> permisions() async {
+  //   // await Permission.storage.request();
+  //   // await Permission.camera.request();
+  //   // await Permission.mediaLibrary.request();
+  //   // await Permission.microphone.request();
+  //   // await Permission.photos.request();
+  //   // await Permission.notification.request();
+  //   // await Permission.manageExternalStorage.request();
+  //   await Permission.location.request();
+  //   await Permission.locationWhenInUse.request();
+  //   // await Permission.locationAlways.request();
+  // }
 
   void saveIsNumVerified(bool isNumVerified, String uid, String logType,
       {int? oId, String? mobileNo}) {
