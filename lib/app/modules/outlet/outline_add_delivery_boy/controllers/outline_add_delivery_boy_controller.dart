@@ -67,11 +67,11 @@ class OutlineAddDeliveryBoyController extends GetxController {
   }
 
   void selectImage() async {
-    Utils.showImagePicker(onGetImage: (img) {
-      if (img != null) {
-        image = img;
-      }
-    });
+    // Utils.showImagePicker(onGetImage: (img) {
+    //   if (img != null) {
+    //     image = img;
+    //   }
+    // });
   }
 
   void createProfile() async {

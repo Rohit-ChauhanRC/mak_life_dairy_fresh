@@ -79,6 +79,7 @@ class AdminDashboardController extends GetxController {
     fetchAssignedOrderData();
     fetchDeliveredOrderData();
     fetchDriverListData();
+    fetchRejectedOrderData();
   }
 
   @override
