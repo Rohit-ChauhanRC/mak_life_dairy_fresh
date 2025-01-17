@@ -2,15 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:location/location.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/otp_model.dart';
 import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
 import 'package:mak_life_dairy_fresh/app/constants/constants.dart';
 import 'package:mak_life_dairy_fresh/app/routes/app_pages.dart';
 import 'package:mak_life_dairy_fresh/app/modules/verifyPhoneNumber/controllers/verify_phone_number_controller.dart';
-
-import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart' as perm;
 
 import '../../../data/repos/auth_repo.dart';
 import '../../../utils/alert_popup_utils.dart';
@@ -179,10 +178,10 @@ class OtpController extends GetxController {
   }
 
   Future<void> permisions() async {
-    await Permission.storage.request();
-    await Permission.manageExternalStorage.request();
-    await Permission.location.request();
-    await Permission.locationWhenInUse.request();
+    await perm.Permission.storage.request();
+    await perm.Permission.manageExternalStorage.request();
+    await perm.Permission.location.request();
+    await perm.Permission.locationWhenInUse.request();
   }
 
   void saveIsNumVerified(bool isNumVerified, String uid, String logType,
@@ -193,55 +192,76 @@ class OtpController extends GetxController {
     sharedPreferenceService.setString(userMob, mobileNo.toString());
   }
 
+  // Future<void> getCurrentLocation() async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
+  //
+  //   isLoading.value = true;
+  //
+  //   // Check if location services are enabled
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     Get.snackbar('Error', 'Location services are disabled.');
+  //     isLoading.value = false;
+  //     return;
+  //   }
+  //
+  //   // Check for location permissions
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       Get.snackbar('Error', 'Location permissions are denied.');
+  //       isLoading.value = false;
+  //       return;
+  //     }
+  //   }
+  //
+  //   if (permission == LocationPermission.deniedForever) {
+  //     Get.snackbar(
+  //       'Error',
+  //       'Location permissions are permanently denied. Cannot request permissions.',
+  //     );
+  //     isLoading.value = false;
+  //     return;
+  //   }
+  //
+  //   // Get the current location
+  //   try {
+  //     Position position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high,
+  //     );
+  //     latitude.value = position.latitude;
+  //     longitude.value = position.longitude;
+  //     print(
+  //         "longitude.value: ${longitude.value} latitude.value: ${latitude.value}");
+  //     // Get.snackbar('Success',
+  //     //     'Location fetched successfully. longitude.value ${longitude.value} latitude.value: ${latitude.value}');
+  //   } catch (e) {
+  //     Get.snackbar('Error', 'Error getting location: $e');
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
+
   Future<void> getCurrentLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    isLoading.value = true;
-
-    // Check if location services are enabled
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    Location locationService = Location();
+    bool serviceEnabled = await locationService.serviceEnabled();
     if (!serviceEnabled) {
-      Get.snackbar('Error', 'Location services are disabled.');
-      isLoading.value = false;
-      return;
+      serviceEnabled = await locationService.requestService();
+      if (!serviceEnabled) return;
     }
 
-    // Check for location permissions
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        Get.snackbar('Error', 'Location permissions are denied.');
-        isLoading.value = false;
-        return;
-      }
+    PermissionStatus permissionGranted = await locationService.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await locationService.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) return;
     }
 
-    if (permission == LocationPermission.deniedForever) {
-      Get.snackbar(
-        'Error',
-        'Location permissions are permanently denied. Cannot request permissions.',
-      );
-      isLoading.value = false;
-      return;
-    }
-
-    // Get the current location
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-      latitude.value = position.latitude;
-      longitude.value = position.longitude;
-      print(
-          "longitude.value: ${longitude.value} latitude.value: ${latitude.value}");
-      // Get.snackbar('Success',
-      //     'Location fetched successfully. longitude.value ${longitude.value} latitude.value: ${latitude.value}');
-    } catch (e) {
-      Get.snackbar('Error', 'Error getting location: $e');
-    } finally {
-      isLoading.value = false;
-    }
+    LocationData locationData = await locationService.getLocation();
+    // currentPosition = LatLng(locationData.latitude ?? 0.0, locationData.longitude ?? 0.0);
+    // print("Current location lat & long: $currentPosition");
+    latitude.value = locationData.latitude ?? 0.0;
+    longitude.value = locationData.longitude ?? 0.0;
   }
 }
