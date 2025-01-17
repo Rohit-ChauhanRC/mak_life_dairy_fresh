@@ -7,6 +7,7 @@ import 'package:mak_life_dairy_fresh/app/data/models/assigned_order_outlet.dart'
 import 'package:mak_life_dairy_fresh/app/data/models/delivered_order_outlet.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/driver_outlet_model.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/new_order_outlet_model.dart';
+import 'package:mak_life_dairy_fresh/app/data/models/rejected_order_model.dart';
 import 'package:mak_life_dairy_fresh/app/data/models/verified_order_outlet.dart';
 import 'package:mak_life_dairy_fresh/app/data/repos/outlet_repo.dart';
 import 'package:mak_life_dairy_fresh/app/data/services/shared_preference_service.dart';
@@ -30,8 +31,7 @@ class AdminDashboardController extends GetxController {
   final RxList<AssignedOrderDetailOutletModel?> assignedOrder =
       <AssignedOrderDetailOutletModel?>[].obs;
 
-  final RxList<AssignedOrderDetailOutletModel?> intransitOrder =
-      <AssignedOrderDetailOutletModel?>[].obs;
+  final RxList<RejectedOrderModel?> rejectedOrder = <RejectedOrderModel?>[].obs;
 
   final RxList<DeliveredOrderModel?> deliveredOrder =
       <DeliveredOrderModel?>[].obs;
@@ -45,8 +45,7 @@ class AdminDashboardController extends GetxController {
       verifyOrderSubscription;
   late StreamSubscription<List<AssignedOrderDetailOutletModel>>
       assignedOrderSubscription;
-  late StreamSubscription<List<AssignedOrderDetailOutletModel>>
-      intransitOrderSubscription;
+  late StreamSubscription<List<RejectedOrderModel>> rejectedOrderSubscription;
 
   late StreamSubscription<List<DeliveredOrderModel>> deliveredOrderSubscription;
 
@@ -95,8 +94,8 @@ class AdminDashboardController extends GetxController {
     assignedOrderSubscription.cancel();
     deliveredOrderSubscription.cancel();
     driverListSubscription.cancel();
-    intransitOrder.close();
-    intransitOrderSubscription.cancel();
+    rejectedOrder.close();
+    rejectedOrderSubscription.cancel();
     newOrder.clear();
     assignedOrder.close();
     deliveredOrder.close();
@@ -154,14 +153,14 @@ class AdminDashboardController extends GetxController {
   }
 
   void fetchRejectedOrderData() {
-    assignedOrderSubscription = outletRepo.apiService
-        .fetchNewOrderStream<AssignedOrderDetailOutletModel>(
+    rejectedOrderSubscription = outletRepo.apiService
+        .fetchNewOrderStream<RejectedOrderModel>(
             endpoint: '/api/RejectedOrder',
-            fromJson: (json) => AssignedOrderDetailOutletModel.fromJson(json),
+            fromJson: (json) => RejectedOrderModel.fromJson(json),
             query: {
           "UserId": sharedPreferenceService.getString(userUId)
         }).listen((data) {
-      assignedOrder.assignAll(data);
+      rejectedOrder.assignAll(data);
     });
   }
 
