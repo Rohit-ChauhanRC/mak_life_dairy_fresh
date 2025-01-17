@@ -1,7 +1,7 @@
 name: mak_life_dairy_fresh
 description: "A new Flutter project."
 publish_to: "none"
-version: 1.0.3+8
+version: 1.0.3+9
 
 environment:
   sdk: ^3.5.3
@@ -19,12 +19,12 @@ dependencies:
   geolocator: ^13.0.2
   get: ^4.6.6
   # get_storage: ^2.1.1
-  google_maps_flutter: ^2.10.0
-  google_places_flutter: ^2.0.9
+#  google_maps_flutter: ^2.10.0
+#  google_places_flutter: ^2.0.9
   http: ^1.2.2
   #  image_picker: ^1.1.2
   intl: ^0.20.1
-  location: ^7.0.1
+#  location: ^7.0.1
   # open_file: ^3.5.10
   open_filex: ^4.6.0
   path_provider: ^2.1.5

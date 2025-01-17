@@ -156,18 +156,19 @@ class HomeController extends GetxController {
   }
 
   Future<void> downloadFile(String url, [String? filename]) async {
-    final status = await Permission.storage.request();
-    final statusAndroid = await Permission.manageExternalStorage.request();
+    // final status = await Permission.storage.request();
+    // final statusAndroid = await Permission.manageExternalStorage.request();
 
-    if (status.isGranted || statusAndroid.isGranted) {
+    // if (status.isGranted || statusAndroid.isGranted) {
       final taskId = await FlutterDownloader.enqueue(
         url: url,
         headers: {},
         // optional: header send with url (auth token etc)
         savedDir: (Platform.isIOS
                 ? await getApplicationDocumentsDirectory()
-                : Directory("/storage/emulated/0/Download"))
-            .path,
+                // : await getApplicationDocumentsDirectory()
+                : Directory("/storage/emulated/0/Download")
+        ).path,
         saveInPublicStorage: true,
         showNotification: true,
         openFileFromNotification: true,
@@ -177,18 +178,19 @@ class HomeController extends GetxController {
 
       var filePath = (Platform.isIOS
               ? await getApplicationDocumentsDirectory()
-              : Directory("/storage/emulated/0/Download"))
-          .path;
+              // : await getApplicationDocumentsDirectory()
+              : Directory("/storage/emulated/0/Download")
+      ).path;
 
       OpenFilex.open("$filePath/$filename");
 
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
         content: Text("Download $filename completed!"),
       ));
-    } else {
-      await Permission.storage.request();
-      await Permission.manageExternalStorage.request();
-    }
+    // } else {
+    //   await Permission.storage.request();
+    //   await Permission.manageExternalStorage.request();
+    // }
   }
 
   Future<bool> showExitConfirmationDialog(BuildContext context) async {
