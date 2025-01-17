@@ -153,11 +153,10 @@ class AdminDashboardController extends GetxController {
     });
   }
 
-  void fetchintransitOrderData() {
-    // newOrder.bindStream(/api/VViewAssignOrderlistStatus/ViewOrderListByUser
+  void fetchRejectedOrderData() {
     assignedOrderSubscription = outletRepo.apiService
         .fetchNewOrderStream<AssignedOrderDetailOutletModel>(
-            endpoint: '/api/ViewAssignedOrders',
+            endpoint: '/api/RejectedOrder',
             fromJson: (json) => AssignedOrderDetailOutletModel.fromJson(json),
             query: {
           "UserId": sharedPreferenceService.getString(userUId)
