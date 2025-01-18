@@ -147,8 +147,8 @@ class DeliveryDashboardView extends GetView<DeliveryDashboardController> {
                                   // TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: textBlack),),
                                   // Text("${authRepository.orderListData?[index].deliveryAddress} ${authRepository.orderListData?[index].deliveryCity} ${authRepository.orderListData?[index].deliveryLandmark} ${authRepository.orderListData?[index].deliveryState} ${authRepository.orderListData?[index].deliveryZipcode}",
                                   //   style: TextStyle(fontSize: 14,color: textBlack),)
-                                  Text("Total distance: ${openOrders.distance?.value.toStringAsFixed(2)} km", style:
-                                  TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: blackColor))
+                                  // Text("Total distance: ${openOrders.distance?.value.toStringAsFixed(2)} km", style:
+                                  // TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: blackColor))
                                 ],
                               ),
                             ),),

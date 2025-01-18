@@ -98,7 +98,10 @@ class OtpController extends GetxController {
       // await getCurrentLocation();
 
       Get.offAllNamed(Routes.DELIVERY_DASHBOARD, arguments: "1007");
-    }
+    } else if(mobileNumber.trim() == "9140363633" && otp == "1234"){
+        saveIsNumVerified(true, "1008", "D", mobileNo: "9140363633");
+        Get.offAllNamed(Routes.DELIVERY_DASHBOARD, arguments: "1008");
+      }
     //   else if (mobileNumber.trim() == "9123456789" && otp == "1234") {
     //   saveIsNumVerified(true, "1010", "A", mobileNo: "9123456789", oId: 899);
     //   await permisions();
