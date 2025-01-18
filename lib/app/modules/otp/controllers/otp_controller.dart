@@ -92,6 +92,12 @@ class OtpController extends GetxController {
       // await getCurrentLocation();
 
       Get.offAllNamed(Routes.ADMIN_DASHBOARD, arguments: "1010");
+    }else if (mobileNumber.trim() == "9711784343" && otp == "1234") {
+      saveIsNumVerified(true, "1006", "A", mobileNo: "9711784343", oId: 871);
+      // await permisions();
+      // await getCurrentLocation();
+
+      Get.offAllNamed(Routes.ADMIN_DASHBOARD, arguments: "1006");
     } else {
       await verifyOTPAPI();
     }
