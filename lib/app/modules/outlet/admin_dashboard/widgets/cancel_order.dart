@@ -68,7 +68,7 @@ class CancelOrder extends StatelessWidget {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text: rejectedOrder.payAmount,
+                                          text: "₹${rejectedOrder.payAmount}/-",
                                           style: const TextStyle(
                                             color: Colors.red,
                                             fontSize: 12,
