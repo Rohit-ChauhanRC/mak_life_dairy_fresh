@@ -15,8 +15,10 @@ class AuthRepository{
     try{
       final param = {
         'MobileNo': mobileNumber
+        // 'LogType': "D"
       };
       return await apiService.post('/api/Users', data: param);
+      // return await apiService.post('/api/UsersDelivery', data: param);
     } catch(e){
       print('Error in sendOtpAPI: $e');
       showAlertMessage("Error in sendOTPAPI: $e");
@@ -28,7 +30,8 @@ class AuthRepository{
     try{
       final param = {
         "MobileNo": mobileNumber,
-        "OTP": otp,
+        // "LogType": "D",
+        "OTP": otp
       };
       return await apiService.post('/api/Validation', data: param);
     } catch(e){
