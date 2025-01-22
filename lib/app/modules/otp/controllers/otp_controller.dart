@@ -198,6 +198,8 @@ class OtpController extends GetxController {
             Get.offAllNamed(Routes.DELIVERY_DASHBOARD,
                 arguments: userLogs.first.userId.toString());
           }
+        }else{
+          showAlertMessage("Please enter a valid OTP!");
         }
       } else {
         showAlertMessage(json.decode(response?.data));
